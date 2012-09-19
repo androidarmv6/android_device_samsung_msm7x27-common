@@ -2,28 +2,6 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE_TAGS := optional
-LOCAL_PRELINK_MODULE := false
-LOCAL_SRC_FILES := QualcommCameraHardware.cpp
-LOCAL_CFLAGS := -DDLOPEN_LIBMMCAMERA=1
-
-LOCAL_CFLAGS += -DNUM_PREVIEW_BUFFERS=2 -D_ANDROID_
-
-ifeq ($(BOARD_CAMERA_5MP),true)
-	LOCAL_CFLAGS += -DBOARD_CAMERA_5MP
-endif
-
-LOCAL_C_INCLUDES += \
-    $(TARGET_OUT_HEADERS)/mm-camera \
-    $(TARGET_OUT_HEADERS)/mm-still/jpeg
-
-LOCAL_SHARED_LIBRARIES := libutils libui libcamera_client liblog libcutils libbinder libdl
-
-LOCAL_MODULE := libcamera
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-
 LOCAL_C_FLAGS        += -O3
 LOCAL_SRC_FILES      := cameraHal.cpp
 LOCAL_MODULE_TAGS    := optional

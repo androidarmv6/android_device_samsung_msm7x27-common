@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Hack for libcamera
+$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libcamera_intermediates)
+$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libcamera_intermediates/export_includes)
+
 SAMSUNG_TARGETS := tass beni cooper gio
 
 ifneq ($(filter $(SAMSUNG_TARGETS),$(TARGET_DEVICE)),)
