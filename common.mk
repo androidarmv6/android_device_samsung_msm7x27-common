@@ -122,10 +122,11 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf \
     device/samsung/msm7x27-common/prebuilt/etc/secgps.conf:system/etc/secgps.conf
 
-# LDPI assets
+## Other
 PRODUCT_LOCALES += en
+PRODUCT_AAPT_CONFIG := ldpi mdpi normal
 
-# Build.prop overrides
+## Build.prop overrides
 PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=false \
     pm.sleep_mode=1
