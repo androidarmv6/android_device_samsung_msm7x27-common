@@ -112,6 +112,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/usr/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
+## Prebuilt GPS blob
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/lib/hw/gps.msm7x27.so:system/lib/hw/gps.msm7x27.so
+
 ## Prebuilt init.d scripts
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/init.d/01bt:system/etc/init.d/01bt
@@ -119,8 +123,3 @@ PRODUCT_COPY_FILES += \
 ## Other
 PRODUCT_LOCALES += en
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
-
-## Build.prop overrides
-PRODUCT_PROPERTY_OVERRIDES += \
-    hwui.render_dirty_regions=false \
-    pm.sleep_mode=1
