@@ -52,8 +52,8 @@ ENABLE_JSC_JIT := true
 
 ## Camera
 USE_CAMERA_STUB := false
-BOARD_USE_FROYO_LIBCAMERA := true
 COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
+BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
 
 ## Qualcomm, display
 BOARD_USES_QCOM_HARDWARE := true
@@ -63,12 +63,12 @@ BOARD_EGL_CFG := device/samsung/msm7x27-common/prebuilt/lib/egl/egl.cfg
 BOARD_NEEDS_MEMORYHEAPPMEM := true
 
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DREFRESH_RATE=60
-COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
+COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT -DSAMSUNG_CAMERA_QCOM
 
 ## GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := msm7x27
 BOARD_USES_QCOM_GPS := true
-BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
+BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 1240
 
 ## Other Qualcomm config
 BOARD_USES_QCOM_LIBS := true
@@ -102,8 +102,11 @@ BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
 ## Support for legacy touch screen
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 
-## Device specific hardware
+## Audio
 TARGET_PROVIDES_LIBAUDIO := true
+BOARD_HAVE_SAMSUNG_AUDIO := true
+
+## Custom lights module
 TARGET_PROVIDES_LIBLIGHTS := true
 
 ## Samsung has weird framebuffer
