@@ -117,8 +117,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/usr/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
 ## GPS configuration
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/lib/hw/gps.msm7x27.so:system/lib/hw/gps.msm7x27.so
+#PRODUCT_COPY_FILES += \
+#    device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
 
 ## Prebuilt init.d scripts
 PRODUCT_COPY_FILES += \
@@ -126,4 +126,4 @@ PRODUCT_COPY_FILES += \
 
 ## Other
 PRODUCT_LOCALES += en
-PRODUCT_AAPT_CONFIG := ldpi mdpi normal
+PRODUCT_AAPT_CONFIG := ldpi mdpi hdpi normal
