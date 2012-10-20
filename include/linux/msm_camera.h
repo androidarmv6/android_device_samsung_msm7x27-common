@@ -18,16 +18,16 @@
 /*-----------------------------------------------------------------------------------------
   when         who      what, where, why                   comment tag
   ----------   ----     ---------------------------------  ------------------------
- 2011-05-19   lijing   add two camera support             SAMSUNG_CAM_LJ_20110519
- 2011-02-21   wt       add flash ioctl id                 SAMSUNG_CAM_WT_20110221 
- 2010-12-15   lijing   add Touch AF and AntiShake         SAMSUNG_CAM_LJ_20101214
+ 2011-05-19   lijing   add two camera support             ZTE_CAM_LJ_20110519
+ 2011-02-21   wt       add flash ioctl id                 ZTE_CAM_WT_20110221 
+ 2010-12-15   lijing   add Touch AF and AntiShake         ZTE_CAM_LJ_20101214
                         function
-  2010-10-26   zt       add the interface of exposure      SAMSUNG_ZT_CAM_20101026_04
+  2010-10-26   zt       add the interface of exposure      ZTE_ZT_CAM_20101026_04
                         compensation for foryo
-  2010-08-20   jia      remove additional CFG_MAX          SAMSUNG_MSM_CAMERA_JIA_001
-  2010-03-03   zh.shj   add config for lens shading        SAMSUNG_MSM_CAMERA_ZHSHJ_001
-  2010-02-21   zh.shj   add levels for sharpness values    SAMSUNG_MSM_CAMERA_ZHSHJ_001
-  2010-02-04   zh.shj   Add parameters for sharpness,WB,   SAMSUNG_MSM_CAMERA_ZHSHJ_001
+  2010-08-20   jia      remove additional CFG_MAX          ZTE_MSM_CAMERA_JIA_001
+  2010-03-03   zh.shj   add config for lens shading        ZTE_MSM_CAMERA_ZHSHJ_001
+  2010-02-21   zh.shj   add levels for sharpness values    ZTE_MSM_CAMERA_ZHSHJ_001
+  2010-02-04   zh.shj   Add parameters for sharpness,WB,   ZTE_MSM_CAMERA_ZHSHJ_001
                         ISO,Antibanding & brightness setting
 ------------------------------------------------------------------------------------------*/
 
@@ -469,7 +469,7 @@ struct msm_snapshot_pp_status {
 #define CFG_GET_PICT_P_PL		25
 #define CFG_GET_AF_MAX_STEPS		26
 #define CFG_GET_PICT_MAX_EXP_LC		27
-/* SAMSUNG_MSM_CAMERA_ZHSHJ_001 */
+/* ZTE_MSM_CAMERA_ZHSHJ_001 */
 #define CFG_SET_SATURATION          28
 #define CFG_SET_SHARPNESS           29
 
@@ -483,13 +483,13 @@ struct msm_snapshot_pp_status {
 #define CFG_SET_AF                  30
 #define CFG_SET_ISO                 31
 
-/* SAMSUNG_ZT_CAM_20101026_04
+/* ZTE_ZT_CAM_20101026_04
  * add the interface of exposure compensation for foryo
  */
 #define CFG_SET_EXPOSURE_COMPENSATION   32
 
 /*
- * SAMSUNG_CAM_LJ_20101214
+ * ZTE_CAM_LJ_20101214
  * add Touch AF and AntiShake function
  */
 #define CFG_SET_AEC_RIO             33
@@ -520,7 +520,7 @@ struct msm_snapshot_pp_status {
 #define CAMERA_EFFECT_WHITEBOARD	6
 #define CAMERA_EFFECT_BLACKBOARD	7
 #define CAMERA_EFFECT_AQUA		8
-/* SAMSUNG_MSM_CAMERA_ZHSHJ_001 */
+/* ZTE_MSM_CAMERA_ZHSHJ_001 */
 #define CAMERA_EFFECT_BULISH	    9
 #define CAMERA_EFFECT_REDDISH	    10
 #define CAMERA_EFFECT_GREENISH	    11
@@ -563,7 +563,7 @@ struct msm_snapshot_pp_status {
 #define CAMERA_SATURATION_4             4
 #define CAMERA_SATURATION_MAX           5
 
-/* SAMSUNG_ZT_CAM_20101026_04
+/* ZTE_ZT_CAM_20101026_04
  * add the interface of exposure compensation for foryo
  * Exposure value
  */
@@ -611,7 +611,7 @@ struct msm_snapshot_pp_status {
 
 
 /*
- * SAMSUNG_CAM_LJ_20101214
+ * ZTE_CAM_LJ_20101214
  * add definitions of AntiShake values
  */
 #define CAMERA_ANTISHAKE_OFF            0
@@ -644,7 +644,7 @@ struct wb_info_cfg {
 };
 
 /*
- * SAMSUNG_CAM_LJ_20101214
+ * ZTE_CAM_LJ_20101214
  * Add new type used for Touch AF function
  */
 typedef struct {
@@ -671,7 +671,7 @@ struct sensor_cfg_data {
         uint16_t p_fps;
         
         /*
-         * Commented by zh.shj, SAMSUNG_MSM_CAMERA_ZHSHJ_001
+         * Commented by zh.shj, ZTE_MSM_CAMERA_ZHSHJ_001
          */
         int8_t wb_mode;
         int8_t brightness;
@@ -682,7 +682,7 @@ struct sensor_cfg_data {
         int8_t antibanding;
         int8_t lensshading;
         
-        /* SAMSUNG_ZT_CAM_20101026_04
+        /* ZTE_ZT_CAM_20101026_04
          * add the interface of exposure compensation for foryo
          */
         int8_t exposure;
@@ -694,7 +694,7 @@ struct sensor_cfg_data {
         struct wb_info_cfg wb_info;
         
         /*
-         * SAMSUNG_CAM_LJ_20101214
+         * ZTE_CAM_LJ_20101214
          * add variables used for Touch AF and AntiShake function
          */
         aec_rio_cfg aec_rio;
@@ -725,7 +725,7 @@ struct msm_camera_info {
 	uint8_t is_internal_cam[MSM_MAX_CAMERA_SENSORS];
 
    /*
-    * add two camera support SAMSUNG_CAM_LJ_20110519
+    * add two camera support ZTE_CAM_LJ_20110519
     */
 	uint32_t s_mount_angle[MSM_MAX_CAMERA_SENSORS];
 };
@@ -751,4 +751,11 @@ struct msm_camsensor_info {
 	uint8_t flash_enabled;
 	int8_t total_steps;
 };
+
+// camera fatal errors
+enum {
+    CAMERA_ERROR_UKNOWN  = 1,
+    CAMERA_ERROR_RESOURCE = 2,
+};
+
 #endif /* __LINUX_MSM_CAMERA_H */

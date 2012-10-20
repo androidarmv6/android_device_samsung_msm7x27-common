@@ -55,6 +55,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/vold.fstab:system/etc/vold.fstab
 
+# BT config
+PRODUCT_COPY_FILES += \
+    system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
+
 ## Hardware properties 
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
@@ -112,15 +116,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/usr/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
+## GPS configuration
+#PRODUCT_COPY_FILES += \
+#    device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
+
 ## Prebuilt init.d scripts
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/init.d/01bt:system/etc/init.d/01bt
 
 ## Other
 PRODUCT_LOCALES += en
-PRODUCT_AAPT_CONFIG := ldpi mdpi normal
-
-## Build.prop overrides
-PRODUCT_PROPERTY_OVERRIDES += \
-    hwui.render_dirty_regions=false \
-    pm.sleep_mode=1
+PRODUCT_AAPT_CONFIG := ldpi mdpi hdpi normal
