@@ -35,10 +35,6 @@ PRODUCT_PACKAGES += \
     audio.a2dp.default \
     libaudioutils
 
-## Camera
-PRODUCT_PACKAGES += \
-    libcamera 
-
 ## GPS
 PRODUCT_PACKAGES += \
     librpc 
