@@ -37,8 +37,8 @@ PRODUCT_PACKAGES += \
 
 ## Camera
 PRODUCT_PACKAGES += \
-    libcamera \
-    LegacyCamera 
+    LegacyCamera \
+    camera.gio 
 
 ## GPS
 PRODUCT_PACKAGES += \
