@@ -37,6 +37,8 @@
 						struct msmfb_overlay_data)
 #define MSMFB_OVERLAY_QUEUE	MSMFB_OVERLAY_PLAY
 
+#define MSMFB_OVERLAY_COMMIT _IOW(MSMFB_IOCTL_MAGIC, 163, unsigned int)
+
 #define MSMFB_GET_PAGE_PROTECTION _IOR(MSMFB_IOCTL_MAGIC, 138, \
 					struct mdp_page_protection)
 #define MSMFB_SET_PAGE_PROTECTION _IOW(MSMFB_IOCTL_MAGIC, 139, \
