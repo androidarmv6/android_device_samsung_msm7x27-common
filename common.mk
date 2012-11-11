@@ -41,6 +41,7 @@ PRODUCT_PACKAGES += \
   
 ## Other
 PRODUCT_PACKAGES += \
+    CMFileManager \
     Stk \
     make_ext4fs \
     brcm_patchram_plus \
@@ -51,7 +52,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/vold.fstab:system/etc/vold.fstab
 
-# BT config
+## BT config
 PRODUCT_COPY_FILES += \
     system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
 
