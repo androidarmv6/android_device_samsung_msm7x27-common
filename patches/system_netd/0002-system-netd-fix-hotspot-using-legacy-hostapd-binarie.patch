@@ -1,0 +1,78 @@
+From f4918a5290d36966e013fdf7712603220205c452 Mon Sep 17 00:00:00 2001
+From: Conn O'Griofa <connogriofa@gmail.com>
+Date: Wed, 7 Nov 2012 20:23:49 -0200
+Subject: [PATCH 2/2] system/netd: fix hotspot using legacy hostapd binaries
+
+Two changes:
+1. Modify SoftapController::startDriver function to ensure that the
+wireless interface is initialized before attempting to start the interface.
+This may only be needed for the ar6000 driver (which needs the interface
+up to be able to function).
+2. Add a new BoardConfig option to improve compatibility with older
+(v0.6 or earlier) hostapd binaries. Activate with:
+BOARD_HAVE_LEGACY_HOSTAPD := true
+---
+ Android.mk           |    4 ++++
+ SoftapController.cpp |   15 ++++++++++-----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index ab894cd..c16cf2e 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -44,6 +44,10 @@ else
+     LOCAL_SRC_FILES += SoftapController.cpp
+ endif
+ 
++ifneq ($(BOARD_HAVE_LEGACY_HOSTAPD),)
++  LOCAL_CFLAGS +=-DHAVE_HOSTAPD
++  LOCAL_CFLAGS +=-DHAVE_LEGACY_HOSTAPD
++endif
+ 
+ ifneq ($(BOARD_HOSTAPD_DRIVER),)
+   LOCAL_CFLAGS += -DHAVE_HOSTAPD
+diff --git a/SoftapController.cpp b/SoftapController.cpp
+index b9d745d..b594ef0 100644
+--- a/SoftapController.cpp
++++ b/SoftapController.cpp
+@@ -128,6 +128,12 @@ int SoftapController::setCommand(char *iface, const char *fname, unsigned buflen
+ int SoftapController::startDriver(char *iface) {
+     int ret;
+ 
++#ifdef HAVE_HOSTAPD
++    ifc_init();
++    ret = ifc_up(iface);
++    ifc_close();
++#endif
++
+     if (mSock < 0) {
+         LOGE("Softap driver start - failed to open socket");
+         return -1;
+@@ -147,11 +153,6 @@ int SoftapController::startDriver(char *iface) {
+         LOGE("Softap driver start: %d", ret);
+         return ret;
+     }
+-#ifdef HAVE_HOSTAPD
+-    ifc_init();
+-    ret = ifc_up(iface);
+-    ifc_close();
+-#endif
+     usleep(AP_DRIVER_START_DELAY);
+     LOGD("Softap driver start: %d", ret);
+     return ret;
+@@ -377,8 +378,12 @@ int SoftapController::setSoftap(int argc, char *argv[]) {
+         LOGV("No valid wifi channel specified, using default");
+     }
+ 
++#ifdef HAVE_LEGACY_HOSTAPD
++    asprintf(&wbuf, "interface=%s\nctrl_interface=" AP_SOCKET_PATH "\n"
++#else
+     asprintf(&wbuf, "interface=%s\ndriver=" HOSTAPD_DRIVER_NAME "\n"
+                     "ctrl_interface=" AP_SOCKET_PATH "\n"
++#endif
+                     "ssid=%s\nchannel=%d\n", mIface, ssid, channel);
+ 
+     LOGV("%s", wbuf);
+-- 
+1.7.10.4
+

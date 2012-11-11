@@ -1,0 +1,723 @@
+From a362f204e99d3534c324cdf26446204371a8280a Mon Sep 17 00:00:00 2001
+From: erikcas <erikcas1972@gmail.com>
+Date: Sun, 21 Oct 2012 16:44:34 +0200
+Subject: [PATCH] add overlay and some changes for camerahal
+
+---
+ include/camera/CameraParameters.h                  |   29 +-
+ include/ui/Overlay.h                               |  128 +++++++++
+ libs/camera/CameraParameters.cpp                   |   57 +++-
+ libs/ui/Android.mk                                 |    3 +-
+ libs/ui/Overlay.cpp                                |  301 ++++++++++++++++++++
+ media/libmedia/AudioSystem.cpp                     |    6 +
+ services/camera/libcameraservice/CameraService.cpp |    2 +
+ 7 files changed, 511 insertions(+), 15 deletions(-)
+ create mode 100644 include/ui/Overlay.h
+ create mode 100644 libs/ui/Overlay.cpp
+
+diff --git a/include/camera/CameraParameters.h b/include/camera/CameraParameters.h
+index 7cc3d4e..f54e240 100644
+--- a/include/camera/CameraParameters.h
++++ b/include/camera/CameraParameters.h
+@@ -851,17 +851,17 @@ class CameraParameters
+ 
+     static const char KEY_SHARPNESS[];
+     static const char KEY_MAX_SHARPNESS[];
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+     static const char KEY_MIN_SHARPNESS[];
+ #endif
+     static const char KEY_CONTRAST[];
+     static const char KEY_MAX_CONTRAST[];
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+     static const char KEY_MIN_CONTRAST[];
+ #endif
+     static const char KEY_SATURATION[];
+     static const char KEY_MAX_SATURATION[];
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+     static const char KEY_MIN_SATURATION[];
+ #endif
+ 
+@@ -934,6 +934,28 @@ class CameraParameters
+     void getSupportedHfrSizes(Vector<Size> &sizes) const;
+ #endif
+ 
++#ifdef SAMSUNG_CAMERA_QCOM
++    static const char FOCUS_MODE_FACEDETECT[];
++    static const char FOCUS_MODE_TOUCHAF[];
++    static const char ISO_50[];
++//    static const char KEY_ANTI_SHAKE_MODE[];
++    static const char KEY_AUTO_CONTRAST[];
++    static const char KEY_BEAUTY_MODE[];
++    static const char KEY_BLUR_MODE[];
++    static const char KEY_VINTAGE_MODE[];
++    static const char KEY_WDR_MODE[];
++    static const char VINTAGE_MODE_BNW[];
++    static const char VINTAGE_MODE_COOL[];
++    static const char VINTAGE_MODE_NORMAL[];
++    static const char VINTAGE_MODE_OFF[];
++    static const char VINTAGE_MODE_WARM[];
++    static const char SCENE_MODE_DAWN[];
++    static const char SCENE_MODE_DUSKDAWN[];
++    static const char SCENE_MODE_FALL[];
++    static const char SCENE_MODE_FALL_COLOR[];
++    static const char SCENE_MODE_TEXT[];
++#endif
++
+ private:
+     DefaultKeyedVector<String8,String8>    mMap;
+ };
+@@ -941,3 +963,4 @@ class CameraParameters
+ }; // namespace android
+ 
+ #endif
++
+diff --git a/include/ui/Overlay.h b/include/ui/Overlay.h
+new file mode 100644
+index 0000000..af2b849
+--- /dev/null
++++ b/include/ui/Overlay.h
+@@ -0,0 +1,128 @@
++/*
++ * Copyright (C) 2012 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#ifndef ANDROID_OVERLAY_H
++#define ANDROID_OVERLAY_H
++
++#include <stdint.h>
++#include <sys/types.h>
++
++#include <utils/Errors.h>
++#include <binder/IInterface.h>
++#include <utils/RefBase.h>
++#include <utils/threads.h>
++#include <hardware/gralloc.h>
++
++#include <ui/PixelFormat.h>
++
++namespace android {
++
++typedef void* overlay_buffer_t;
++typedef uint32_t overlay_handle_t;
++
++class Overlay : public virtual RefBase
++{
++public:
++    typedef void (*QueueBufferHook)(void *data, void* buffer, size_t size);
++
++    enum Format {
++        FORMAT_YUV422SP,
++        FORMAT_YUV420SP,
++        FORMAT_YUV422I,
++        FORMAT_YUV420P,
++        FORMAT_RGB565,
++        FORMAT_RGBA8888,
++        FORMAT_UNKNOWN
++    };
++
++public:
++    Overlay(uint32_t width, uint32_t height, Format format, QueueBufferHook queueBuffer, void* data);
++
++    /* destroys this overlay */
++    void destroy();
++
++    /* get the HAL handle for this overlay */
++    overlay_handle_t getHandleRef() const;
++
++    /* blocks until an overlay buffer is available and return that buffer. */
++    status_t dequeueBuffer(overlay_buffer_t* buffer);
++
++    /* release the overlay buffer and post it */
++    status_t queueBuffer(overlay_buffer_t buffer);
++
++    /* change the width and height of the overlay */
++    status_t resizeInput(uint32_t width, uint32_t height);
++
++    status_t setCrop(uint32_t x, uint32_t y, uint32_t w, uint32_t h) ;
++
++    status_t getCrop(uint32_t* x, uint32_t* y, uint32_t* w, uint32_t* h) ;
++
++    /* set the buffer attributes */
++    status_t setParameter(int param, int value);
++    status_t setFd(int fd);
++
++    /* returns the address of a given buffer if supported, NULL otherwise. */
++    void* getBufferAddress(overlay_buffer_t buffer);
++
++    /* get physical informations about the overlay */
++    uint32_t getWidth() const;
++    uint32_t getHeight() const;
++    int32_t getFormat() const;
++    int32_t getWidthStride() const;
++    int32_t getHeightStride() const;
++    int32_t getBufferCount() const;
++    status_t getStatus() const;
++
++public:
++    static int getBppFromFormat(Format format);
++    static Format getFormatFromString(const char* name);
++
++private:
++    virtual ~Overlay();
++
++    // C style hook
++    QueueBufferHook mQueueBufferHook;
++    void* mHookData;
++
++    // overlay data
++    static const uint32_t NUM_BUFFERS = 8;
++    static const uint32_t NUM_MIN_FREE_BUFFERS = 2;
++    uint32_t mNumFreeBuffers;
++
++    status_t mStatus;
++    uint32_t mWidth, mHeight;
++    Format mFormat;
++
++    // ashmem region
++    struct MappingData {
++        int fd;
++        size_t length;
++        uint32_t offset;
++        void *ptr;
++    };
++
++    MappingData mBuffers[NUM_BUFFERS];
++    bool mQueued[NUM_BUFFERS]; // true if buffer is currently queued
++
++    // queue/dequeue mutex
++    pthread_mutex_t mQueueMutex;
++};
++
++// ----------------------------------------------------------------------------
++
++}; // namespace android
++
++#endif // ANDROID_OVERLAY_H
+diff --git a/libs/camera/CameraParameters.cpp b/libs/camera/CameraParameters.cpp
+index 6ed7a25..c902cd9 100644
+--- a/libs/camera/CameraParameters.cpp
++++ b/libs/camera/CameraParameters.cpp
+@@ -121,7 +121,11 @@
+ #ifdef QCOM_HARDWARE
+ const char CameraParameters::KEY_LENSSHADE[] = "lensshade";
+ const char CameraParameters::KEY_SUPPORTED_LENSSHADE_MODES[] = "lensshade-values";
++#ifdef SAMSUNG_CAMERA_QCOM
++const char CameraParameters::KEY_AUTO_EXPOSURE[] = "metering";
++#else
+ const char CameraParameters::KEY_AUTO_EXPOSURE[] = "auto-exposure";
++#endif
+ const char CameraParameters::KEY_SUPPORTED_AUTO_EXPOSURE[] = "auto-exposure-values";
+ const char CameraParameters::KEY_DENOISE[] = "denoise";
+ const char CameraParameters::KEY_SUPPORTED_DENOISE[] = "denoise-values";
+@@ -232,7 +236,7 @@
+ const char CameraParameters::SCENE_MODE_SPORTS[] = "sports";
+ const char CameraParameters::SCENE_MODE_PARTY[] = "party";
+ const char CameraParameters::SCENE_MODE_CANDLELIGHT[] = "candlelight";
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+ const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "backlight";
+ const char CameraParameters::SCENE_MODE_FLOWERS[] = "flowers";
+ #endif
+@@ -294,9 +298,15 @@
+ const char CameraParameters::LENSSHADE_DISABLE[] = "disable";
+ 
+ // Values for auto exposure settings.
++#ifdef SAMSUNG_CAMERA_QCOM
++const char CameraParameters::AUTO_EXPOSURE_FRAME_AVG[] = "matrix";
++const char CameraParameters::AUTO_EXPOSURE_CENTER_WEIGHTED[] = "center";
++const char CameraParameters::AUTO_EXPOSURE_SPOT_METERING[] = "spot";
++#else
+ const char CameraParameters::AUTO_EXPOSURE_FRAME_AVG[] = "frame-average";
+ const char CameraParameters::AUTO_EXPOSURE_CENTER_WEIGHTED[] = "center-weighted";
+ const char CameraParameters::AUTO_EXPOSURE_SPOT_METERING[] = "spot-metering";
++#endif
+ 
+ const char CameraParameters::KEY_GPS_LATITUDE_REF[] = "gps-latitude-ref";
+ const char CameraParameters::KEY_GPS_LONGITUDE_REF[] = "gps-longitude-ref";
+@@ -315,21 +325,21 @@
+ const char CameraParameters::SKIN_TONE_ENHANCEMENT_DISABLE[] = "disable";
+ 
+ const char CameraParameters::KEY_SHARPNESS[] = "sharpness";
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+ const char CameraParameters::KEY_MAX_SHARPNESS[] = "sharpness-max";
+ const char CameraParameters::KEY_MIN_SHARPNESS[] = "sharpness-min";
+ #else
+ const char CameraParameters::KEY_MAX_SHARPNESS[] = "max-sharpness";
+ #endif
+ const char CameraParameters::KEY_CONTRAST[] = "contrast";
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+ const char CameraParameters::KEY_MAX_CONTRAST[] = "contrast-max";
+ const char CameraParameters::KEY_MIN_CONTRAST[] = "contrast-min";
+ #else
+ const char CameraParameters::KEY_MAX_CONTRAST[] = "max-contrast";
+ #endif
+ const char CameraParameters::KEY_SATURATION[] = "saturation";
+-#ifdef QCOM_HARDWARE
++#if defined(QCOM_HARDWARE) && !defined(SAMSUNG_CAMERA_QCOM)
+ const char CameraParameters::KEY_MAX_SATURATION[] = "saturation-max";
+ const char CameraParameters::KEY_MIN_SATURATION[] = "saturation-min";
+ #else
+@@ -375,6 +385,30 @@
+ const char CameraParameters::AE_BRACKET_HDR[] = "HDR";
+ const char CameraParameters::AE_BRACKET[] = "AE-Bracket";
+ 
++#ifdef SAMSUNG_CAMERA_QCOM
++const char CameraParameters::FOCUS_MODE_FACEDETECT[] = "facedetect";
++const char CameraParameters::FOCUS_MODE_TOUCHAF[] = "touchaf";
++const char CameraParameters::ISO_50[] = "ISO50";
++// const char CameraParameters::KEY_ANTI_SHAKE_MODE[] = "antishake";
++const char CameraParameters::KEY_AUTO_CONTRAST[] = "auto-contrast";
++const char CameraParameters::KEY_BEAUTY_MODE[] = "beauty";
++const char CameraParameters::KEY_BLUR_MODE[] = "blur";
++const char CameraParameters::KEY_VINTAGE_MODE[] = "vintagemode";
++const char CameraParameters::KEY_WDR_MODE[] = "wdr";
++const char CameraParameters::VINTAGE_MODE_BNW[] = "bnw";
++const char CameraParameters::VINTAGE_MODE_COOL[] = "cool";
++const char CameraParameters::VINTAGE_MODE_NORMAL[] = "normal";
++const char CameraParameters::VINTAGE_MODE_OFF[] = "off";
++const char CameraParameters::VINTAGE_MODE_WARM[] = "warm";
++const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "back-light";
++const char CameraParameters::SCENE_MODE_DAWN[] = "dusk-dawn";
++const char CameraParameters::SCENE_MODE_DUSKDAWN[] = "dusk-dawn";
++const char CameraParameters::SCENE_MODE_FALL[] = "fall-color";
++const char CameraParameters::SCENE_MODE_FALL_COLOR[] = "fall-color";
++const char CameraParameters::SCENE_MODE_FLOWERS[] = "flowers";
++const char CameraParameters::SCENE_MODE_TEXT[] = "text";
++#endif
++
+ static const char* portrait = "portrait";
+ static const char* landscape = "landscape";
+ 
+@@ -462,12 +496,12 @@ void CameraParameters::set(const char *key, const char *value)
+ {
+     // XXX i think i can do this with strspn()
+     if (strchr(key, '=') || strchr(key, ';')) {
+-        //XXX LOGE("Key \"%s\"contains invalid character (= or ;)", key);
++        //XXX LOGD("Key \"%s\"contains invalid character (= or ;)", key);
+         return;
+     }
+ 
+     if (strchr(value, '=') || strchr(key, ';')) {
+-        //XXX LOGE("Value \"%s\"contains invalid character (= or ;)", value);
++        //XXX LOGD("Value \"%s\"contains invalid character (= or ;)", value);
+         return;
+     }
+ 
+@@ -525,7 +559,7 @@ static int parse_pair(const char *str, int *first, int *second, char delim,
+     int w = (int)strtol(str, &end, 10);
+     // If a delimeter does not immediately follow, give up.
+     if (*end != delim) {
+-        LOGE("Cannot find delimeter (%c) in str=%s", delim, str);
++        LOGD("Cannot find delimeter (%c) in str=%s", delim, str);
+         return -1;
+     }
+ 
+@@ -548,12 +582,12 @@ static int parseNDimVector(const char *str, int *num, int N, char delim = ',')
+ {
+     char *start, *end;
+     if(num == NULL) {
+-        LOGE("Invalid output array (num == NULL)");
++        LOGD("Invalid output array (num == NULL)");
+         return -1;
+     }
+     //check if string starts and ends with parantheses
+     if(str[0] != '(' || str[strlen(str)-1] != ')') {
+-        LOGE("Invalid format of string %s, valid format is (n1, n2, n3, n4 ...)", str);
++        LOGD("Invalid format of string %s, valid format is (n1, n2, n3, n4 ...)", str);
+         return -1;
+     }
+     start = (char*) str;
+@@ -561,7 +595,7 @@ static int parseNDimVector(const char *str, int *num, int N, char delim = ',')
+     for(int i=0; i<N; i++) {
+         *(num+i) = (int) strtol(start, &end, 10);
+         if(*end != delim && i < N-1) {
+-            LOGE("Cannot find delimeter '%c' in string \"%s\". end = %c", delim, str, *end);
++            LOGD("Cannot find delimeter '%c' in string \"%s\". end = %c", delim, str, *end);
+             return -1;
+         }
+         start = end+1;
+@@ -581,7 +615,7 @@ static void parseSizesList(const char *sizesStr, Vector<Size> &sizes)
+         int success = parse_pair(sizeStartPtr, &width, &height, 'x',
+                                  &sizeStartPtr);
+         if (success == -1 || (*sizeStartPtr != ',' && *sizeStartPtr != '\0')) {
+-            LOGE("Picture sizes string \"%s\" contains invalid character.", sizesStr);
++            LOGD("Picture sizes string \"%s\" contains invalid character.", sizesStr);
+             return;
+         }
+         sizes.push(Size(width, height));
+@@ -831,3 +865,4 @@ status_t CameraParameters::dump(int fd, const Vector<String16>& args) const
+ }
+ 
+ }; // namespace android
++
+diff --git a/libs/ui/Android.mk b/libs/ui/Android.mk
+index fbabfc4..697c40a 100644
+--- a/libs/ui/Android.mk
++++ b/libs/ui/Android.mk
+@@ -21,7 +21,8 @@ commonSources:= \
+ 	Keyboard.cpp \
+ 	KeyLayoutMap.cpp \
+ 	KeyCharacterMap.cpp \
+-	VirtualKeyMap.cpp
++	VirtualKeyMap.cpp \
++        Overlay.cpp
+ 
+ # For the host
+ # =====================================================
+diff --git a/libs/ui/Overlay.cpp b/libs/ui/Overlay.cpp
+new file mode 100644
+index 0000000..6733a85
+--- /dev/null
++++ b/libs/ui/Overlay.cpp
+@@ -0,0 +1,301 @@
++/*
++ * Copyright (C) 2012 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++
++//#define LOG_NDEBUG 0
++#define LOG_TAG "Overlay"
++
++#include <binder/IMemory.h>
++#include <binder/Parcel.h>
++#include <utils/Errors.h>
++#include <binder/MemoryHeapBase.h>
++#include <cutils/ashmem.h>
++
++#include <ui/Overlay.h>
++
++namespace android {
++
++int Overlay::getBppFromFormat(const Format format)
++{
++    switch(format) {
++    case FORMAT_RGBA8888:
++        return 32;
++    case FORMAT_RGB565:
++    case FORMAT_YUV422I:
++    case FORMAT_YUV422SP:
++        return 16;
++    case FORMAT_YUV420SP:
++    case FORMAT_YUV420P:
++        return 12;
++    default:
++        LOGW("%s: unhandled color format %d", __FUNCTION__, format);
++    }
++    return 32;
++}
++
++Overlay::Format Overlay::getFormatFromString(const char* name)
++{
++    if (strcmp(name, "yuv422sp") == 0) {
++        return FORMAT_YUV422SP;
++    } else if (strcmp(name, "yuv420sp") == 0) {
++        return FORMAT_YUV420SP;
++    } else if (strcmp(name, "yuv422i-yuyv") == 0) {
++        return FORMAT_YUV422I;
++    } else if (strcmp(name, "yuv420p") == 0) {
++        return FORMAT_YUV420P;
++    } else if (strcmp(name, "rgb565") == 0) {
++        return FORMAT_RGB565;
++    } else if (strcmp(name, "rgba8888") == 0) {
++        return FORMAT_RGBA8888;
++    }
++    LOGW("%s: unhandled color format %s", __FUNCTION__, name);
++    return FORMAT_UNKNOWN;
++}
++
++Overlay::Overlay(uint32_t width, uint32_t height, Format format, QueueBufferHook queueBufferHook, void *data) :
++    mQueueBufferHook(queueBufferHook),
++    mHookData(data),
++    mNumFreeBuffers(0),
++    mStatus(NO_INIT),
++    mWidth(width),
++    mHeight(height),
++    mFormat(format)
++{
++    LOGD("%s: Init overlay", __FUNCTION__);
++
++    int bpp = getBppFromFormat(format);
++    /* round up to next multiple of 8 */
++    if (bpp & 7) {
++        bpp = (bpp & ~7) + 8;
++    }
++
++    const int requiredMem = width * height * bpp;
++    const int bufferSize = (requiredMem + PAGE_SIZE - 1) & (~(PAGE_SIZE - 1));
++
++    int fd = ashmem_create_region("Overlay_buffer_region", NUM_BUFFERS * bufferSize);
++    if (fd < 0) {
++        LOGE("%s: Cannot create ashmem region", __FUNCTION__);
++        return;
++    }
++
++    LOGV("%s: allocated ashmem region for %d buffers of size %d", __FUNCTION__, NUM_BUFFERS, bufferSize);
++
++    for (uint32_t i = 0; i < NUM_BUFFERS; i++) {
++        mBuffers[i].fd = fd;
++        mBuffers[i].length = bufferSize;
++        mBuffers[i].offset = bufferSize * i;
++        LOGV("%s: mBuffers[%d].offset = 0x%x", __FUNCTION__, i, mBuffers[i].offset);
++        mBuffers[i].ptr = mmap(NULL, bufferSize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, bufferSize * i);
++        if (mBuffers[i].ptr == MAP_FAILED) {
++            LOGE("%s: Failed to mmap buffer %d", __FUNCTION__, i);
++            mBuffers[i].ptr = NULL;
++            continue;
++        }
++        mQueued[i] = false;
++    }
++
++    pthread_mutex_init(&mQueueMutex, NULL);
++
++    LOGD("%s: Init overlay complete", __FUNCTION__);
++
++    mStatus = NO_ERROR;
++}
++
++Overlay::~Overlay() {
++}
++
++status_t Overlay::dequeueBuffer(overlay_buffer_t* buffer)
++{
++    LOGV("%s", __FUNCTION__);
++    int rv = NO_ERROR;
++
++    pthread_mutex_lock(&mQueueMutex);
++
++    if (mNumFreeBuffers < NUM_MIN_FREE_BUFFERS) {
++        LOGV("%s: No free buffers", __FUNCTION__);
++        rv = NO_MEMORY;
++    } else {
++        int index = -1;
++
++        for (uint32_t i = 0; i < NUM_BUFFERS; i++) {
++            if (mQueued[i]) {
++                mQueued[i] = false;
++                index = i;
++                break;
++            }
++        }
++
++        if (index >= 0) {
++            int *intBuffer = (int *) buffer;
++            *intBuffer = index;
++            mNumFreeBuffers--;
++            LOGV("%s: dequeued buffer %d", __FUNCTION__, index);
++        } else {
++            LOGE("%s: inconsistent queue state", __FUNCTION__);
++            rv = NO_MEMORY;
++        }
++    }
++
++    pthread_mutex_unlock(&mQueueMutex);
++    return rv;
++}
++
++status_t Overlay::queueBuffer(overlay_buffer_t buffer)
++{
++    uint32_t index = (uint32_t) buffer;
++    int rv;
++
++    LOGV("%s: %d", __FUNCTION__, index);
++    if (index > NUM_BUFFERS) {
++        LOGE("%s: invalid buffer index %d", __FUNCTION__, index);
++        return INVALID_OPERATION;
++    }
++
++    if (mQueueBufferHook) {
++        mQueueBufferHook(mHookData, mBuffers[index].ptr, mBuffers[index].length);
++    }
++
++    pthread_mutex_lock(&mQueueMutex);
++
++    if (mNumFreeBuffers < NUM_BUFFERS) {
++        mNumFreeBuffers++;
++        mQueued[index] = true;
++        rv = NO_ERROR;
++    } else {
++        LOGW("%s: Attempt to queue more buffers than we have", __FUNCTION__);
++        rv = INVALID_OPERATION;
++    }
++
++    pthread_mutex_unlock(&mQueueMutex);
++
++    return mStatus;
++}
++
++status_t Overlay::resizeInput(uint32_t width, uint32_t height)
++{
++    LOGW("%s: %d, %d", __FUNCTION__, width, height);
++    return mStatus;
++}
++
++status_t Overlay::setParameter(int param, int value)
++{
++    LOGW("%s: %d, %d", __FUNCTION__, param, value);
++    return mStatus;
++}
++
++status_t Overlay::setCrop(uint32_t x, uint32_t y, uint32_t w, uint32_t h)
++{
++    LOGD("%s: x=%d, y=%d, w=%d, h=%d", __FUNCTION__, x, y, w, h);
++    return mStatus;
++}
++
++status_t Overlay::getCrop(uint32_t* x, uint32_t* y, uint32_t* w, uint32_t* h)
++{
++    LOGW("%s", __FUNCTION__);
++    return mStatus;
++}
++
++status_t Overlay::setFd(int fd)
++{
++    LOGW("%s: fd=%d", __FUNCTION__, fd);
++    return mStatus;
++}
++
++int32_t Overlay::getBufferCount() const
++{
++    LOGV("%s: %d", __FUNCTION__, NUM_BUFFERS);
++    return NUM_BUFFERS;
++}
++
++void* Overlay::getBufferAddress(overlay_buffer_t buffer)
++{
++    uint32_t index = (uint32_t) buffer;
++
++    LOGD("%s: %d", __FUNCTION__, index);
++    if (index >= NUM_BUFFERS) {
++        index = index % NUM_BUFFERS;
++    }
++
++    //LOGD("%s: fd=%d, length=%d. offset=%d, ptr=%p", __FUNCTION__, mBuffers[index].fd,
++    //        mBuffers[index].length, mBuffers[index].offset, mBuffers[index].ptr);
++
++    return &mBuffers[index];
++}
++
++void Overlay::destroy()
++{
++    int fd = 0;
++
++    LOGV("%s", __FUNCTION__);
++
++    for (uint32_t i = 0; i < NUM_BUFFERS; i++) {
++        if (mBuffers[i].ptr != NULL && munmap(mBuffers[i].ptr, mBuffers[i].length) < 0) {
++            LOGW("%s: unmap of buffer %d failed", __FUNCTION__, i);
++        }
++        if (mBuffers[i].fd > 0) {
++            fd = mBuffers[i].fd;
++        }
++    }
++    if (fd > 0) {
++        close(fd);
++    }
++
++    pthread_mutex_destroy(&mQueueMutex);
++}
++
++status_t Overlay::getStatus() const
++{
++    LOGV("%s", __FUNCTION__);
++    return mStatus;
++}
++
++overlay_handle_t Overlay::getHandleRef() const
++{
++    LOGW("%s", __FUNCTION__);
++    return 0;
++}
++
++uint32_t Overlay::getWidth() const
++{
++    LOGV("%s", __FUNCTION__);
++    return mWidth;
++}
++
++uint32_t Overlay::getHeight() const
++{
++    LOGV("%s", __FUNCTION__);
++    return mHeight;
++}
++
++int32_t Overlay::getFormat() const
++{
++    LOGV("%s", __FUNCTION__);
++    return mFormat;
++}
++
++int32_t Overlay::getWidthStride() const
++{
++    LOGW("%s", __FUNCTION__);
++    return mWidth;
++}
++
++int32_t Overlay::getHeightStride() const
++{
++    LOGW("%s", __FUNCTION__);
++    return mHeight;
++}
++
++}; // namespace android
+diff --git a/media/libmedia/AudioSystem.cpp b/media/libmedia/AudioSystem.cpp
+index 8a77d4d..a7ea595 100644
+--- a/media/libmedia/AudioSystem.cpp
++++ b/media/libmedia/AudioSystem.cpp
+@@ -872,6 +872,12 @@ void AudioSystem::AudioPolicyServiceClient::binderDied(const wp<IBinder>& who) {
+     LOGD("isSeparatedStream: false");
+     return false;
+ }
++
++extern "C" bool _ZN7android11AudioSystem10stopOutputEiNS0_11stream_typeEi(audio_io_handle_t output, audio_stream_type_t stream, int session)
++{
++    return AudioSystem::stopOutput(output, stream, session);
++}
++
+ #endif // USE_SAMSUNG_SEPARATEDSTREAM
+ 
+ }; // namespace android
+diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
+index 44df397..b35642f 100644
+--- a/services/camera/libcameraservice/CameraService.cpp
++++ b/services/camera/libcameraservice/CameraService.cpp
+@@ -1115,7 +1115,9 @@ void CameraService::Client::handleShutter(void) {
+         c->notifyCallback(CAMERA_MSG_SHUTTER, 0, 0);
+         if (!lockIfMessageWanted(CAMERA_MSG_SHUTTER)) return;
+     }
++#ifndef SAMSUNG_CAMERA_QCOM
+     disableMsgType(CAMERA_MSG_SHUTTER);
++#endif
+ 
+     mLock.unlock();
+ }
+-- 
+1.7.10

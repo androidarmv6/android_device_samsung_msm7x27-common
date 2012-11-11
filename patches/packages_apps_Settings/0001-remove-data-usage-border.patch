@@ -1,0 +1,59 @@
+From 0c1da11ed6f5b5ee5b50779b999e5f5a82de5cc2 Mon Sep 17 00:00:00 2001
+From: Davis Malnieks <daavis.90@gmail.com>
+Date: Sat, 20 Oct 2012 23:08:52 +0300
+Subject: [PATCH] remove data usage border
+
+Change-Id: I8bf4dafe369957032650621dfa9a7c4b07141d78
+---
+ res/layout/data_usage_chart.xml                    |    1 -
+ src/com/android/settings/widget/ChartGridView.java |    8 ++++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/res/layout/data_usage_chart.xml b/res/layout/data_usage_chart.xml
+index 2501e9d..7a2f087 100644
+--- a/res/layout/data_usage_chart.xml
++++ b/res/layout/data_usage_chart.xml
+@@ -37,7 +37,6 @@
+         android:layout_gravity="left|bottom"
+         settings:primaryDrawable="@drawable/data_grid_primary"
+         settings:secondaryDrawable="@drawable/data_grid_secondary"
+-        settings:borderDrawable="@drawable/data_grid_border"
+         settings:labelColor="@android:color/holo_blue_light" />
+ 
+     <com.android.settings.widget.ChartNetworkSeriesView
+diff --git a/src/com/android/settings/widget/ChartGridView.java b/src/com/android/settings/widget/ChartGridView.java
+index f358ada..dce180d 100644
+--- a/src/com/android/settings/widget/ChartGridView.java
++++ b/src/com/android/settings/widget/ChartGridView.java
+@@ -46,7 +46,7 @@ public class ChartGridView extends View {
+ 
+     private Drawable mPrimary;
+     private Drawable mSecondary;
+-    private Drawable mBorder;
++    //private Drawable mBorder;
+     private int mLabelColor;
+ 
+     private Layout mLayoutStart;
+@@ -70,7 +70,7 @@ public class ChartGridView extends View {
+ 
+         mPrimary = a.getDrawable(R.styleable.ChartGridView_primaryDrawable);
+         mSecondary = a.getDrawable(R.styleable.ChartGridView_secondaryDrawable);
+-        mBorder = a.getDrawable(R.styleable.ChartGridView_borderDrawable);
++        //mBorder = a.getDrawable(R.styleable.ChartGridView_borderDrawable);
+         mLabelColor = a.getColor(R.styleable.ChartGridView_labelColor, Color.RED);
+ 
+         a.recycle();
+@@ -114,8 +114,8 @@ public class ChartGridView extends View {
+             primary.draw(canvas);
+         }
+ 
+-        mBorder.setBounds(0, 0, width, height);
+-        mBorder.draw(canvas);
++        //mBorder.setBounds(0, 0, width, height);
++        //mBorder.draw(canvas);
+ 
+         final int padding = mLayoutStart != null ? mLayoutStart.getHeight() / 8 : 0;
+ 
+-- 
+1.7.10.4
+
