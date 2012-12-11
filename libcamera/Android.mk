@@ -1,18 +1,23 @@
-LOCAL_PATH := $(call my-dir)
+LOCAL_PATH:= $(call my-dir)
 
-include $(call all-subdir-makefiles)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE_TAGS    := optional
-LOCAL_MODULE_PATH    := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-LOCAL_MODULE         := camera.$(TARGET_DEVICE)
-LOCAL_SRC_FILES      := cameraHAL.cpp
+LOCAL_CFLAGS 	    += -DANDROID_JB=1 
+##Uncomment previous line in JB build
 
-LOCAL_SHARED_LIBRARIES := liblog libdl libutils libcamera_client libbinder libcutils libhardware libui
+LOCAL_CFLAGS        += -O3
+LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+LOCAL_MODULE := camera.$(TARGET_DEVICE)
 
-LOCAL_LDFLAGS		+= -L$(LOCAL_PATH) -lcamera
-LOCAL_C_INCLUDES       := frameworks/av/include frameworks/base/include frameworks/native/include
-LOCAL_C_INCLUDES       += hardware/libhardware/include/ hardware
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES := cameraHAL.cpp
+LOCAL_C_INCLUDES := $(TOP)/frameworks/base/include
 LOCAL_C_INCLUDES       += hardware/qcom/display/libgralloc
+
+LOCAL_SHARED_LIBRARIES := liblog libutils libcutils
+LOCAL_SHARED_LIBRARIES += libui libhardware libcamera_client
+
+LOCAL_LDFLAGS	       += -L$(LOCAL_PATH) -lcamera
 
 include $(BUILD_SHARED_LIBRARY)

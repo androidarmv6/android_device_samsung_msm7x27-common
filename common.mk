@@ -12,6 +12,70 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+PRODUCT_BRAND ?= jellaxy
+
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    keyguard.no_require_sim=true \
+    ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html \
+    ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html \
+    ro.com.google.clientidbase=android-google \
+    ro.com.android.wifi-watchlist=GoogleGuest \
+    ro.setupwizard.enterprise_mode=1 \
+    ro.com.android.dateformat=MM-dd-yyyy \
+    ro.com.android.dataroaming=false
+
+# Backup Tool
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
+    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
+    device/samsung/msm7x27-common/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh
+
+# init.d support
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    device/samsung/msm7x27-common/prebuilt/common/bin/sysinit:system/bin/sysinit
+
+# userinit support
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+
+# Compcache/Zram support
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/bin/compcache:system/bin/compcache \
+    device/samsung/msm7x27-common/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
+
+# Nam configuration script
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/bin/modelid_cfg.sh:system/bin/modelid_cfg.sh
+
+# Don't export PS1 in /system/etc/mkshrc.
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/etc/mkshrc:system/etc/mkshrc
+
+# Required CM packages
+PRODUCT_PACKAGES += \
+    Camera \
+    Development \
+    LatinIME \
+    SpareParts \
+    Superuser \
+    su
+
+# GSM APN list
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
+
+# GSM SPN overrides list
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml
+
+# SIM Toolkit
+PRODUCT_PACKAGES += \
+    Stk
+
+
 ## GPS configuration
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 
@@ -37,8 +101,8 @@ PRODUCT_PACKAGES += \
 
 ## Camera
 PRODUCT_PACKAGES += \
-    LegacyCamera \
-    camera.gio 
+    camera.gio \
+    LegacyCamera 
 
 ## GPS
 PRODUCT_PACKAGES += \
@@ -50,7 +114,7 @@ PRODUCT_PACKAGES += \
     brcm_patchram_plus \
     bdaddr_read \
     setup_fs \
-    FileManager  
+    CMFileManager  
 
 ## Vold config
 PRODUCT_COPY_FILES += \
@@ -80,15 +144,12 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/ramdisk/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
     device/samsung/msm7x27-common/ramdisk/lib/modules/sec_param.ko:root/lib/modules/sec_param.ko \
     device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
-    device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko
-
-## Prebuilt init.d scripts
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/etc/init.d/01bt:system/etc/init.d/01bt  
+    device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko 
 
 ## Wi-Fi & networking
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    device/samsung/msm7x27-common/prebuilt/etc/wifi/hostapd.conf:system/etc/wifi/hostapd.conf \
     device/samsung/msm7x27-common/prebuilt/bin/get_macaddrs:system/bin/get_macaddrs
 
 ## Media
@@ -96,8 +157,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/AutoVolumeControl.txt:system/etc/AutoVolumeControl.txt \
     device/samsung/msm7x27-common/prebuilt/etc/AudioFilter.csv:system/etc/AudioFilter.csv \
     device/samsung/msm7x27-common/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
-    device/samsung/msm7x27-common/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
     device/samsung/msm7x27-common/prebuilt/etc/audio_policy.conf:system/etc/audio_policy.conf \
+    device/samsung/msm7x27-common/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml
 
 ## Keymap
 PRODUCT_COPY_FILES += \
@@ -125,3 +186,21 @@ PRODUCT_COPY_FILES += \
 ## Other
 PRODUCT_LOCALES += en
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
+
+# Set JELLAXY_BUILDTYPE
+ifdef JELLAXY_NIGHTLY
+    JELLAXY_BUILDTYPE := NIGHTLY
+else
+    JELLAXY_BUILDTYPE := EXPERIMENTAL
+endif
+
+
+ifdef JELLAXY_RELEASE
+    JELLAXY_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(JELLAXY_BUILD)
+else
+    JELLAXY_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(JELLAXY_BUILDTYPE)-$(JELLAXY_BUILD)$(JELLAXY_EXTRAVERSION)
+endif
+
+PRODUCT_PROPERTY_OVERRIDES += \
+  ro.jellaxy.version=$(JELLAXY_VERSION) \
+  ro.modversion=$(JELLAXY_VERSION)
