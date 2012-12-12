@@ -102,7 +102,6 @@ PRODUCT_PACKAGES += \
 ## Camera
 PRODUCT_PACKAGES += \
     camera.gio \
-    LegacyCamera 
 
 ## GPS
 PRODUCT_PACKAGES += \
