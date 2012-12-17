@@ -16,6 +16,10 @@ PRODUCT_BRAND ?= jellaxy
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
+PRODUCT_VERSION_MAJOR = 4
+PRODUCT_VERSION_MINOR = 2
+PRODUCT_VERSION_MAINTENANCE = 1
+
 PRODUCT_PROPERTY_OVERRIDES += \
     keyguard.no_require_sim=true \
     ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html \
@@ -28,31 +32,32 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Backup Tool
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
-    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
-    device/samsung/msm7x27-common/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh
+    vendor/jellaxy/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
+    vendor/jellaxy/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
+    vendor/jellaxy/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh
 
 # init.d support
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
-    device/samsung/msm7x27-common/prebuilt/common/bin/sysinit:system/bin/sysinit
+    vendor/jellaxy/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    vendor/jellaxy/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 # userinit support
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+    vendor/jellaxy/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit \
+
 
 # Compcache/Zram support
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/compcache:system/bin/compcache \
-    device/samsung/msm7x27-common/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
+    vendor/jellaxy/prebuilt/common/bin/compcache:system/bin/compcache \
+    vendor/jellaxy/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
 
 # Nam configuration script
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/modelid_cfg.sh:system/bin/modelid_cfg.sh
+    vendor/jellaxy/prebuilt/common/bin/modelid_cfg.sh:system/bin/modelid_cfg.sh
 
 # Don't export PS1 in /system/etc/mkshrc.
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/mkshrc:system/etc/mkshrc
+    vendor/jellaxy/prebuilt/common/etc/mkshrc:system/etc/mkshrc
 
 # Required CM packages
 PRODUCT_PACKAGES += \
@@ -65,11 +70,11 @@ PRODUCT_PACKAGES += \
 
 # GSM APN list
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
+    vendor/jellaxy/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
 
 # GSM SPN overrides list
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml
+    vendor/jellaxy/prebuilt/common/etc/spn-conf.xml:system/etc/spn-conf.xml
 
 # SIM Toolkit
 PRODUCT_PACKAGES += \
@@ -88,11 +93,13 @@ PRODUCT_PACKAGES += \
 ## Display
 PRODUCT_PACKAGES += \
     gralloc.msm7x27 \
-    hwcomposer.msm7x27 \
     copybit.msm7x27 \
+    hwcomposer.msm7x27 \
     libgenlock \
     liboverlay \
-    libtilerenderer 
+    libtilerenderer \
+    libhwcexternal \
+    linhwservice 
 
 ## Audio
 PRODUCT_PACKAGES += \
@@ -113,7 +120,8 @@ PRODUCT_PACKAGES += \
     brcm_patchram_plus \
     bdaddr_read \
     setup_fs \
-    CMFileManager  
+    CMFileManager \
+    libgui 
 
 ## Vold config
 PRODUCT_COPY_FILES += \

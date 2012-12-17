@@ -1,7 +1,7 @@
 /* include/linux/msm_audio.h
  *
  * Copyright (C) 2008 Google, Inc.
- * Copyright (c) 2009, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2009-2010, Code Aurora Forum. All rights reserved.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -14,12 +14,17 @@
  *
  */
 
+/*===========================================================================
+when       who       what, where, why                        comment tag
+--------   ----    -------------------------------------    ----------------------------------
+2009-11-8  chenjun  add audio loopbcak                        ZTE_Audio-LB_CJ_1
+===========================================================================*/
+
 #ifndef __LINUX_MSM_AUDIO_H
 #define __LINUX_MSM_AUDIO_H
 
 #include <linux/types.h>
 #include <linux/ioctl.h>
-#include <asm/sizes.h>
 
 /* PCM Audio */
 
@@ -83,6 +88,14 @@
 #define AUDIO_SET_AGC        _IOW(AUDIO_IOCTL_MAGIC, 90, unsigned)
 #define AUDIO_SET_NS         _IOW(AUDIO_IOCTL_MAGIC, 91, unsigned)
 #define AUDIO_SET_TX_IIR     _IOW(AUDIO_IOCTL_MAGIC, 92, unsigned)
+#define AUDIO_GET_BUF_CFG    _IOW(AUDIO_IOCTL_MAGIC, 93, \
+					struct msm_audio_buf_cfg)
+#define AUDIO_SET_BUF_CFG    _IOW(AUDIO_IOCTL_MAGIC, 94, \
+					struct msm_audio_buf_cfg)
+#define AUDIO_SET_ACDB_BLK _IOW(AUDIO_IOCTL_MAGIC, 95,  \
+					struct msm_acdb_cmd_device)
+#define AUDIO_GET_ACDB_BLK _IOW(AUDIO_IOCTL_MAGIC, 96,  \
+					struct msm_acdb_cmd_device)
 
 #define	AUDIO_MAX_COMMON_IOCTL_NUM	100
 
@@ -127,6 +140,7 @@
 #define AGC_ENABLE		0x0001
 #define NS_ENABLE		0x0002
 #define TX_IIR_ENABLE		0x0004
+#define FLUENCE_ENABLE		0x0008
 
 #define VOC_REC_UPLINK		0x00
 #define VOC_REC_DOWNLINK	0x01
@@ -146,6 +160,11 @@ struct msm_audio_config {
 struct msm_audio_stream_config {
 	uint32_t buffer_size;
 	uint32_t buffer_count;
+};
+
+struct msm_audio_buf_cfg{
+	uint32_t meta_info_enable;
+	uint32_t frames_per_buf;
 };
 
 struct msm_audio_stats {
@@ -227,14 +246,11 @@ struct msm_snd_endpoint {
 
 #define SND_AVC_CTL _IOW(SND_IOCTL_MAGIC, 6, unsigned *)
 #define SND_AGC_CTL _IOW(SND_IOCTL_MAGIC, 7, unsigned *)
-
-struct msm_snd_extamp_config {
- uint32_t device;
- uint32_t speaker_volume;
- uint32_t headset_volume;
-};
-
-#define SND_SET_EXTAMP _IOW(SND_IOCTL_MAGIC, 8, struct msm_snd_extamp_config *)
+/* ZTE_Audio_CJ_100302, chenjun, 2010-3-2, start */
+/* ZTE_Audio-LB_CJ_1 chenjun 2009-10-28 start */
+#define SND_SET_AUDIO_LOOPBACK _IOW(SND_IOCTL_MAGIC, 8, unsigned *)
+/* ZTE_Audio-LB_CJ_1 chenjun 2009-10-28 end */
+/* ZTE_Audio_CJ_100302, chenjun, 2010-3-2, end */
 
 struct msm_audio_pcm_config {
 	uint32_t pcm_feedback;	/* 0 - disable > 0 - enable */
@@ -242,10 +258,6 @@ struct msm_audio_pcm_config {
 	uint32_t buffer_size;	/* Size of buffer for capturing of
 				   PCM samples */
 };
-
-#define SND_SET_MAIN_MIC 	_IOW(SND_IOCTL_MAGIC, 9, int *)
-#define SND_SET_SUB_MIC 	_IOW(SND_IOCTL_MAGIC, 10, int *)
-#define SND_MAX8899_AMP_OFF _IOW(SND_IOCTL_MAGIC, 11, int *)
 
 #define AUDIO_EVENT_SUSPEND 0
 #define AUDIO_EVENT_RESUME 1
@@ -337,5 +349,17 @@ struct msm_audio_eq_stream_config {
 	uint32_t	num_bands;
 	struct msm_audio_eq_band	eq_bands[AUDIO_MAX_EQ_BANDS];
 } __attribute__ ((packed));
+
+struct msm_acdb_cmd_device {
+	uint32_t     command_id;
+	uint32_t     device_id;
+	uint32_t     network_id;
+	uint32_t     sample_rate_id;      /* Actual sample rate value */
+	uint32_t     interface_id;        /* See interface id's above */
+	uint32_t     algorithm_block_id;  /* See enumerations above */
+	uint32_t     total_bytes;         /* Length in bytes used by buffer */
+	uint32_t     *phys_buf;           /* Physical Address of data */
+};
+
 
 #endif
