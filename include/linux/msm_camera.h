@@ -1,35 +1,35 @@
-/* Copyright (c) 2009-2010, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2011, Code Aurora Forum. All rights reserved.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 and
- * only version 2 as published by the Free Software Foundation.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, and the entire permission notice in its entirety,
+ *    including the disclaimer of warranties.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote
+ *    products derived from this software without specific prior
+ *    written permission.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * ALTERNATIVELY, this product may be distributed under the terms of
+ * the GNU General Public License, version 2, in which case the provisions
+ * of the GPL version 2 are required INSTEAD OF the BSD license.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
- *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ALL OF
+ * WHICH ARE HEREBY DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF NOT ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
  */
-/*-----------------------------------------------------------------------------------------
-  when         who      what, where, why                   comment tag
-  ----------   ----     ---------------------------------  ------------------------
- 2011-05-19   lijing   add two camera support             SAMSUNG_CAM_LJ_20110519
- 2011-02-21   wt       add flash ioctl id                 SAMSUNG_CAM_WT_20110221 
- 2010-12-15   lijing   add Touch AF and AntiShake         SAMSUNG_CAM_LJ_20101214
-                        function
-  2010-10-26   zt       add the interface of exposure      SAMSUNG_ZT_CAM_20101026_04
-                        compensation for foryo
-  2010-08-20   jia      remove additional CFG_MAX          SAMSUNG_MSM_CAMERA_JIA_001
-  2010-03-03   zh.shj   add config for lens shading        SAMSUNG_MSM_CAMERA_ZHSHJ_001
-  2010-02-21   zh.shj   add levels for sharpness values    SAMSUNG_MSM_CAMERA_ZHSHJ_001
-  2010-02-04   zh.shj   Add parameters for sharpness,WB,   SAMSUNG_MSM_CAMERA_ZHSHJ_001
-                        ISO,Antibanding & brightness setting
-------------------------------------------------------------------------------------------*/
 
 #ifndef __LINUX_MSM_CAMERA_H
 #define __LINUX_MSM_CAMERA_H
@@ -38,7 +38,6 @@
 #include <sys/types.h>
 #endif
 #include <linux/types.h>
-#include <asm/sizes.h>
 #include <linux/ioctl.h>
 #ifdef MSM_CAMERA_GCC
 #include <time.h>
@@ -111,6 +110,10 @@
 #define MSM_CAM_IOCTL_SENSOR_IO_CFG \
 	_IOW(MSM_CAM_IOCTL_MAGIC, 21, struct sensor_cfg_data *)
 
+#define MSM_CAMERA_LED_OFF  0
+#define MSM_CAMERA_LED_LOW  1
+#define MSM_CAMERA_LED_HIGH 2
+
 #define MSM_CAM_IOCTL_FLASH_LED_CFG \
 	_IOW(MSM_CAM_IOCTL_MAGIC, 22, unsigned *)
 
@@ -156,13 +159,10 @@
 #define MSM_CAM_IOCTL_GET_CAMERA_INFO \
 	_IOR(MSM_CAM_IOCTL_MAGIC, 36, struct msm_camera_info *)
 
-#define MSM_CAM_IOCTL_FLASH_LED_ON_OFF_CFG \
-	_IOW(MSM_CAM_IOCTL_MAGIC, 37, uint32_t *)
-	
 #define MSM_CAMERA_LED_OFF  0
 #define MSM_CAMERA_LED_LOW  1
 #define MSM_CAMERA_LED_HIGH 2
-
+  
 #define MSM_CAMERA_STROBE_FLASH_NONE 0
 #define MSM_CAMERA_STROBE_FLASH_XENON 1
 
@@ -176,6 +176,18 @@
 
 #define MSM_CAM_CTRL_CMD_DONE  0
 #define MSM_CAM_SENSOR_VFE_CMD 1
+
+#if 1//PCAM
+typedef struct{
+	unsigned short mode;
+	unsigned short address;
+	unsigned short value_1;
+	unsigned short value_2;
+	unsigned short value_3;
+} ioctl_pcam_info_8bit;
+
+#define MSM_CAM_IOCTL_PCAM_CTRL_8BIT   _IOWR(MSM_CAM_IOCTL_MAGIC, 40, ioctl_pcam_info_8bit)
+#endif//PCAM
 
 /*****************************************************
  *  structure
@@ -206,12 +218,28 @@ struct msm_vfe_evt_msg {
 	void *data;
 };
 
+struct msm_isp_evt_msg {
+	unsigned short type;	/* 1 == event (RPC), 0 == message (adsp) */
+	unsigned short msg_id;
+	unsigned int len;	/* size in, number of bytes out */
+	/* maximum possible data size that can be
+i	  sent to user space as v4l2 data structure
+	  is only of 64 bytes */
+	uint8_t data[48];
+};
 struct msm_vpe_evt_msg {
 	unsigned short type; /* 1 == event (RPC), 0 == message (adsp) */
 	unsigned short msg_id;
 	unsigned int len; /* size in, number of bytes out */
 	uint32_t frame_id;
 	void *data;
+};
+struct msm_isp_stats_event_ctrl {
+	unsigned short resptype;
+	union {
+		struct msm_isp_evt_msg isp_msg;
+		struct msm_ctrl_cmd ctrl;
+	} isp_data;
 };
 
 #define MSM_CAM_RESP_CTRL         0
@@ -385,6 +413,29 @@ struct outputCfg {
 #define OUTPUT_TYPE_V		(1<<3)
 #define OUTPUT_TYPE_L		(1<<4)
 
+#define CAMERA_BRIGTHNESS_0		0
+#define CAMERA_BRIGTHNESS_1		1
+#define CAMERA_BRIGTHNESS_2		2
+#define CAMERA_BRIGTHNESS_3		3
+#define CAMERA_BRIGTHNESS_4		4
+#define CAMERA_BRIGTHNESS_5		5
+#define CAMERA_BRIGTHNESS_6		6
+
+#define CAMERA_WB_AUTO				0
+#define CAMERA_WB_INCANDESCENT		1
+#define CAMERA_WB_FLUORESCENT		2
+#define CAMERA_WB_DAYLIGHT			3
+#define CAMERA_WB_CLOUDY_DAYLIGHT	4
+
+#define CAMERA_ISOValue_AUTO		0
+#define CAMERA_ISOValue_100		1
+#define CAMERA_ISOValue_200		2
+#define CAMERA_ISOValue_400		3
+
+#define CAMERA_AEC_CENTER_WEIGHTED		1
+#define CAMERA_AEC_SPOT_METERING		2
+#define CAMERA_AEC_FRAME_AVERAGE		0
+
 struct fd_roi_info {
 	void *info;
 	int info_len;
@@ -469,34 +520,10 @@ struct msm_snapshot_pp_status {
 #define CFG_GET_PICT_P_PL		25
 #define CFG_GET_AF_MAX_STEPS		26
 #define CFG_GET_PICT_MAX_EXP_LC		27
-/* SAMSUNG_MSM_CAMERA_ZHSHJ_001 */
-#define CFG_SET_SATURATION          28
-#define CFG_SET_SHARPNESS           29
-
-/*
- * Commented by zh.shj
- *
- * Add definitions of
- * autofocus with keypress,
- * ISO
- */
-#define CFG_SET_AF                  30
-#define CFG_SET_ISO                 31
-
-/* SAMSUNG_ZT_CAM_20101026_04
- * add the interface of exposure compensation for foryo
- */
-#define CFG_SET_EXPOSURE_COMPENSATION   32
-
-/*
- * SAMSUNG_CAM_LJ_20101214
- * add Touch AF and AntiShake function
- */
-#define CFG_SET_AEC_RIO             33
-#define CFG_SET_ANTI_SHAKE          34
-#define CFG_MAX                     35
 #define CFG_SEND_WB_INFO    28
-//#define CFG_MAX 			29
+// Features for EUROPA
+#define CFG_SET_ISO			29
+#define CFG_MAX 30
 
 #define MOVE_NEAR	0
 #define MOVE_FAR	1
@@ -520,102 +547,7 @@ struct msm_snapshot_pp_status {
 #define CAMERA_EFFECT_WHITEBOARD	6
 #define CAMERA_EFFECT_BLACKBOARD	7
 #define CAMERA_EFFECT_AQUA		8
-/* SAMSUNG_MSM_CAMERA_ZHSHJ_001 */
-#define CAMERA_EFFECT_BULISH	    9
-#define CAMERA_EFFECT_REDDISH	    10
-#define CAMERA_EFFECT_GREENISH	    11
-#define CAMERA_EFFECT_MAX		    12
-
-/* White Balance Modes */
-#define CAMERA_WB_MODE_AWB              1
-#define CAMERA_WB_MODE_CUSTOM           2
-#define CAMERA_WB_MODE_INCANDESCENT     3
-#define CAMERA_WB_MODE_FLUORESCENT      4
-#define CAMERA_WB_MODE_SUNLIGHT         5
-#define CAMERA_WB_MODE_CLOUDY           6
-#define CAMERA_WB_MODE_NIGHT            7
-#define CAMERA_WB_MODE_SHADE            8
-#define CAMERA_WB_MODE_MAX              9
-
-/* Brightness */
-#define CAMERA_BRIGHTNESS_0             0
-#define CAMERA_BRIGHTNESS_1             1
-#define CAMERA_BRIGHTNESS_2             2
-#define CAMERA_BRIGHTNESS_3             3
-#define CAMERA_BRIGHTNESS_4             4
-#define CAMERA_BRIGHTNESS_5             5
-#define CAMERA_BRIGHTNESS_6             6
-#define CAMERA_BRIGHTNESS_MAX           7
-
-/* Contrast */
-#define CAMERA_CONTRAST_0               0
-#define CAMERA_CONTRAST_1               1
-#define CAMERA_CONTRAST_2               2
-#define CAMERA_CONTRAST_3               3
-#define CAMERA_CONTRAST_4               4
-#define CAMERA_CONTRAST_MAX             5
-
-/* Saturation */
-#define CAMERA_SATURATION_0             0
-#define CAMERA_SATURATION_1             1
-#define CAMERA_SATURATION_2             2
-#define CAMERA_SATURATION_3             3
-#define CAMERA_SATURATION_4             4
-#define CAMERA_SATURATION_MAX           5
-
-/* SAMSUNG_ZT_CAM_20101026_04
- * add the interface of exposure compensation for foryo
- * Exposure value
- */
-#define CAMERA_EXPOSURE_0               0
-#define CAMERA_EXPOSURE_1               1
-#define CAMERA_EXPOSURE_2               2
-#define CAMERA_EXPOSURE_3               3
-#define CAMERA_EXPOSURE_4               4
-#define CAMERA_EXPOSURE_MAX             5
-
-/*
- * Commented by zh.shj
- *
- * Add definitions of
- * ISO values,
- * antibanding values,
- * sharpness
- */
-#define CAMERA_ISO_SET_AUTO             0
-#define CAMERA_ISO_SET_HJR              1
-#define CAMERA_ISO_SET_100              2
-#define CAMERA_ISO_SET_200              3
-#define CAMERA_ISO_SET_400              4
-#define CAMERA_ISO_SET_800              5
-#define CAMERA_ISO_SET_MAX              6
-
-#define CAMERA_ANTIBANDING_SET_OFF      0
-#define CAMERA_ANTIBANDING_SET_60HZ     1
-#define CAMERA_ANTIBANDING_SET_50HZ     2
-#define CAMERA_ANTIBANDING_SET_AUTO     3
-#define CAMERA_ANTIBANDING_MAX          4
-
-#define CAMERA_SHARPNESS_0              0
-#define CAMERA_SHARPNESS_1              1
-#define CAMERA_SHARPNESS_2              2
-#define CAMERA_SHARPNESS_3              3
-#define CAMERA_SHARPNESS_4              4
-#define CAMERA_SHARPNESS_5              5
-#define CAMERA_SHARPNESS_6              6
-#define CAMERA_SHARPNESS_7              7
-#define CAMERA_SHARPNESS_8              8
-#define CAMERA_SHARPNESS_9              9
-#define CAMERA_SHARPNESS_10             10
-#define CAMERA_SHARPNESS_MAX            11
-
-
-/*
- * SAMSUNG_CAM_LJ_20101214
- * add definitions of AntiShake values
- */
-#define CAMERA_ANTISHAKE_OFF            0
-#define CAMERA_ANTISHAKE_ON             1
+#define CAMERA_EFFECT_MAX		9
 
 struct sensor_pict_fps {
 	uint16_t prevfps;
@@ -642,18 +574,6 @@ struct wb_info_cfg {
 	uint16_t green_gain;
 	uint16_t blue_gain;
 };
-
-/*
- * SAMSUNG_CAM_LJ_20101214
- * Add new type used for Touch AF function
- */
-typedef struct {
-	uint16_t x;
-	uint16_t y;
- uint16_t preview_width;
- uint16_t preview_height;
-} aec_rio_cfg;
-
 struct sensor_cfg_data {
 	int cfgtype;
 	int mode;
@@ -661,45 +581,26 @@ struct sensor_cfg_data {
 	uint8_t max_steps;
 
 	union {
-        int8_t effect;
-        uint8_t lens_shading;
-        uint16_t prevl_pf;
-        uint16_t prevp_pl;
-        uint16_t pictl_pf;
-        uint16_t pictp_pl;
-        uint32_t pict_max_exp_lc;
-        uint16_t p_fps;
-        
-        /*
-         * Commented by zh.shj, SAMSUNG_MSM_CAMERA_ZHSHJ_001
-         */
-        int8_t wb_mode;
-        int8_t brightness;
-        int8_t contrast;
-        int8_t saturation;
-        int8_t sharpness;
-        int8_t iso_val;
-        int8_t antibanding;
-        int8_t lensshading;
-        
-        /* SAMSUNG_ZT_CAM_20101026_04
-         * add the interface of exposure compensation for foryo
-         */
-        int8_t exposure;
-        
-        struct sensor_pict_fps gfps;
-        struct exp_gain_cfg exp_gain;
-        struct focus_cfg focus;
-        struct fps_cfg fps;
-        struct wb_info_cfg wb_info;
-        
-        /*
-         * SAMSUNG_CAM_LJ_20101214
-         * add variables used for Touch AF and AntiShake function
-         */
-        aec_rio_cfg aec_rio;
-        int8_t antishake;
-
+		int8_t effect;
+		
+#if defined(CONFIG_MACH_EUROPA)
+		int8_t brightness;
+		int8_t whitebalance;
+		int8_t iso;
+		int8_t metering;
+#endif
+		uint8_t lens_shading;
+		uint16_t prevl_pf;
+		uint16_t prevp_pl;
+		uint16_t pictl_pf;
+		uint16_t pictp_pl;
+		uint32_t pict_max_exp_lc;
+		uint16_t p_fps;
+		struct sensor_pict_fps gfps;
+		struct exp_gain_cfg exp_gain;
+		struct focus_cfg focus;
+		struct fps_cfg fps;
+		struct wb_info_cfg wb_info;
 	} cfg;
 };
 
@@ -723,10 +624,6 @@ struct msm_camera_info {
 	int num_cameras;
 	uint8_t has_3d_support[MSM_MAX_CAMERA_SENSORS];
 	uint8_t is_internal_cam[MSM_MAX_CAMERA_SENSORS];
-
-   /*
-    * add two camera support SAMSUNG_CAM_LJ_20110519
-    */
 	uint32_t s_mount_angle[MSM_MAX_CAMERA_SENSORS];
 };
 
@@ -751,4 +648,175 @@ struct msm_camsensor_info {
 	uint8_t flash_enabled;
 	int8_t total_steps;
 };
+
+#define EXT_CFG_AUTO_TUNNING               0
+#define EXT_CFG_SDCARD_DETECT              1
+#define EXT_CFG_GET_INFO		        2
+#define EXT_CFG_FRAME_CONTROL              3
+#define EXT_CFG_AF_CONTROL                 4
+#define EXT_CFG_EFFECT_CONTROL             5
+#define EXT_CFG_WB_CONTROL                 6
+#define EXT_CFG_BR_CONTROL                 7
+#define EXT_CFG_ISO_CONTROL                8
+#define EXT_CFG_METERING_CONTROL           9
+#define EXT_CFG_SCENE_CONTROL		10
+#define EXT_CFG_AE_AWB_CONTROL		11
+#define EXT_CFG_CR_CONTROL                 12
+#define EXT_CFG_SA_CONTROL                 13
+#define EXT_CFG_SP_CONTROL                 14
+#define EXT_CFG_CPU_CONTROL                15
+#define EXT_CFG_DTP_CONTROL                16
+#define EXT_CFG_SNAPSHOT_SIZE_CONTROL		17
+#define EXT_CFG_SET_CAPTURE_MODE 18
+#define EXT_CFG_SET_FLASH_MODE 19
+#define EXT_CFG_AUTO_CONTRAST_CONTROL 20
+#define EXT_CFG_JPEG_QUALITY_CONTROL 21
+#define EXT_CFG_ZOOM_CONTROL 22
+#define EXT_CFG_CAM_MODE_CONTROL 23
+#define EXT_CFG_PREVIEW_SIZE_CONTROL		24
+#define EXT_CFG_FLASH_INFO		        25
+#define EXT_CFG_LUX_INFO		        26
+#define EXT_CFG_SENSOR_RESET		        27
+
+#define EXT_CFG_CAM_MODE_CAMERA 0
+#define EXT_CFG_CAM_MODE_CAMCORDER 1
+#define EXT_CFG_CAM_MODE_FACTORY_TEST 2
+
+#define EXT_CFG_JPEG_QUALITY_SUPERFINE 0
+#define EXT_CFG_JPEG_QUALITY_FINE 1
+#define EXT_CFG_JPEG_QUALITY_NORMAL 2
+
+#define EXT_CFG_AUTO_CONTRAST_ON 0
+#define EXT_CFG_AUTO_CONTRAST_OFF 1
+
+#define EXT_CFG_FRAME_AUTO			0
+#define EXT_CFG_FRAME_FIX_15		15
+#define EXT_CFG_FRAME_FIX_20		20
+#define EXT_CFG_FRAME_FIX_24		24
+#define EXT_CFG_FRAME_FIX_25		25
+#define EXT_CFG_FRAME_FIX_30		30
+
+#define EXT_CFG_EFFECT_NORMAL		0
+#define EXT_CFG_EFFECT_NEGATIVE		1
+#define EXT_CFG_EFFECT_MONO		2
+#define EXT_CFG_EFFECT_SEPIA		3	
+
+#define EXT_CFG_WB_AUTO                    0
+#define EXT_CFG_WB_DAYLIGHT                1
+#define EXT_CFG_WB_CLOUDY                  2
+#define EXT_CFG_WB_FLUORESCENT             3
+#define EXT_CFG_WB_INCANDESCENT            4
+
+#define EXT_CFG_BR_STEP_P_4                8
+#define EXT_CFG_BR_STEP_P_3                7
+#define EXT_CFG_BR_STEP_P_2                6
+#define EXT_CFG_BR_STEP_P_1                5
+#define EXT_CFG_BR_STEP_0                  4
+#define EXT_CFG_BR_STEP_M_1                3
+#define EXT_CFG_BR_STEP_M_2                2
+#define EXT_CFG_BR_STEP_M_3                1
+#define EXT_CFG_BR_STEP_M_4                0
+
+#define EXT_CFG_CR_STEP_P_2                4
+#define EXT_CFG_CR_STEP_P_1                3
+#define EXT_CFG_CR_STEP_0                  2
+#define EXT_CFG_CR_STEP_M_1                1
+#define EXT_CFG_CR_STEP_M_2                0
+
+#define EXT_CFG_SA_STEP_P_2                4
+#define EXT_CFG_SA_STEP_P_1                3
+#define EXT_CFG_SA_STEP_0                  2
+#define EXT_CFG_SA_STEP_M_1                1
+#define EXT_CFG_SA_STEP_M_2                0
+
+#define EXT_CFG_SP_STEP_P_2                4
+#define EXT_CFG_SP_STEP_P_1                3
+#define EXT_CFG_SP_STEP_0                  2
+#define EXT_CFG_SP_STEP_M_1                1
+#define EXT_CFG_SP_STEP_M_2                0
+
+#define EXT_CFG_ISO_AUTO			0
+#define EXT_CFG_ISO_50			1
+#define EXT_CFG_ISO_100			2
+#define EXT_CFG_ISO_200			3
+#define EXT_CFG_ISO_400			4
+
+#define EXT_CFG_METERING_NORMAL		0 //CENTER?
+#define EXT_CFG_METERING_SPOT		1
+#define EXT_CFG_METERING_CENTER		2
+
+#define EXT_CFG_SCENE_OFF			0
+#define EXT_CFG_SCENE_PORTRAIT		1
+#define EXT_CFG_SCENE_LANDSCAPE		2
+#define EXT_CFG_SCENE_SPORTS		3
+#define EXT_CFG_SCENE_PARTY		4
+#define EXT_CFG_SCENE_BEACH		5
+#define EXT_CFG_SCENE_SUNSET		6
+#define EXT_CFG_SCENE_DAWN			7
+#define EXT_CFG_SCENE_FALL			8
+#define EXT_CFG_SCENE_NIGHTSHOT		9
+#define EXT_CFG_SCENE_BACKLIGHT		10
+#define EXT_CFG_SCENE_FIREWORK		11
+#define EXT_CFG_SCENE_TEXT			12
+#define EXT_CFG_SCENE_CANDLE		13
+
+#define EXT_CFG_AF_CHECK_STATUS		0
+#define EXT_CFG_AF_OFF			1
+#define EXT_CFG_AF_SET_NORMAL		2
+#define EXT_CFG_AF_SET_MACRO		3
+#define EXT_CFG_AF_DO			4
+#define EXT_CFG_AF_SET_MANUAL	5
+#define EXT_CFG_AF_CHECK_2nd_STATUS	6
+#define EXT_CFG_AF_SET_AE_FOR_FLASH	7
+#define EXT_CFG_AF_BACK_AE_FOR_FLASH	8
+#define EXT_CFG_AF_CHECK_AE_STATUS	9
+#define EXT_CFG_AF_POWEROFF 	10
+
+#define EXT_CFG_AF_PROGRESS                1
+#define EXT_CFG_AF_SUCCESS                 2
+#define EXT_CFG_AF_LOWCONF                 3 //Fail
+#define EXT_CFG_AF_CANCELED                4
+#define EXT_CFG_AF_TIMEOUT                 5
+#define EXT_CFG_AE_STABLE               6
+#define EXT_CFG_AE_UNSTABLE                 7
+
+#define EXT_CFG_AE_LOCK		0
+#define EXT_CFG_AE_UNLOCK		1
+#define EXT_CFG_AWB_LOCK		2
+#define EXT_CFG_AWB_UNLOCK		3
+
+#define EXT_CFG_CPU_CONSERVATIVE		0
+#define EXT_CFG_CPU_ONDEMAND		1
+#define EXT_CFG_CPU_PERFORMANCE		2
+
+#define EXT_CFG_DTP_OFF			0
+#define EXT_CFG_DTP_ON			1
+
+#define EXT_CFG_ZOOM_STEP_0	0
+#define EXT_CFG_ZOOM_STEP_1	1
+#define EXT_CFG_ZOOM_STEP_2	2
+#define EXT_CFG_ZOOM_STEP_3	3
+#define EXT_CFG_ZOOM_STEP_4	4
+#define EXT_CFG_ZOOM_STEP_5	5
+#define EXT_CFG_ZOOM_STEP_6	6
+#define EXT_CFG_ZOOM_STEP_7	7
+#define EXT_CFG_ZOOM_STEP_8	8
+
+#define EXT_CFG_SNAPSHOT_SIZE_2560x1920_5M	0
+#define EXT_CFG_SNAPSHOT_SIZE_2048x1536_3M	1
+#define EXT_CFG_SNAPSHOT_SIZE_1600x1200_2M	2
+#define EXT_CFG_SNAPSHOT_SIZE_1280x960_1M		3
+#define EXT_CFG_SNAPSHOT_SIZE_640x480_VGA		4
+#define EXT_CFG_SNAPSHOT_SIZE_320x240_QVGA		5
+
+#define EXT_CFG_PREVIEW_SIZE_720x480_D1	0
+#define EXT_CFG_PREVIEW_SIZE_640x480_VGA	1
+#define EXT_CFG_PREVIEW_SIZE_320x240_QVGA	2
+#define EXT_CFG_PREVIEW_SIZE_176x144_QCIF	3
+
+#define EXT_CFG_FLASH_ON		0
+#define EXT_CFG_FLASH_OFF	1
+#define EXT_CFG_FLASH_AUTO	2
+#define EXT_CFG_FLASH_TURN_ON 3
+#define EXT_CFG_FLASH_TURN_OFF 4
 #endif /* __LINUX_MSM_CAMERA_H */
