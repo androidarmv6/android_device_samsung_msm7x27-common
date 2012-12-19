@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PRODUCT_BRAND ?= jellaxy
+PRODUCT_BRAND ?= androidarmv6
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
@@ -57,7 +57,6 @@ PRODUCT_COPY_FILES += \
 # Required CM packages
 PRODUCT_PACKAGES += \
     Camera \
-    Development \
     LatinIME \
     SpareParts \
     Superuser \
@@ -75,7 +74,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     Stk
 
-
 ## GPS configuration
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 
@@ -88,7 +86,6 @@ PRODUCT_PACKAGES += \
 ## Display
 PRODUCT_PACKAGES += \
     gralloc.msm7x27 \
-    hwcomposer.msm7x27 \
     copybit.msm7x27 \
     libgenlock \
     liboverlay \
@@ -101,7 +98,7 @@ PRODUCT_PACKAGES += \
 
 ## Camera
 PRODUCT_PACKAGES += \
-    camera.gio \
+    camera.msm7x27 \
 
 ## GPS
 PRODUCT_PACKAGES += \
