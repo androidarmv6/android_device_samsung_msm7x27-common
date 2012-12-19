@@ -23,8 +23,8 @@ PRODUCT_PACKAGES += \
 
 ## Display
 PRODUCT_PACKAGES += \
-    gralloc.msm7x27 \
-    copybit.msm7x27 \
+    gralloc.$(TARGET_DEVICE) \
+    copybit.$(TARGET_DEVICE) \
     libgenlock \
     liboverlay \
     libtilerenderer
@@ -32,11 +32,13 @@ PRODUCT_PACKAGES += \
 ## Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
-    libaudioutils
+    libaudioutils \
+    audio_policy.$(TARGET_DEVICE) \
+    audio.primary.$(TARGET_DEVICE)
 
 ## Camera
 PRODUCT_PACKAGES += \
-    camera.msm7x27 \
+    camera.$(TARGET_DEVICE) \
 
 ## GPS
 PRODUCT_PACKAGES += \
@@ -47,8 +49,7 @@ PRODUCT_PACKAGES += \
     make_ext4fs \
     brcm_patchram_plus \
     bdaddr_read \
-    setup_fs \
-    CMFileManager
+    setup_fs
 
 ## Vold config
 PRODUCT_COPY_FILES += \
