@@ -12,56 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-PRODUCT_BRAND ?= androidarmv6
-
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    keyguard.no_require_sim=true \
-    ro.url.legal=http://www.google.com/intl/%s/mobile/android/basic/phone-legal.html \
-    ro.url.legal.android_privacy=http://www.google.com/intl/%s/mobile/android/basic/privacy.html \
-    ro.com.google.clientidbase=android-google \
-    ro.com.android.wifi-watchlist=GoogleGuest \
-    ro.setupwizard.enterprise_mode=1 \
-    ro.com.android.dateformat=MM-dd-yyyy \
-    ro.com.android.dataroaming=false
-
-# Backup Tool
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.sh:system/bin/backuptool.sh \
-    device/samsung/msm7x27-common/prebuilt/common/bin/backuptool.functions:system/bin/backuptool.functions \
-    device/samsung/msm7x27-common/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh
-
-# init.d support
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
-    device/samsung/msm7x27-common/prebuilt/common/bin/sysinit:system/bin/sysinit
-
-# userinit support
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
-
-# Compcache/Zram support
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/compcache:system/bin/compcache \
-    device/samsung/msm7x27-common/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
-
-# Nam configuration script
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/bin/modelid_cfg.sh:system/bin/modelid_cfg.sh
-
-# Don't export PS1 in /system/etc/mkshrc.
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/common/etc/mkshrc:system/etc/mkshrc
-
-# Required CM packages
-PRODUCT_PACKAGES += \
-    Camera \
-    LatinIME \
-    SpareParts \
-    Superuser \
-    su
-
 # GSM APN list
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
