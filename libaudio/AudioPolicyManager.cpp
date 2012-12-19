@@ -43,8 +43,7 @@ extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
     delete interface;
 }
 
-audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy,
-                                                             bool fromCache)
+uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, bool fromCache)
 {
     uint32_t device = 0;
 
@@ -66,7 +65,6 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
         }
 
         break;
-
     case STRATEGY_DTMF:
         if (!isInCall()) {
             // when off call, DTMF strategy follows the same rules as MEDIA strategy
@@ -75,7 +73,6 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
         }
         // when in call, DTMF and PHONE strategies follow the same rules
         // FALL THROUGH
-
     case STRATEGY_PHONE:
         // for phone strategy, we first consider the forced use and then the available devices by order
         // of priority
@@ -142,23 +139,22 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
         // If incall, just select the STRATEGY_PHONE device: The rest of the behavior is handled by
         // handleIncallSonification().
         if (isInCall()) {
-            device = getDeviceForStrategy(STRATEGY_PHONE, false /*fromCache*/);
+            device = getDeviceForStrategy(STRATEGY_PHONE, false);
             break;
         }
+        device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
+        if (device == 0) {
+            ALOGE("getDeviceForStrategy() speaker device not found");
+        }
+        // The second device used for sonification is the same as the device used by media strategy
         // FALL THROUGH
-
     case STRATEGY_ENFORCED_AUDIBLE:
         // strategy STRATEGY_ENFORCED_AUDIBLE uses same routing policy as STRATEGY_SONIFICATION
-        // except:
-        //   - when in call where it doesn't default to STRATEGY_PHONE behavior
-        //   - in countries where not enforced in which case it follows STRATEGY_MEDIA
+        // except when in call where it doesn't default to STRATEGY_PHONE behavior
 
-        if (strategy == STRATEGY_SONIFICATION ||
-                !mStreams[AUDIO_STREAM_ENFORCED_AUDIBLE].mCanBeMuted) {
-            device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
-            if (device == 0) {
-                ALOGE("getDeviceForStrategy() speaker device not found for STRATEGY_SONIFICATION");
-            }
+        device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
+        if (device == 0) {
+            ALOGE("getDeviceForStrategy() speaker device not found");
         }
         // The second device used for sonification is the same as the device used by media strategy
         // FALL THROUGH
@@ -195,8 +191,7 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
             device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_EARPIECE;
         }
 
-        // device is DEVICE_OUT_SPEAKER if we come from case STRATEGY_SONIFICATION or
-        // STRATEGY_ENFORCED_AUDIBLE, 0 otherwise
+        // device is DEVICE_OUT_SPEAKER if we come from case STRATEGY_SONIFICATION, 0 otherwise
         device |= device2;
         // Do not play media stream if in call and the requested device would change the hardware
         // output routing
@@ -214,10 +209,10 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
     }
 
     ALOGV("getDeviceForStrategy() strategy %d, device %x", strategy, device);
-    return (audio_devices_t)device;
+    return device;
 }
 
-status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_handle_t output, audio_devices_t device, int delayMs, bool force)
+status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_handle_t output, uint32_t device, int delayMs, bool force)
 {
 
     // do not change actual stream volume if the stream is muted

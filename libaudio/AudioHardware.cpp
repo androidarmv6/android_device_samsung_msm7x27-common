@@ -118,7 +118,6 @@ AudioHardware::AudioHardware() :
         if (rc >= 0) {
             mSndEndpoints = new msm_snd_endpoint[mNumSndEndpoints];
             mInit = true;
-            //Switch to front mic (Samsung hack)
             ioctl(m7xsnddriverfd, SND_SET_MAIN_MIC);
             ALOGV("constructed (%d SND endpoints)", rc);
             struct msm_snd_endpoint *ept = mSndEndpoints;
@@ -217,7 +216,7 @@ status_t AudioHardware::initCheck()
 }
 
 AudioStreamOut* AudioHardware::openOutputStream(
-        uint32_t devices, audio_output_flags_t flags, int *format, uint32_t *channels, uint32_t *sampleRate, status_t *status)
+        uint32_t devices, int *format, uint32_t *channels, uint32_t *sampleRate, status_t *status)
 {
     { // scope for the lock
         android::Mutex::Autolock lock(mLock);
@@ -1457,7 +1456,7 @@ AudioHardware::AudioStreamOutMSM72xx::~AudioStreamOutMSM72xx()
 
 ssize_t AudioHardware::AudioStreamOutMSM72xx::write(const void* buffer, size_t bytes)
 {
-    // ALOGD("AudioStreamOutMSM72xx::write(%p, %u)", buffer, bytes);
+    // LOGD("AudioStreamOutMSM72xx::write(%p, %u)", buffer, bytes);
     status_t status = NO_INIT;
     size_t count = bytes;
     const uint8_t* p = static_cast<const uint8_t*>(buffer);
