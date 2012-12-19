@@ -2,9 +2,6 @@ LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_CFLAGS 	    += -DANDROID_JB=1 
-##Uncomment previous line in JB build
-
 LOCAL_CFLAGS        += -O3
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE := camera.$(TARGET_DEVICE)

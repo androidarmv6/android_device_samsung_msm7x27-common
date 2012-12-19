@@ -61,8 +61,8 @@ static struct hw_module_methods_t camera_module_methods = {
 camera_module_t HAL_MODULE_INFO_SYM = {
 	common: {
 		tag: HARDWARE_MODULE_TAG,
-		version_major: 1,
-		version_minor: 0,
+		module_api_version: CAMERA_DEVICE_API_VERSION_1_0,
+		hal_api_version: 0,
 		id: CAMERA_HARDWARE_MODULE_ID,
 		name: "Camera HAL",
 		author: "Zhibin Wu & Marcin Chojnacki & Pavel Kirpichyov",
@@ -257,9 +257,9 @@ static void wrap_data_callback_timestamp(nsecs_t timestamp, int32_t msg_type, co
 
 void CameraHAL_FixupParams(android::CameraParameters &camParams)
 {
-    const char *video_sizes          = "640x480,384x288,352x288,320x240,240x160,176x144";
-    const char *preferred_size       = "320x240";
-    const char *preview_frame_rates  = "25,24,15";
+    const char *video_sizes			= "640x480,384x288,352x288,320x240,240x160,176x144";
+    const char *preferred_size			= "320x240";
+    const char *preview_frame_rates		= "25,24,15";
 
     camParams.set(CameraParameters::KEY_VIDEO_FRAME_FORMAT, CameraParameters::PIXEL_FORMAT_YUV420SP);
 
@@ -278,9 +278,8 @@ void CameraHAL_FixupParams(android::CameraParameters &camParams)
     if (!camParams.get(CameraParameters::KEY_VIDEO_SIZE)) {
          camParams.set(CameraParameters::KEY_VIDEO_SIZE, preferred_size);
     }
-
-    camParams.set(CameraParameters::KEY_MAX_EXPOSURE_COMPENSATION, 4);
-    camParams.set(CameraParameters::KEY_MIN_EXPOSURE_COMPENSATION, -4);
+    camParams.set(CameraParameters::KEY_MAX_EXPOSURE_COMPENSATION, 3);
+    camParams.set(CameraParameters::KEY_MIN_EXPOSURE_COMPENSATION, -3);
     camParams.set(CameraParameters::KEY_EXPOSURE_COMPENSATION_STEP, 1);
 }
 
@@ -344,17 +343,11 @@ int camera_msg_type_enabled(struct camera_device * device, int32_t msg_type)
 
 int camera_start_preview(struct camera_device * device)
 {
-    if (!qCamera->msgTypeEnabled(CAMERA_MSG_PREVIEW_FRAME)) {
-		qCamera->enableMsgType(CAMERA_MSG_PREVIEW_FRAME);
-    }
     return qCamera->startPreview();
 }
 
 void camera_stop_preview(struct camera_device * device)
 {
-    if (qCamera->msgTypeEnabled(CAMERA_MSG_PREVIEW_FRAME)) {
-        qCamera->disableMsgType(CAMERA_MSG_PREVIEW_FRAME);
-    }
     qCamera->stopPreview();
 }
 
@@ -370,15 +363,12 @@ int camera_store_meta_data_in_buffers(struct camera_device * device, int enable)
 
 int camera_start_recording(struct camera_device * device)
 {
-    qCamera->enableMsgType(CAMERA_MSG_VIDEO_FRAME);
     return qCamera->startRecording();
 }
 
 void camera_stop_recording(struct camera_device * device)
 {
-    qCamera->disableMsgType(CAMERA_MSG_VIDEO_FRAME);
     qCamera->stopRecording();
-    //qCamera->startPreview();
 }
 
 int camera_recording_enabled(struct camera_device * device)
