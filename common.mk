@@ -38,7 +38,7 @@ PRODUCT_PACKAGES += \
 
 ## Camera
 PRODUCT_PACKAGES += \
-    camera.$(TARGET_DEVICE) \
+    camera.$(TARGET_DEVICE)
 
 ## GPS
 PRODUCT_PACKAGES += \
