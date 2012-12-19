@@ -23,8 +23,8 @@ PRODUCT_PACKAGES += \
 
 ## Display
 PRODUCT_PACKAGES += \
-    gralloc.$(TARGET_DEVICE) \
-    copybit.$(TARGET_DEVICE) \
+    gralloc.$(TARGET_BOARD_PLATFORM) \
+    copybit.$(TARGET_BOARD_PLATFORM) \
     libgenlock \
     liboverlay \
     libtilerenderer
@@ -33,12 +33,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
     libaudioutils \
-    audio_policy.$(TARGET_DEVICE) \
-    audio.primary.$(TARGET_DEVICE)
+    audio_policy.$(TARGET_BOARD_PLATFORM) \
+    audio.primary.$(TARGET_BOARD_PLATFORM)
 
 ## Camera
 PRODUCT_PACKAGES += \
-    camera.$(TARGET_DEVICE)
+    camera.$(TARGET_BOARD_PLATFORM)
 
 ## GPS
 PRODUCT_PACKAGES += \
