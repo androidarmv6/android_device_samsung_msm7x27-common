@@ -81,7 +81,7 @@ $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 PRODUCT_PACKAGES += \
     libOmxCore \
     libmm-omxcore \
-    libstagefrighthw 
+    libstagefrighthw
 
 ## Display
 PRODUCT_PACKAGES += \
@@ -89,7 +89,7 @@ PRODUCT_PACKAGES += \
     copybit.msm7x27 \
     libgenlock \
     liboverlay \
-    libtilerenderer 
+    libtilerenderer
 
 ## Audio
 PRODUCT_PACKAGES += \
@@ -102,21 +102,21 @@ PRODUCT_PACKAGES += \
 
 ## GPS
 PRODUCT_PACKAGES += \
-    librpc 
-  
+    librpc
+
 ## Other
 PRODUCT_PACKAGES += \
     make_ext4fs \
     brcm_patchram_plus \
     bdaddr_read \
     setup_fs \
-    CMFileManager  
+    CMFileManager
 
 ## Vold config
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/vold.fstab:system/etc/vold.fstab
 
-## Hardware properties 
+## Hardware properties
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.xml:system/etc/permissions/android.hardware.camera.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
@@ -126,7 +126,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/base/data/etc/platform.xml:system/etc/permissions/platform.xml \
@@ -140,7 +140,7 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/ramdisk/lib/modules/fsr_stl.ko:root/lib/modules/fsr_stl.ko \
     device/samsung/msm7x27-common/ramdisk/lib/modules/sec_param.ko:root/lib/modules/sec_param.ko \
     device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_fat.ko:root/lib/modules/rfs_fat.ko \
-    device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko 
+    device/samsung/msm7x27-common/ramdisk/lib/modules/rfs_glue.ko:root/lib/modules/rfs_glue.ko
 
 ## Wi-Fi & networking
 PRODUCT_COPY_FILES += \
@@ -162,7 +162,7 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/usr/keylayout/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
     device/samsung/msm7x27-common/prebuilt/usr/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
     device/samsung/msm7x27-common/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/samsung/msm7x27-common/prebuilt/usr/keylayout/sec_key.kl:system/usr/keylayout/sec_key.kl 
+    device/samsung/msm7x27-common/prebuilt/usr/keylayout/sec_key.kl:system/usr/keylayout/sec_key.kl
 
 ## Keychar
 PRODUCT_COPY_FILES += \
