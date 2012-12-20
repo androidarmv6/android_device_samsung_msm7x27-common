@@ -343,11 +343,17 @@ int camera_msg_type_enabled(struct camera_device * device, int32_t msg_type)
 
 int camera_start_preview(struct camera_device * device)
 {
+    if (!qCamera->msgTypeEnabled(CAMERA_MSG_PREVIEW_FRAME)) {
+        qCamera->enableMsgType(CAMERA_MSG_PREVIEW_FRAME);
+    }
     return qCamera->startPreview();
 }
 
 void camera_stop_preview(struct camera_device * device)
 {
+    if (qCamera->msgTypeEnabled(CAMERA_MSG_PREVIEW_FRAME)) {
+        qCamera->disableMsgType(CAMERA_MSG_PREVIEW_FRAME);
+    }
     qCamera->stopPreview();
 }
 
