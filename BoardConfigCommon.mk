@@ -121,6 +121,7 @@ TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
 ## Device specific libs
+TARGET_PROVIDES_LIBAUDIO := true
 TARGET_PROVIDES_LIBLIGHTS := true
 
 ## Samsung has weird framebuffer
