@@ -1,5 +1,6 @@
 
 ifneq ($(BUILD_TINY_ANDROID),true)
+ifeq ($(TARGET_PROVIDES_LIBAUDIO), true)
 
 LOCAL_PATH := $(call my-dir)
 
@@ -49,4 +50,5 @@ endif
 
 include $(BUILD_SHARED_LIBRARY)
 
+endif # TARGET_PROVIDES_LIBAUDIO
 endif # not BUILD_TINY_ANDROID
