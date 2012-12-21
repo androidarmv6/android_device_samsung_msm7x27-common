@@ -854,7 +854,7 @@ static int get_audpp_filter(void)
 
     current_str = read_buf;
 
-    while (1) {
+    while (*current_str != (char)EOF) {
         int len;
         next_str = strchr(current_str, '\n');
         if (!next_str)
@@ -1003,12 +1003,12 @@ static int msm72xx_enable_postproc(bool state)
     } else{
         int disable_mask = 0;
 
-        if(post_proc_feature_mask & MBADRC_ENABLE) disable_mask |= MBADRC_DISABLE;
-        if(post_proc_feature_mask & ADRC_ENABLE) disable_mask |= ADRC_DISABLE;
-        if(post_proc_feature_mask & EQ_ENABLE) disable_mask |= EQ_DISABLE;
-        if(post_proc_feature_mask & RX_IIR_ENABLE) disable_mask |= RX_IIR_DISABLE;
+        if(post_proc_feature_mask & MBADRC_ENABLE) disable_mask &= MBADRC_DISABLE;
+        if(post_proc_feature_mask & ADRC_ENABLE) disable_mask &= ADRC_DISABLE;
+        if(post_proc_feature_mask & EQ_ENABLE) disable_mask &= EQ_DISABLE;
+        if(post_proc_feature_mask & RX_IIR_ENABLE) disable_mask &= RX_IIR_DISABLE;
 
-        ALOGI("disabling post proc features with mask 0x%04x", post_proc_feature_mask);
+        ALOGI("disabling post proc features with mask 0x%04x", disable_mask);
         if (ioctl(fd, AUDIO_ENABLE_AUDPP, &disable_mask) < 0) {
             ALOGE("enable audpp error");
             close(fd);
@@ -1965,8 +1965,8 @@ ssize_t AudioHardware::AudioStreamInMSM72xx::read( void* buffer, ssize_t bytes)
     size_t  aac_framesize= bytes;
     uint8_t* p = static_cast<uint8_t*>(buffer);
     uint32_t* recogPtr = (uint32_t *)p;
-    uint16_t* frameCountPtr;
-    uint16_t* frameSizePtr;
+    uint16_t* frameCountPtr = 0;
+    uint16_t* frameSizePtr = 0;
 
     if (mState < AUDIO_INPUT_OPENED) {
         AudioHardware *hw = mHardware;
@@ -2135,4 +2135,4 @@ extern "C" AudioHardwareInterface* createAudioHardware(void) {
     return new AudioHardware();
 }
 
-}; // namespace android
+}; // namespace android_audio_legacy
