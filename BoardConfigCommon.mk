@@ -80,6 +80,7 @@ BOARD_USES_QCOM_LIBRPC := true
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_SAMSUNG_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/msm7x27-common/bluetooth/vnd_samsung.txt
 
 ## FM
 BOARD_HAVE_FM_RADIO := true
