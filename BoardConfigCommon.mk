@@ -20,6 +20,7 @@
 LOCAL_PATH:= $(call my-dir)
 
 include vendor/samsung/msm7x27-common/BoardConfigVendor.mk
+include vendor/qcom/msm7x27/qcom-vendor.mk
 
 ## Kernel
 TARGET_NO_BOOTLOADER := true
