@@ -14,6 +14,7 @@
 
 ## GPS configuration
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
+$(call inherit-product, vendor/qcom/msm7x27/qcom-vendor.mk)
 
 ## Media
 PRODUCT_PACKAGES += \
