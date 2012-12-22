@@ -19,8 +19,6 @@
 
 LOCAL_PATH:= $(call my-dir)
 
-include vendor/samsung/msm7x27-common/BoardConfigVendor.mk
-
 ## Kernel
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
