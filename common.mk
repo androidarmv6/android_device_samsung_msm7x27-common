@@ -13,7 +13,6 @@
 # limitations under the License.
 
 ## GPS configuration
-$(call inherit-product, device/common/gps/gps_eu_supl.mk)
 $(call inherit-product, vendor/qcom/msm7x27/qcom-vendor.mk)
 
 ## Media
@@ -113,9 +112,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/usr/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
-## ICS GPS blob
+# GPS conf
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/lib/hw/gps.msm7x27.so:system/lib/hw/gps.msm7x27.so
+    device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
 
 ## Other
 PRODUCT_LOCALES += en
