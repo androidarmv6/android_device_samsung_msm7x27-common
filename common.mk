@@ -116,5 +116,5 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
 
 ## Other
-PRODUCT_LOCALES += en
+PRODUCT_LOCALES += en ru_RU
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
