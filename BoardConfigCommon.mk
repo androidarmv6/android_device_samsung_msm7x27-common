@@ -106,6 +106,7 @@ TARGET_PROVIDES_LIBRIL := true
 BOARD_USES_LEGACY_RIL := true
 BOARD_FORCE_RILD_AS_ROOT := true
 BOARD_MOBILEDATA_INTERFACE_NAME := "pdp0"
+BOARD_RIL_CLASS := ../../../device/samsung/msm7x27-common/ril/
 
 ## UMS
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
@@ -113,11 +114,6 @@ BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
 
 ## Legacy touchscreen support
 BOARD_USE_LEGACY_TOUCHSCREEN := true
-
-## Bootanimation
-TARGET_BOOTANIMATION_USE_RGB565 := true
-TARGET_BOOTANIMATION_PRELOAD := true
-TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
 ## Device specific libs
 TARGET_PROVIDES_LIBAUDIO := true
