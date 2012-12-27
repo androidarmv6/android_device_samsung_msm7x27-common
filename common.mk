@@ -47,6 +47,7 @@ PRODUCT_PACKAGES += \
 
 ## Other
 PRODUCT_PACKAGES += \
+    power.msm7x27 \
     make_ext4fs \
     brcm_patchram_plus \
     bdaddr_read \
