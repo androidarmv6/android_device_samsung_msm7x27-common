@@ -17,55 +17,31 @@
 # Product-common compile-time definitions.
 #
 
-LOCAL_PATH:= $(call my-dir)
+# Use the Qualcomm common folder
+include device/qcom/msm7x27/BoardConfigCommon.mk
 
 ## Kernel
-TARGET_NO_BOOTLOADER := true
-TARGET_NO_RADIOIMAGE := true
 BOARD_KERNEL_BASE := 0x13600000
 BOARD_KERNEL_PAGESIZE := 4096
 TARGET_KERNEL_SOURCE := kernel/samsung/msm7x27
 TARGET_PROVIDES_INIT_TARGET_RC := true
 
 ## Platform
-TARGET_BOARD_PLATFORM := msm7x27
-TARGET_ARCH := arm
-TARGET_ARCH_VARIANT := armv6-vfp
-TARGET_CPU_ABI := armeabi
-TARGET_CPU_ABI2 := armeabi-v6l
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm7x27-common/include
 
 ## Webkit
 ENABLE_WEBGL := true
 TARGET_WEBKIT_USE_MORE_MEMORY := true
-TARGET_FORCE_CPU_UPLOAD := true
-
-## V8
-JS_ENGINE := v8
-HTTP := chrome
-
-## JIT
-WITH_JIT := true
-ENABLE_JSC_JIT := true
 
 ## Camera
 USE_CAMERA_STUB := false
 BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
 
 ## Qualcomm, display
-BOARD_USES_QCOM_HARDWARE := true
-BOARD_NEEDS_MEMORYHEAPPMEM := true
-USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/samsung/msm7x27-common/prebuilt/lib/egl/egl.cfg
-BOARD_USES_QCOM_LIBS := true
-TARGET_NO_HW_VSYNC := true
-BOARD_ADRENO_DECIDE_TEXTURE_TARGET := true
-
-COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DREFRESH_RATE=60
-COMMON_GLOBAL_CFLAGS += -DQCOM_LEGACY_OMX -DSAMSUNG_CAMERA_QCOM
-COMMON_GLOBAL_CFLAGS += -DQCOM_NO_SECURE_PLAYBACK -DBINDER_COMPAT
-COMMON_GLOBAL_CFLAGS += -DFORCE_CPU_UPLOAD -DQCOM_ICS_COMPAT
+COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
+COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_QCOM
+COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
 
 TARGET_GLOBAL_CPPFLAGS += -mfpu=vfp -mfloat-abi=softfp -Os
 
@@ -121,9 +97,6 @@ TARGET_PROVIDES_LIBLIGHTS := true
 
 ## Samsung has weird framebuffer
 TARGET_NO_INITLOGO := true
-
-## Fix libcamera crash
-TARGET_DISABLE_ARM_PIE := true
 
 ## Fix colors in panorama mode
 BOARD_CPU_COLOR_CONVERT := true

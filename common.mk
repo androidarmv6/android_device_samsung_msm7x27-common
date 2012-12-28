@@ -12,27 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-## GPS configuration
-$(call inherit-product, vendor/qcom/msm7x27/qcom-vendor.mk)
-
-## Media
-PRODUCT_PACKAGES += \
-    libOmxCore \
-    libmm-omxcore \
-    libstagefrighthw
-
-## Display
-PRODUCT_PACKAGES += \
-    gralloc.msm7x27 \
-    copybit.msm7x27 \
-    libgenlock \
-    liboverlay \
-    libtilerenderer
+$(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
 ## Audio
 PRODUCT_PACKAGES += \
-    audio.a2dp.default \
-    libaudioutils \
     audio_policy.msm7x27 \
     audio.primary.msm7x27
 
@@ -119,3 +102,6 @@ PRODUCT_COPY_FILES += \
 ## Other
 PRODUCT_LOCALES += en ru_RU
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
+
+# Samsung msm7x27-common overlays
+DEVICE_PACKAGE_OVERLAYS += device/samsung/msm7x27-common/overlay
