@@ -23,7 +23,7 @@
 /dev/kgsl-2d0                0666  root      root
 /dev/kgsl-2d1                0666  root      root
 /dev/msm_rotator             0660  system    graphics
-/dev/graphics/fb0			 0666  system    graphics
+/dev/graphics/fb0            0666  system    graphics
 /dev/genlock                 0777  system    graphics
 
 ## Sensors
@@ -46,7 +46,7 @@
 
 ## Audio
 /dev/pmem_audio              0660  system    audio
-/dev/msm_hw3dc            	 0666  root      root
+/dev/msm_hw3dc               0666  root      root
 /dev/multipdp                0660  radio     radio
 /dev/msm_vidc_reg            0660  system    audio
 /dev/msm_vidc_dec            0660  system    audio
@@ -67,7 +67,7 @@
 /dev/msm_amrnb_in            0640  system    audio
 
 ## Bluetoth
-/dev/ttyHS0		     0666  bluetooth	net_bt_stack
+/dev/ttyHS0                  0666  bluetooth	net_bt_stack
 
 ## Misc
 /dev/oncrpc/*                0660  root      system

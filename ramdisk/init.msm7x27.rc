@@ -121,7 +121,7 @@ on boot
 on post-fs-data
 # Create the directories used by the Wireless subsystem
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp  
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
 
 on property:persist.service.adb.enable=1
     start adbd
@@ -186,7 +186,7 @@ service memsicd /system/bin/memsicd
     class main
     user root
     group root
-    oneshot	
+    oneshot
 
 # From init.gt-i5500.rc by psyke83
 service get_macaddrs /system/bin/get_macaddrs
