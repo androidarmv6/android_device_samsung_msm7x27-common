@@ -178,12 +178,6 @@ service hciattach /system/bin/brcm_patchram_plus --enable_hci --enable_lpm --bau
     disabled
     oneshot
 
-service bdaddr_read /system/bin/bdaddr_read
-    class main
-    user root
-    disabled
-    oneshot
-
 service gps-daemon /system/bin/gpsd
     user system
     group system inet
