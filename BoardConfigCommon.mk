@@ -98,7 +98,7 @@ BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 ## Device specific libs
 TARGET_PROVIDES_LIBAUDIO := true
-TARGET_PROVIDES_LIBLIGHTS := true
+TARGET_PROVIDES_LIBLIGHT := true
 
 ## Samsung has weird framebuffer
 TARGET_NO_INITLOGO := true
