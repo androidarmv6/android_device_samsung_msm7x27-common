@@ -70,10 +70,7 @@ PRODUCT_COPY_FILES += \
 
 ## Keymap
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/usr/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \
     device/samsung/msm7x27-common/prebuilt/usr/keylayout/sec_jack.kl:system/usr/keylayout/sec_jack.kl \
-    device/samsung/msm7x27-common/prebuilt/usr/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
-    device/samsung/msm7x27-common/prebuilt/usr/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
     device/samsung/msm7x27-common/prebuilt/usr/keylayout/sec_key.kl:system/usr/keylayout/sec_key.kl
 
 ## Keychar
