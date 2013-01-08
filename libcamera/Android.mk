@@ -8,6 +8,7 @@ LOCAL_MODULE           := camera.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_TAGS      := optional
 
+
 LOCAL_SRC_FILES        := cameraHAL.cpp
 LOCAL_C_INCLUDES       := $(TOP)/frameworks/base/include
 LOCAL_C_INCLUDES       += hardware/qcom/display-legacy/libgralloc
@@ -15,6 +16,6 @@ LOCAL_C_INCLUDES       += hardware/qcom/display-legacy/libgralloc
 LOCAL_SHARED_LIBRARIES := liblog libutils libcutils
 LOCAL_SHARED_LIBRARIES += libui libhardware libcamera_client
 
-LOCAL_LDFLAGS	       += -L$(LOCAL_PATH) -lcamera
+LOCAL_LDFLAGS          += -L$(LOCAL_PATH) -lcamera
 
 include $(BUILD_SHARED_LIBRARY)
