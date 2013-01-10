@@ -26,6 +26,7 @@ PRODUCT_PACKAGES += \
 
 ## GPS
 PRODUCT_PACKAGES += \
+    gps.msm7x27 \
     librpc
 
 ## Other
