@@ -119,3 +119,6 @@ BOARD_KERNEL_CMDLINE :=
 BOARD_BML_BOOT := "/dev/block/bml8"
 BOARD_BML_RECOVERY := "/dev/block/bml9"
 BOARD_RECOVERY_HANDLES_MOUNT := true
+
+## OTA script extras file (build/tools/releasetools)
+TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
