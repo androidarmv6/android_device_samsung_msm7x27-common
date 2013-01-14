@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (c) 2012, Code Aurora Forum. All rights reserved.
+ * Copyright (c) 2012, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +22,11 @@
 #include "AudioPolicyManager.h"
 #include <media/mediarecorder.h>
 #include <fcntl.h>
+#include <cutils/properties.h> // for property_get
+
+#include "AudioHardware.h"
 
 namespace android_audio_legacy {
-
-
 
 // ----------------------------------------------------------------------------
 // AudioPolicyManager for msm7k platform
@@ -43,7 +46,7 @@ extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
     delete interface;
 }
 
-uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, bool fromCache)
+audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, bool fromCache)
 {
     uint32_t device = 0;
 
@@ -65,6 +68,7 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
         }
 
         break;
+
     case STRATEGY_DTMF:
         if (!isInCall()) {
             // when off call, DTMF strategy follows the same rules as MEDIA strategy
@@ -73,6 +77,7 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
         }
         // when in call, DTMF and PHONE strategies follow the same rules
         // FALL THROUGH
+
     case STRATEGY_PHONE:
         // for phone strategy, we first consider the forced use and then the available devices by order
         // of priority
@@ -142,25 +147,37 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
             device = getDeviceForStrategy(STRATEGY_PHONE, false);
             break;
         }
-        device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
-        if (device == 0) {
-            ALOGE("getDeviceForStrategy() speaker device not found");
-        }
-        // The second device used for sonification is the same as the device used by media strategy
         // FALL THROUGH
+
     case STRATEGY_ENFORCED_AUDIBLE:
         // strategy STRATEGY_ENFORCED_AUDIBLE uses same routing policy as STRATEGY_SONIFICATION
-        // except when in call where it doesn't default to STRATEGY_PHONE behavior
+        // except:
+        //   - when in call where it doesn't default to STRATEGY_PHONE behavior
+        //   - in countries where not enforced in which case it follows STRATEGY_MEDIA
 
-        device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
-        if (device == 0) {
-            ALOGE("getDeviceForStrategy() speaker device not found");
+        if (strategy == STRATEGY_SONIFICATION ||
+                !mStreams[AUDIO_STREAM_ENFORCED_AUDIBLE].mCanBeMuted) {
+            device = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
+            if (device == 0) {
+                ALOGE("getDeviceForStrategy() speaker device not found for STRATEGY_SONIFICATION");
+            }
         }
         // The second device used for sonification is the same as the device used by media strategy
         // FALL THROUGH
 
     case STRATEGY_MEDIA: {
+#ifdef HAVE_FM_RADIO
+        uint32_t device2 = 0;
+        if (mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_SPEAKER) {
+            device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_SPEAKER;
+        }
+        if (device2 == 0) {
+            device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_AUX_DIGITAL;
+        }
+#else
         uint32_t device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_AUX_DIGITAL;
+#endif
+
 #ifdef WITH_A2DP
         if (mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
                 (getA2dpOutput() != 0) && !mA2dpSuspended) {
@@ -191,8 +208,23 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
             device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_EARPIECE;
         }
 
-        // device is DEVICE_OUT_SPEAKER if we come from case STRATEGY_SONIFICATION, 0 otherwise
-        device |= device2;
+        // device is DEVICE_OUT_SPEAKER if we come from case STRATEGY_SONIFICATION or
+        // STRATEGY_ENFORCED_AUDIBLE, 0 otherwise
+        device = device ? device : device2;
+        if (device == 0) {
+            ALOGE("getDeviceForStrategy() speaker device not found");
+        }
+
+#ifdef HAVE_FM_RADIO
+        if (mAvailableOutputDevices & AudioSystem::DEVICE_OUT_FM) {
+            device |= AudioSystem::DEVICE_OUT_FM;
+
+            if (device == (AudioSystem::DEVICE_OUT_SPEAKER | AudioSystem::DEVICE_OUT_WIRED_HEADSET | AudioSystem::DEVICE_OUT_FM))
+                device = AudioSystem::DEVICE_OUT_SPEAKER;
+            else if(device & AudioSystem::DEVICE_OUT_WIRED_HEADSET)
+                 device &= ~(device & AudioSystem::DEVICE_OUT_WIRED_HEADSET);
+        }
+#endif
         // Do not play media stream if in call and the requested device would change the hardware
         // output routing
         if (isInCall() &&
@@ -209,10 +241,10 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
     }
 
     ALOGV("getDeviceForStrategy() strategy %d, device %x", strategy, device);
-    return device;
+    return (audio_devices_t)device;
 }
 
-status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_handle_t output, uint32_t device, int delayMs, bool force)
+status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_handle_t output, audio_devices_t device, int delayMs, bool force)
 {
 
     // do not change actual stream volume if the stream is muted
@@ -234,7 +266,11 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_h
     // - the float value returned by computeVolume() changed
     // - the force flag is set
     if (volume != mOutputs.valueFor(output)->mCurVolume[stream] ||
-        (stream == AudioSystem::VOICE_CALL) || force) {
+        (stream == AudioSystem::VOICE_CALL) ||
+#ifdef HAVE_FM_RADIO
+	    (stream == AudioSystem::FM) ||
+#endif
+	force) {
         mOutputs.valueFor(output)->mCurVolume[stream] = volume;
         ALOGV("setStreamVolume() for output %d stream %d, volume %f, delay %d", output, stream, volume, delayMs);
         if (stream == AudioSystem::VOICE_CALL ||
@@ -256,7 +292,12 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_h
         } else {
             voiceVolume = 1.0;
         }
-        if (voiceVolume >= 0 && output == mPrimaryOutput) {
+        
+        if ((voiceVolume >= 0 && output == mPrimaryOutput)
+#ifdef HAVE_FM_RADIO
+          && (!(mAvailableOutputDevices & AudioSystem::DEVICE_OUT_FM))
+#endif
+        ) {
             mpClientInterface->setVoiceVolume(voiceVolume, delayMs);
             mLastVoiceVolume = voiceVolume;
         }
@@ -264,4 +305,5 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream, int index, audio_io_h
 
     return NO_ERROR;
 }
-}; // namespace android
+}; // namespace android_audio_legacy
+
