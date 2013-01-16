@@ -25,8 +25,8 @@ generated_files:= \
 	gen-$(AMSS_VERSION)/loc_api_xdr.c \
 	gen-$(AMSS_VERSION)/loc_api_fixup.c \
 	gen-$(AMSS_VERSION)/loc_api_rpc_glue.c \
-        gen-$(AMSS_VERSION)/loc_api_sync_call.c \
-	src/loc_apicb_appinit.c
+	src/loc_apicb_appinit.c \
+	src/loc_api_sync_call.c
 
 LOCAL_SRC_FILES:= $(generated_files)
 

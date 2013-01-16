@@ -56,7 +56,7 @@
 
 /* Logging */
 #define LOG_TAG "loc_api_rpc_glue"
-#define LOG_NDEBUG 0
+#define LOG_NDDEBUG 0
 #include <utils/Log.h>
 
 /* Uncomment to force ALOGD messages */
@@ -109,12 +109,12 @@ bool_t rpc_loc_event_cb_f_type_svc(
       return 1; /* simply return */
    }
 
-   ALOGI("proc: %x  prog: %x  vers: %x\n",
+   ALOGV("proc: %x  prog: %x  vers: %x\n",
          (int) req->rq_proc,
          (int) req->rq_prog,
          (int) req->rq_vers);
 
-   ALOGI("Callback received: %x (cb_id=0x%X handle=%d ret_ptr=%d)\n",
+   ALOGV("Callback received: %x (cb_id=0x%X handle=%d ret_ptr=%d)\n",
          (int) argp->loc_event,
          (int) argp->cb_id,
          (int) argp->loc_handle,
@@ -131,7 +131,7 @@ bool_t rpc_loc_event_cb_f_type_svc(
 
    int32 rc = (loc_glue_callback_table[index].cb_func)(loc_handle, loc_event, loc_event_payload);
 
-   ALOGI("cb_func=0x%x", (unsigned) loc_glue_callback_table[index].cb_func);
+   ALOGV("cb_func=0x%x", (unsigned) loc_glue_callback_table[index].cb_func);
 
    ret->loc_event_cb_f_type_result = rc;
 
