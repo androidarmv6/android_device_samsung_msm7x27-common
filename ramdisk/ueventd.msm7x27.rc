@@ -25,6 +25,7 @@
 /dev/msm_rotator             0660  system    graphics
 /dev/graphics/fb0            0666  system    graphics
 /dev/genlock                 0777  system    graphics
+/dev/ion                     0664  system    system
 
 ## Sensors
 /dev/mmc31xx                 0666  root      system
