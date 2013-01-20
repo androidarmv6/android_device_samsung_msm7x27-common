@@ -33,7 +33,6 @@ on fs
     write /sys/devices/virtual/block/stl12/queue/read_ahead_kb 4
     write /sys/devices/virtual/block/stl13/queue/read_ahead_kb 4
     write /sys/devices/virtual/block/stl14/queue/read_ahead_kb 4
-    write /sys/class/misc/backlightnotification/enabled 1
 
 on boot
 
