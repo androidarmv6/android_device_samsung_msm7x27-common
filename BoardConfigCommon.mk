@@ -91,8 +91,8 @@ BOARD_MOBILEDATA_INTERFACE_NAME := "pdp0"
 BOARD_RIL_CLASS := ../../../device/samsung/msm7x27-common/ril/
 
 ## UMS
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
-BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun0/file
+BOARD_UMS_LUNFILE := "/sys/devices/platform/msm_hsusb/gadget/lun0/file"
 
 ## Legacy touchscreen support
 BOARD_USE_LEGACY_TOUCHSCREEN := true
