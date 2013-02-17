@@ -93,6 +93,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.use_dithering=0
 
+## Loop ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.call_ring.multiple=false \
+    ro.telephony.call_ring.delay=3000
+
 # Other
 PRODUCT_LOCALES += en ru_RU
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
