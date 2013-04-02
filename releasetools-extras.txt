@@ -1,7 +1,24 @@
+# Extra apps
+app/Exchange2.apk
+app/Email2.apk
+app/DSPManager.apk
+app/Apollo.apk.apk
+
 # Video editor (5MB)
 app/VideoEditor.apk
 lib/libvideoeditor_jni.so
 lib/libvideoeditorplayer.so
+
+# RomManager (2.5MB)
+app/RomManager.apk
+
+# CM Wallpapers (7MB)
+app/CMWallpapers.apk
+
+# Live Wallpapers (2.11MB)
+app/MagicSmokeWallpapers.apk
+app/Galaxy4.apk
+app/PhaseBeam.apk
 
 # Pico TTS Language Files (5MB)
 tts/lang_pico/en-GB_kh0_sg.bin
