@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
+# Most specific first.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+
 
 ## Audio
 PRODUCT_PACKAGES += \
@@ -98,8 +100,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.multiple=false \
     ro.telephony.call_ring.delay=3000
 
-# Other
-PRODUCT_LOCALES += en ru_RU
+# Inherit qcom/msm7x27
+$(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
+
+# Common assets
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
 
 # Samsung msm7x27-common overlays
