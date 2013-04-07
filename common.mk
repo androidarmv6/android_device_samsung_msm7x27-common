@@ -30,6 +30,12 @@ PRODUCT_PACKAGES += \
     gps.msm7x27 \
     librpc
 
+ifdef BUILD_WITH_30X_KERNEL
+## HW Composer
+PRODUCT_PACKAGES += \
+    hwcomposer.msm7x27
+endif
+
 ## Other
 PRODUCT_PACKAGES += \
     lights.msm7x27 \
