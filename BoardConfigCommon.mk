@@ -107,15 +107,19 @@ ifeq ($(BOARD_WLAN_DEVICE),ath6kl_compat)
 
 	# Build the ath6kl-compat modules
 KERNEL_EXTERNAL_MODULES:
-	make -C hardware/atheros/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-"
-	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/compat/compat.ko
-	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/drivers/net/wireless/ath/ath6kl/ath6kl.ko
-	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/net/wireless/cfg80211.ko
-	mv hardware/atheros/ath6kl-compat/compat/compat.ko $(KERNEL_MODULES_OUT)
-	mv hardware/atheros/ath6kl-compat/drivers/net/wireless/ath/ath6kl/ath6kl.ko $(KERNEL_MODULES_OUT)
-	mv hardware/atheros/ath6kl-compat/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)
-	rm hardware/atheros/ath6kl-compat/include/linux/compat_autoconf.h
+	# clean up ath6kl-compat target
 	make -C hardware/atheros/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" clean
+	touch hardware/atheros/ath6kl-compat/include/linux/compat_autoconf.h
+	rm hardware/atheros/ath6kl-compat/include/linux/compat_autoconf.h
+	# run build
+	make -C hardware/atheros/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-"
+	# copy & strip modules (to economize space)
+	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/compat/compat.ko $(KERNEL_MODULES_OUT)/compat.ko
+	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/drivers/net/wireless/ath/ath6kl/ath6kl.ko $(KERNEL_MODULES_OUT)/ath6kl.ko
+	$(ANDROID_TOOLCHAIN)/arm-linux-androideabi-objcopy --strip-unneeded hardware/atheros/ath6kl-compat/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)/cfg80211.ko
+	# clean up ath6kl-compat target
+	make -C hardware/atheros/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" clean
+	rm hardware/atheros/ath6kl-compat/include/linux/compat_autoconf.h
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 else
 	# Enhance Samsung AR6000 compatibility
