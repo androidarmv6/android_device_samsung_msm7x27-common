@@ -104,10 +104,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Inherit qcom/msm7x27
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 
-# Include google apps
-ifeq ($(MINI_GAPPS),true)
+# Install/Uninstall google apps
 $(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
-endif
 
 # Common assets
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
