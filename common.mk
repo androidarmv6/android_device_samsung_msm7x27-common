@@ -20,6 +20,42 @@ PRODUCT_PACKAGES += \
     audio_policy.msm7x27 \
     audio.primary.msm7x27
 
+# BlueZ: binaries
+PRODUCT_PACKAGES += \
+    bluetoothd \
+    libbluetoothd \
+    hcitool \
+    hciconfig \
+    hciattach \
+    brcm_patchram_plus
+
+# BlueZ: configs
+PRODUCT_COPY_FILES += \
+    system/bluetooth/data/audio.conf:system/etc/bluetooth/audio.conf \
+    system/bluetooth/data/auto_pairing.conf:system/etc/bluetooth/auto_pairing.conf \
+    system/bluetooth/data/blacklist.conf:system/etc/bluetooth/blacklist.conf \
+    system/bluetooth/data/input.conf:system/etc/bluetooth/input.conf \
+    system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf \
+    system/bluetooth/data/network.conf:system/etc/bluetooth/network.conf \
+    system/bluetooth/data/stack.conf:system/etc/bluetooth/stack.conf
+
+# BlueZ: javax.btobex is required by Bluetooth_msm
+PRODUCT_PACKAGES += \
+    javax.btobex
+
+# BlueZ: properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.qc.bluetooth.stack=bluez \
+    ro.qualcomm.bluetooth.dun=true \
+    ro.qualcomm.bluetooth.ftp=true \
+    ro.qualcomm.bluetooth.hfp=true \
+    ro.qualcomm.bluetooth.hsp=true \
+    ro.qualcomm.bluetooth.map=true \
+    ro.qualcomm.bluetooth.nap=true \
+    ro.qualcomm.bluetooth.opp=true \
+    ro.qualcomm.bluetooth.pbap=true \
+    ro.qualcomm.bluetooth.sap=true
+
 ## Camera
 PRODUCT_PACKAGES += \
     camera.msm7x27 \
