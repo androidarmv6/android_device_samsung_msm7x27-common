@@ -165,6 +165,9 @@ BOARD_USE_LEGACY_TOUCHSCREEN := true
 TARGET_PROVIDES_LIBAUDIO := true
 TARGET_PROVIDES_LIBLIGHT := true
 
+## Audio: combo device supported
+BOARD_COMBO_DEVICE_SUPPORTED := true
+
 ## Samsung has weird framebuffer
 TARGET_NO_INITLOGO := true
 

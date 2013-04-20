@@ -24,7 +24,7 @@ endif
 LOCAL_SRC_FILES := \
     AudioPolicyManager.cpp
 
-LOCAL_MODULE := audio_policy.$(TARGET_DEVICE)
+LOCAL_MODULE := audio_policy.$(TARGET_BOARD_PLATFORM)
 LOCAL_SHARED_LIBRARIES := libcutils libutils libmedia
 LOCAL_STATIC_LIBRARIES := libmedia_helper
 LOCAL_WHOLE_STATIC_LIBRARIES := libaudiopolicy_legacy
@@ -54,7 +54,7 @@ ifneq ($(TARGET_SIMULATOR),true)
     LOCAL_SHARED_LIBRARIES += libdl
 endif
 
-LOCAL_MODULE := audio.primary.$(TARGET_DEVICE)
+LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 LOCAL_STATIC_LIBRARIES := libmedia_helper libaudiohw_legacy
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
