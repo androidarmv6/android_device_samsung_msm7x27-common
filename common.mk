@@ -61,6 +61,14 @@ PRODUCT_PACKAGES += \
     camera.msm7x27 \
     libcamera
 
+# FM Radio
+PRODUCT_PACKAGES += \
+    Effem \
+    libfmradio.bcm2049
+
+PRODUCT_COPY_FILES += \
+    frameworks/base/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
+
 ## GPS
 PRODUCT_PACKAGES += \
     gps.msm7x27 \

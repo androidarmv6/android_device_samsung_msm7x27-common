@@ -36,6 +36,7 @@
 // hardware specific functions
 
 #include "AudioHardware.h"
+#include <media/AudioSystem.h>
 //#include <media/AudioRecord.h>
 
 #define LOG_SND_RPC 0  // Set to 1 to log sound RPC's
@@ -116,9 +117,10 @@ static uint32_t SND_DEVICE_FM_SPEAKER=-1;
 // ----------------------------------------------------------------------------
 
 AudioHardware::AudioHardware() :
-    mInit(false), mMicMute(true), mBluetoothNrec(true), mBluetoothId(0), mTtyMode(TTY_OFF),
+    mInit(false), mMicMute(true), mBluetoothNrec(true), mBluetoothId(0),
     mOutput(0), mSndEndpoints(NULL), mCurSndDevice(-1),
-    mDualMicEnabled(false), mBuiltinMicSelected(false)
+    mDualMicEnabled(false), mBuiltinMicSelected(false),
+    mTtyMode(TTY_OFF)
 #ifdef HAVE_FM_RADIO
     , mFmRadioEnabled(false), mFmPrev(false)
 #endif
@@ -2281,7 +2283,7 @@ status_t AudioHardware::AudioStreamInMSM72xx::setParameters(const String8& keyVa
 
 status_t AudioHardware::setFmVolume(float v)
 {
-    unsigned int VolValue = (unsigned int)(AudioSystem::logToLinear(v));
+    unsigned int VolValue = (unsigned int)(android::AudioSystem::logToLinear(v));
     int volume = (unsigned int)(VolValue*VolValue/100);
 
     char volhex[10] = "";

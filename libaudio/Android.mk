@@ -1,60 +1,65 @@
+# Copyright 2012 The Android Open Source Project
 
 ifneq ($(BUILD_TINY_ANDROID),true)
 ifeq ($(TARGET_PROVIDES_LIBAUDIO), true)
 
-LOCAL_PATH := $(call my-dir)
+#AUDIO_POLICY_TEST := true
+#ENABLE_AUDIO_DUMP := true
 
+LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := audio_policy.$(TARGET_BOARD_PLATFORM)
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-LOCAL_STATIC_LIBRARIES := libmedia_helper
-LOCAL_WHOLE_STATIC_LIBRARIES := libaudiopolicy_legacy    
-LOCAL_MODULE_TAGS := optional
 
-LOCAL_SHARED_LIBRARIES := \
-    libcutils \
-    libutils \
-    libmedia
-
-LOCAL_SRC_FILES:= AudioPolicyManager.cpp
+# -------------------------------------------------------------
+# The audio policy is implemented on top of legacy policy code
+# -------------------------------------------------------------
 
 ifeq ($(BOARD_HAVE_BLUETOOTH),true)
-  LOCAL_CFLAGS += -DWITH_A2DP
+    LOCAL_CFLAGS += -DWITH_A2DP
+endif
+ifeq ($(BOARD_COMBO_DEVICE_SUPPORTED),true)
+    LOCAL_CFLAGS += -DCOMBO_DEVICE_SUPPORTED
 endif
 
-ifeq ($(BOARD_HAVE_FM_RADIO),true)
-#  LOCAL_CFLAGS += -DHAVE_FM_RADIO
-endif
+LOCAL_SRC_FILES := \
+    AudioPolicyManager.cpp
+
+LOCAL_MODULE := audio_policy.$(TARGET_DEVICE)
+LOCAL_SHARED_LIBRARIES := libcutils libutils libmedia
+LOCAL_STATIC_LIBRARIES := libmedia_helper
+LOCAL_WHOLE_STATIC_LIBRARIES := libaudiopolicy_legacy
+LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
 
+#################################################################
+
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw	
-LOCAL_STATIC_LIBRARIES += libmedia_helper	
-LOCAL_WHOLE_STATIC_LIBRARIES := libaudiohw_legacy
+ifeq ($(BOARD_HAVE_BLUETOOTH),true)
+    LOCAL_CFLAGS += -DWITH_A2DP
+endif
+
+ifeq ($(BOARD_COMBO_DEVICE_SUPPORTED),true)
+    LOCAL_CFLAGS += -DCOMBO_DEVICE_SUPPORTED
+endif
+
+LOCAL_SRC_FILES := \
+    AudioHardware.cpp \
+    audio_hw_hal.cpp
+
+LOCAL_SHARED_LIBRARIES := libcutils libutils libmedia libhardware_legacy
+ifneq ($(TARGET_SIMULATOR),true)
+    LOCAL_SHARED_LIBRARIES += libdl
+endif
+
+LOCAL_MODULE := audio.primary.$(TARGET_DEVICE)
+LOCAL_STATIC_LIBRARIES := libmedia_helper libaudiohw_legacy
+LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_SHARED_LIBRARIES := \
-    libcutils \
-    libutils \
-    libmedia \
-    libhardware_legacy \
-    libdl
-
-LOCAL_SRC_FILES += AudioHardware.cpp
-
 LOCAL_CFLAGS += -fno-short-enums
-
-ifeq ($(BOARD_HAVE_BLUETOOTH),true)
-#  LOCAL_SHARED_LIBRARIES += audio.a2dp.default
-endif
-
-ifeq ($(BOARD_HAVE_FM_RADIO),true)
-#  LOCAL_CFLAGS += -DHAVE_FM_RADIO
-endif
 
 include $(BUILD_SHARED_LIBRARY)
 

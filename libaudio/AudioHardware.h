@@ -29,11 +29,14 @@
 extern "C" {
 #include <linux/msm_audio.h>
 #include <linux/msm_audio_voicememo.h>
+#include <linux/msm_audio_aac.h>
+#include <linux/msm_audio_amrnb.h>
+#include <linux/msm_audio_qcp.h>
 }
 
+using namespace android;
+
 namespace android_audio_legacy {
-using android::SortedVector;
-using android::Mutex;
 
 // ----------------------------------------------------------------------------
 // Kernel driver interface
