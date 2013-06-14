@@ -15,10 +15,16 @@ app/RomManager.apk
 # CM Wallpapers (7MB)
 app/CMWallpapers.apk
 
-# Live Wallpapers (2.11MB)
-app/MagicSmokeWallpapers.apk
+# Live Wallpapers (3MB)
+etc/permissions/android.software.live_wallpaper.xml
+app/LiveWallpapers.apk
+app/LiveWallpapersPicker.apk
 app/Galaxy4.apk
+app/HoloSpiralWallpaper.apk
+app/MagicSmokeWallpapers.apk
+app/NoiseField.apk
 app/PhaseBeam.apk
+app/VisualizationWallpapers.apk
 
 # Pico TTS Language Files (5MB)
 tts/lang_pico/en-GB_kh0_sg.bin
