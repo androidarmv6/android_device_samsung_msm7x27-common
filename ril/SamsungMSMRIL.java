@@ -21,7 +21,7 @@ import static com.android.internal.telephony.RILConstants.*;
 
 import com.android.internal.telephony.CommandException;
 import com.android.internal.telephony.DataCallResponse;
-import com.android.internal.telephony.DataConnection.FailCause;
+import com.android.internal.telephony.dataconnection.DcFailCause;
 import com.android.internal.telephony.gsm.SmsBroadcastConfigInfo;
 import com.android.internal.telephony.gsm.SuppServiceNotification;
 import com.android.internal.telephony.RILConstants;
