@@ -12,8 +12,11 @@ on early-init
     # sdcard
     mkdir /storage 0775 system sdcard_r
     mkdir /storage/sdcard0 0755 system system
+    mkdir /storage/usbdisk0 0000 system system
     symlink /storage/sdcard0 /mnt/sdcard
     symlink /storage/sdcard0 /sdcard
+    symlink /storage/usbdisk0 /mnt/usbdisk
+    symlink /storage/usbdisk0 /usbdisk
     export EXTERNAL_STORAGE /storage/sdcard0
 
     # sd-ext
