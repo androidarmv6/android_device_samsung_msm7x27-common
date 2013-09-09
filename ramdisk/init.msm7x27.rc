@@ -9,6 +9,11 @@ on init
 
 on early-init
 
+    # create dirs
+    mkdir /system
+    mkdir /data 0771 system system
+    mkdir /cache 0771 system cache
+    mkdir /sd-ext 0771 system system
     # sdcard
     mkdir /storage 0775 system sdcard_r
     mkdir /storage/sdcard0 0755 system system
@@ -25,10 +30,11 @@ on early-init
 
 on fs
 
-    mount ext4 /dev/block/stl12 /system wait rw
-    mount ext4 /dev/block/stl12 /system wait ro remount
-    mount ext4 /dev/block/stl13 /data wait nosuid nodev
-    mount ext4 /dev/block/stl14 /cache wait nosuid nodev
+    # framebuffer permission for copybit
+    chmod 0666 /dev/graphics/fb0
+
+    # mount file system
+    mount_all /fstab.gt-s5570board
 
     chown radio /dev/bml7
     chown radio /dev/bml10
@@ -183,4 +189,3 @@ service setup_fs /system/bin/setup_fs /dev/block/stl13 /dev/block/stl14
     group root
     oneshot
     disabled
-
