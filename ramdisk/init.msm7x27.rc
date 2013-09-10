@@ -34,7 +34,10 @@ on fs
     chmod 0666 /dev/graphics/fb0
 
     # mount file system
-    mount_all /fstab.gt-s5570board
+    mount ext4 /dev/block/stl12 /system wait rw
+    mount ext4 /dev/block/stl12 /system wait ro remount
+    mount ext4 /dev/block/stl13 /data wait nosuid nodev
+    mount ext4 /dev/block/stl14 /cache wait nosuid nodev
 
     chown radio /dev/bml7
     chown radio /dev/bml10
