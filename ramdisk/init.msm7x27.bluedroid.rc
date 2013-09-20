@@ -1,0 +1,17 @@
+## Bluedroid Bluetooth config
+
+on boot
+    # bluetooth
+    chmod 0660 /dev/ttyHS0
+    chmod 0660 /proc/bluetooth/sleep/proto
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/type
+    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+    chown bluetooth net_bt_stack /dev/ttyHS0
+    chown bluetooth net_bt_stack /proc/bluetooth/sleep/proto
+    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
+    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
+    chown bluetooth net_bt_stack /sys/devices/platform/msm_serial_hs.0/clock
+
+    # turn off bluetooth at startup
+    write /sys/class/rfkill/rfkill0/state 0

@@ -1,3 +1,33 @@
+# Focal
+app/Focal.apk
+bin/autopano
+bin/celeste
+bin/enblend
+bin/enfuse
+lib/libexiv2.so
+lib/libpano13.so
+lib/libtiffdecoder.so
+lib/libtiff.so
+lib/libvigraimpex.so
+
+# Goldfish (emulator)
+etc/init.goldfish.sh
+lib/hw/camera.goldfish.jpeg.so
+lib/hw/camera.goldfish.so
+lib/hw/gps.goldfish.so
+lib/hw/lights.goldfish.so
+lib/hw/sensors.goldfish.so
+
+# Junk (build artifacts)
+extras/ext4_utils/make_ext4fs_main.o
+extras/ext4_utils/make_ext4fs_main.P
+lib/crtbegin_so.o
+lib/crtend_so.o
+
+# Adreno libraries (unused)
+lib/libC2D2.so
+lib/libOpenVG.so
+
 # Extra apps
 app/Exchange2.apk
 app/Email2.apk

@@ -1,0 +1,13 @@
+<resources>
+    <!-- Set the automatic brightness mode on by default -->
+    <bool name="def_screen_brightness_automatic_mode">false</bool>
+
+    <bool name="def_install_non_market_apps">true</bool>
+
+    <!-- 0 == never, 1 == only when plugged in, 2 == always -->
+    <integer name="def_wifi_sleep_policy">1</integer>
+
+    <!-- Notifications use ringer volume -->
+    <bool name="def_notifications_use_ring_volume">false</bool>
+
+</resources>

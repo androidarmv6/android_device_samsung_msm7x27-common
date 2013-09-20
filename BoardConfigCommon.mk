@@ -17,15 +17,18 @@
 # Product-common compile-time definitions.
 #
 
-## Define BOARD_HAVE_BLUETOOTH_BLUEZ before device/qcom/msm7x27/BoardConfigCommon.mk
-## Bluetooth
-BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_HAVE_BLUETOOTH_BLUEZ := true
-BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-#BOARD_BLUEDROID_VENDOR_CONF := device/samsung/msm7x27-common/bluetooth/vnd_samsung.txt
-
 # Use the Qualcomm common folder
 include device/qcom/msm7x27/BoardConfigCommon.mk
+
+## Bluetooth
+## Note: BOARD_HAVE_BLUETOOTH_BLUEZ is defined in
+## device/samsung/msm7x27-common/common.mk due to inheritance issues.
+ifndef BOARD_HAVE_BLUETOOTH_BLUEZ
+	BOARD_HAVE_BLUETOOTH := true
+	BOARD_BLUEDROID_VENDOR_CONF := device/samsung/msm7x27-common/bluetooth/vnd_samsung.txt
+endif
+BOARD_HAVE_BLUETOOTH_BCM := true
+BOARD_HAVE_SAMSUNG_BLUETOOTH := true
 
 ## Kernel
 BOARD_KERNEL_BASE := 0x13600000
@@ -49,11 +52,15 @@ endif
 ENABLE_WEBGL := true
 TARGET_WEBKIT_USE_MORE_MEMORY := true
 
+## Fonts
+SMALLER_FONT_FOOTPRINT := true
+
 ## Camera
 USE_CAMERA_STUB := false
 BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
 
 ## Qualcomm, display
+TARGET_DISABLE_TRIPLE_BUFFERING := true
 ifdef BUILD_WITH_30X_KERNEL
 	TARGET_NO_HW_VSYNC := false
 endif
@@ -182,6 +189,8 @@ BOARD_KERNEL_CMDLINE :=
 BOARD_BML_BOOT := "/dev/block/bml8"
 BOARD_BML_RECOVERY := "/dev/block/bml9"
 BOARD_RECOVERY_HANDLES_MOUNT := true
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/msm7x27-common/recovery/recovery_keys.c
+TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/recovery/recovery.fstab
 
 ## OTA script extras file (build/tools/releasetools)
 TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
