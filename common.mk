@@ -15,22 +15,33 @@
 # Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
+## SAMSUNG_BOOTLOADER is the product model changed into appropriate string parsed by init.
+## Example: -GT-I5500 becomes gt-i5500board, -GT-S5830 becomes gt-s5830board, and so on.
+SAMSUNG_BOOTLOADER := $(shell echo $(PRODUCT_VERSION_DEVICE_SPECIFIC)board | tr '[A-Z]' '[a-z]' | cut -c 2-)
+
+## BlueZ support
+## Note: needs to be defined here in order to satisfy inheritance issues.
+## If disabled, Bluedroid will be used.
+#BOARD_HAVE_BLUETOOTH_BLUEZ := true
+
 ## Audio
 PRODUCT_PACKAGES += \
     audio_policy.msm7x27 \
     audio.primary.msm7x27
 
-# BlueZ: binaries
+ifdef BOARD_HAVE_BLUETOOTH_BLUEZ
+## BlueZ: binaries
 PRODUCT_PACKAGES += \
     bluetoothd \
+    brcm_patchram_plus \
     libbluetoothd \
     hcitool \
     hciconfig \
-    hciattach \
-    brcm_patchram_plus
+    hciattach
 
-# BlueZ: configs
+## BlueZ: configs
 PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluez.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc \
     system/bluetooth/data/audio.conf:system/etc/bluetooth/audio.conf \
     system/bluetooth/data/auto_pairing.conf:system/etc/bluetooth/auto_pairing.conf \
     system/bluetooth/data/blacklist.conf:system/etc/bluetooth/blacklist.conf \
@@ -39,11 +50,11 @@ PRODUCT_COPY_FILES += \
     system/bluetooth/data/network.conf:system/etc/bluetooth/network.conf
 #    system/bluetooth/data/stack.conf:system/etc/bluetooth/stack.conf
 
-# BlueZ: javax.btobex is required by Bluetooth_msm
+## BlueZ: javax.btobex is required by Bluetooth_msm
 PRODUCT_PACKAGES += \
     javax.btobex
 
-# BlueZ: properties
+## BlueZ: properties
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.qc.bluetooth.stack=bluez \
     ro.qualcomm.bluetooth.dun=true \
@@ -56,18 +67,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.pbap=true \
     ro.qualcomm.bluetooth.sap=true
 
-## Camera
-PRODUCT_PACKAGES += \
-    camera.msm7x27 \
-    libcamera
-
-# FM Radio
+## FM Radio
 PRODUCT_PACKAGES += \
     Effem \
     libfmradio.bcm2049
 
+## FM Radio permissions
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
+
+else
+
+# Bluedroid: configs
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluedroid.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc
+
+endif
+
+## Camera
+PRODUCT_PACKAGES += \
+    camera.msm7x27 \
+    libcamera
 
 ## GPS
 PRODUCT_PACKAGES += \
@@ -103,7 +123,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
@@ -141,23 +160,72 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
 
-## Loop ringtone
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.call_ring.multiple=false \
-    ro.telephony.call_ring.delay=3000
-
 ## Ramdisk
-## SAMSUNG_BOOTLOADER is the product model changed into appropriate string parsed by init.
-## Example: -GT-I5500 becomes gt-i5500board, -GT-S5830 becomes gt-s5830board, and so on.
-SAMSUNG_BOOTLOADER := $(shell echo $(PRODUCT_VERSION_DEVICE_SPECIFIC)board | tr '[A-Z]' '[a-z]' | cut -c 2-)
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/ramdisk/fstab.msm7x27:root/fstab.msm7x27 \
     device/samsung/msm7x27-common/ramdisk/fstab.msm7x27:root/fstab.$(SAMSUNG_BOOTLOADER) \
     device/samsung/msm7x27-common/ramdisk/init.msm7x27.rc:root/init.$(SAMSUNG_BOOTLOADER).rc \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluez.rc:root/init.$(SAMSUNG_BOOTLOADER).bluez.rc \
     device/samsung/msm7x27-common/ramdisk/init.msm7x27.parts.rc:root/init.$(SAMSUNG_BOOTLOADER).parts.rc \
     device/samsung/msm7x27-common/ramdisk/init.msm7x27.usb.rc:root/init.$(SAMSUNG_BOOTLOADER).usb.rc \
     device/samsung/msm7x27-common/ramdisk/ueventd.msm7x27.rc:root/ueventd.$(SAMSUNG_BOOTLOADER).rc
+
+# Ramdisk (recovery)
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/recovery/init.recovery.msm7x27.rc:root/init.recovery.$(SAMSUNG_BOOTLOADER).rc
+
+### BEGIN: Common properties
+
+## Dalvik
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.checkjni=0 \
+    dalvik.vm.debug.alloc=0 \
+    dalvik.vm.dexopt-data-only=1 \
+    dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
+
+## Graphics
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.composition.type=mdp \
+    debug.sf.no_hw_vsync=0
+
+## Loop ringtone
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.telephony.call_ring.delay=3000 \
+    ro.telephony.call_ring.multiple=false
+
+## Other
+PRODUCT_PROPERTY_OVERRIDES += \
+    DEVICE_PROVISIONED=1 \
+    dev.sfbootcomplete=0 \
+    ro.config.play.bootsound=0 \
+    ro.setupwizard.enable_bypass=1
+
+## RIL, telephony
+PRODUCT_PROPERTY_OVERRIDES += \
+    mobiledata.interfaces=pdp0,gprs,ppp0 \
+    rild.libargs=-d/dev/smd0 \
+    rild.libpath=/system/lib/libsec-ril.so \
+    ro.telephony.default_network=0 \
+    ro.telephony.ril_class=SamsungMSMRIL
+
+## USB
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.service.adb.enable=1 \
+    persist.sys.usb.config=mass_storage,adb
+
+## WiFi
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.interface=wlan0 \
+    wifi.supplicant_scan_interval=180
+
+## WiFi AP
+ifeq ($(BOARD_WLAN_DEVICE),ath6kl_compat)
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.ap.interface=wlan0
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.ap.interface=athap0
+endif
+
+### END: Common properties
 
 # Inherit qcom/msm7x27
 $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)

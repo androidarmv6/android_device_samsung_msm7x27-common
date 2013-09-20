@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Whether or not Bluetooth must be enabled for FM radio -->
+    <bool name="require_bt">true</bool>
+
+    <!-- Whether or not output to speaker is supported -->
+    <bool name="speaker_supported">true</bool>
+
+</resources>

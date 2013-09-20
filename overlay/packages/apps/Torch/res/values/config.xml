@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Full path to the sysfs toggle -->
+    <string name="flashDevice">/dev/ledflash</string>
+
+</resources>
