@@ -212,9 +212,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 ## WiFi
 PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.ap.interface=athap0 \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=180
+
+## WiFi AP
+ifeq ($(BOARD_WLAN_DEVICE),ath6kl_compat)
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.ap.interface=wlan0
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.ap.interface=athap0
+endif
 
 ### END: Common properties
 
