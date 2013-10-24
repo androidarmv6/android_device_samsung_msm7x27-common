@@ -8,6 +8,9 @@ LOCAL_MODULE           := camera.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_TAGS      := optional
 
+ifneq (,$(filter beni cooper,$(CM_BUILD)))
+    LOCAL_CFLAGS       += -DBOARD_CAMERA_5MP
+endif
 
 LOCAL_SRC_FILES        := cameraHAL.cpp
 LOCAL_C_INCLUDES       := $(TOP)/frameworks/base/include
