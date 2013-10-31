@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="attenuation">
+        <item>0 dB (disabled)</item>
+        <item>1 dB</item>
+        <item>2 dB</item>
+        <item>3 dB</item>
+        <item>4 dB</item>
+        <item>5 dB</item>
+        <item>6 dB</item>
+        <item>7 dB</item>
+        <item>8 dB</item>
+        <item>9 dB</item>
+    </string-array>
+
+    <string-array name="background_limit">
+        <item>Standard limit (default)</item>
+        <item>No background processes</item>
+        <item>At most 1 process</item>
+        <item>At most 2 processes</item>
+        <item>At most 3 processes</item>
+        <item>At most 4 processes</item>
+    </string-array>
+
+    <string-array name="cache_size">
+        <item>128 KB (default)</item>
+        <item>256 KB</item>
+        <item>512 KB</item>
+        <item>1 MB</item>
+        <item>2 MB</item>
+        <item>4 MB</item>
+    </string-array>
+
+    <string-array name="extamp" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="lmk_adj" translatable="false">
+        <item></item>
+        <item>0,1,2,4,9,15</item>
+        <item>0,1,2,7,14,15</item>
+        <item>0,1,2,7,14,15</item>
+    </string-array>
+
+    <string-array name="lmk_minfree" translatable="false">
+        <item></item>
+        <item>2048,3072,4096,6144,7168,8192</item>
+        <item>1536,2048,6144,8192,12288,15360</item>
+        <item>1536,2048,4096,15120,15360,23040</item>
+    </string-array>
+
+    <string-array name="lmk_presets">
+        <item>Disabled</item>
+        <item>Gingerbread</item>
+        <item>Froyo</item>
+        <item>Aggressive</item>
+    </string-array>
+</resources>

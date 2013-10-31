@@ -89,6 +89,14 @@ PRODUCT_PACKAGES += \
     camera.msm7x27 \
     libcamera
 
+## GalaxyParts
+PRODUCT_PACKAGES += \
+    GalaxyParts
+
+## GalaxyParts support files
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/prebuilt/bin/galaxyparts:system/bin/galaxyparts
+
 ## GPS
 PRODUCT_PACKAGES += \
     gps.msm7x27 \

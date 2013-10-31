@@ -12,3 +12,44 @@ service memsicd /system/bin/memsicd
     user root
     group root
     oneshot
+
+### GalaxyParts ###
+
+# galaxyparts - helper service
+service galaxyparts /system/bin/sh /system/bin/galaxyparts
+    class main
+    user root
+    group root
+    oneshot
+
+# compcache - check dynamic lmk
+on property:persist.service.zram=*
+    setprop persist.sys.galaxyparts lowmemorykiller
+    start galaxyparts
+
+# adjust dual-touch permissions
+on property:persist.sys.fakedt=*
+    setprop persist.sys.galaxyparts fakedt
+    start galaxyparts
+
+# dynamic lowmemorykiller
+on property:persist.sys.dynlmk=*
+    setprop persist.sys.galaxyparts lowmemorykiller
+    start galaxyparts
+
+# sd read-ahead
+on property:persist.sys.read_ahead_kb=*
+    setprop persist.sys.galaxyparts readahead
+    start galaxyparts
+
+# swap
+on property:persist.sys.swap=*
+    setprop persist.sys.galaxyparts swap
+    start galaxyparts
+
+# ensure that customization are enabled upon boot
+on property:sys.boot_completed=1
+    setprop persist.sys.galaxyparts bootcheck
+    start galaxyparts
+
+### GalaxyParts ###

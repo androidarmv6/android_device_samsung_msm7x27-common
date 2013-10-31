@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default audio attenuation for the following devices:
+         (enable), headset, speaker, FM headset/speaker -->
+    <string translatable="false" name="attenuation_defaults">0,0,0,0</string>
+
+    <!-- Enable attenuation feature in interface -->
+    <bool name="attenuation_feature">false</bool>
+
+    <!-- Enable dualtouch feature in interface -->
+    <bool name="dualtouch_feature">false</bool>
+
+    <!-- Default dynamic lowmemorykiller profile (0 to disable): -->
+    <string translatable="false" name="dynlmk_default">0</string>
+
+    <!-- Default extamp filter level for the following devices:
+         (enable), headset, no mic headset, speaker, FM headset/speaker -->
+    <string translatable="false" name="extamp_defaults">0,18,26,29,20</string>
+
+    <!-- Enable extamp feature in interface -->
+    <bool name="extamp_feature">false</bool>
+
+    <!-- Default process limit value (-1 for framework-managed) -->
+    <string translatable="false" name="processlimit_default">-1</string>
+</resources>
