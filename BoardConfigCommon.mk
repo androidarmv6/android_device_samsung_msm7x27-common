@@ -173,6 +173,9 @@ TARGET_PROVIDES_LIBLIGHT := true
 ## Audio: combo device supported
 BOARD_COMBO_DEVICE_SUPPORTED := true
 
+## Audio: extamp support
+BOARD_EXTAMP_AUDIO_FEATURE := true
+
 ## Samsung has weird framebuffer
 TARGET_NO_INITLOGO := true
 
