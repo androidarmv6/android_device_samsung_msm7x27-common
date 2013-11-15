@@ -178,6 +178,11 @@ TARGET_NO_INITLOGO := true
 ## Fix colors in panorama mode
 BOARD_CPU_COLOR_CONVERT := true
 
+## SELINUX policy version override
+ifndef BUILD_WITH_30X_KERNEL
+	POLICYVERS := 24
+endif
+
 ## Recovery
 BOARD_HAS_DOWNLOAD_MODE := true
 TARGET_USERIMAGES_USE_EXT4 := true
