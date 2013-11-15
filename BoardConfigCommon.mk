@@ -200,3 +200,6 @@ TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27
 
 ## OTA script extras file (build/tools/releasetools)
 TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
+
+## TEMPORARY HACK: skip building external/chromium_org/
+PRODUCT_PREBUILT_WEBVIEWCHROMIUM := yes
