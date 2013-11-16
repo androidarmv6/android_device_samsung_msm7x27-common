@@ -67,6 +67,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.pbap=true \
     ro.qualcomm.bluetooth.sap=true
 
+else
+
+# Bluedroid: configs
+PRODUCT_COPY_FILES += \
+    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluedroid.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc
+
+endif
+
 ## FM Radio
 PRODUCT_PACKAGES += \
     Effem \
@@ -75,14 +83,6 @@ PRODUCT_PACKAGES += \
 ## FM Radio permissions
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/com.stericsson.hardware.fm.receiver.xml:system/etc/permissions/com.stericsson.hardware.fm.receiver.xml
-
-else
-
-# Bluedroid: configs
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluedroid.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc
-
-endif
 
 ## Camera
 PRODUCT_PACKAGES += \
