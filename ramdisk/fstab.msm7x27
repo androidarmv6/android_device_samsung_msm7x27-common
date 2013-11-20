@@ -7,9 +7,8 @@
 /dev/block/stl12				/system			ext4	ro			check,wait
 /dev/block/stl13				/data			ext4	nosuid,nodev		check,wait
 /dev/block/stl14				/cache			ext4	nosuid,nodev		check,wait
-/devices/platform/msm_sdcc.1/mmc_host/mmc0	/storage/sdcard0	auto	defaults		voldmanaged=sdcard:auto
-/dev/block/mmcblk0p1				/sdcard			auto	defaults		recoveryonly
-/dev/block/mmcblk0p2				/sd-ext			auto	defaults		recoveryonly
+/devices/platform/msm_sdcc.1/mmc_host/mmc0	/storage/sdcard0	vfat	defaults		voldmanaged=sdcard0:auto
+/dev/block/mmcblk0p2				/sd-ext			ext4	defaults		recoveryonly
 boot						/boot			bml	defaults		recoveryonly
 recovery					/recovery		bml	defaults		recoveryonly
 
