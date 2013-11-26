@@ -32,10 +32,6 @@
         <item>"bt-pan"</item>
     </string-array>
 
-    <!-- Boolean indicating whether the start command should be called on the wireless interface
-         when starting the SoftAp -->
-    <bool name="config_wifiApStartInterface">true</bool>
-
     <!-- If this is true, the screen will fade off. -->
     <bool name="config_animateScreenLights">false</bool>
 

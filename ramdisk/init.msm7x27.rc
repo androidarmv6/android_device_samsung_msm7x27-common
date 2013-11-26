@@ -29,8 +29,9 @@ on fs
 
 on boot
 
-    # ath6kl compat (harmless if file doesn't exist)
+    # ath6kl compat
     insmod /system/lib/modules/compat.ko
+    insmod /system/lib/modules/cfg80211.ko
 
     # systrace
     mount debugfs /sys/kernel/debug /sys/kernel/debug
