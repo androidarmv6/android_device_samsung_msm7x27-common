@@ -14,10 +14,6 @@
 /dev/block/stl14             0770  root      root
 /dev/block/stl15             0770  root      root
 
-## VPN
-/dev/ppp                     0660  radio     vpn
-/dev/tun                     0640  vpn       vpn
-
 ## Graphics
 /dev/kgsl-3d0                0666  root      root
 /dev/kgsl-2d0                0666  root      root
