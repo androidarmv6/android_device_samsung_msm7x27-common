@@ -32,7 +32,6 @@ lib/libOpenVG.so
 app/Exchange2.apk
 app/Email2.apk
 app/DSPManager.apk
-app/Apollo.apk.apk
 
 # Video editor (5MB)
 app/VideoEditor.apk
@@ -68,3 +67,5 @@ tts/lang_pico/es-ES_zl0_sg.bin
 tts/lang_pico/fr-FR_ta.bin
 tts/lang_pico/it-IT_ta.bin
 
+# webaudiores (non-functional?)
+app/webaudiores.apk
