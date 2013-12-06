@@ -102,12 +102,6 @@ PRODUCT_PACKAGES += \
     gps.msm7x27 \
     librpc
 
-ifdef BUILD_WITH_30X_KERNEL
-## HW Composer
-PRODUCT_PACKAGES += \
-    hwcomposer.msm7x27
-endif
-
 ## Other
 PRODUCT_PACKAGES += \
     lights.msm7x27 \
@@ -191,7 +185,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 ## Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.composition.type=mdp \
     debug.sf.no_hw_vsync=0
 
 ## Loop ringtone
