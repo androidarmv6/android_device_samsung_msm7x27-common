@@ -1248,7 +1248,7 @@ static status_t do_route_audio_rpc(uint32_t device,
     struct msm_snd_extamp_config args2;
     args2.device = device;
 
-    char extampTmp[13];
+    char extampTmp[PROPERTY_VALUE_MAX];
     char seps[] = ",";
     char* token;
     int var;
