@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
 ## SAMSUNG_BOOTLOADER is the product model changed into appropriate string parsed by init.
 ## Example: -GT-I5500 becomes gt-i5500board, -GT-S5830 becomes gt-s5830board, and so on.
 SAMSUNG_BOOTLOADER := $(shell echo $(PRODUCT_VERSION_DEVICE_SPECIFIC)board | tr '[A-Z]' '[a-z]' | cut -c 2-)
@@ -258,8 +255,15 @@ $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 # Install/Uninstall google apps
 $(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+
 # Common assets
 PRODUCT_AAPT_CONFIG := ldpi mdpi normal
+PRODUCT_LOCALES := en_US fr_FR it_IT es_ES de_DE nl_NL cs_CZ \
+    pl_PL ja_JP zh_TW zh_CN ru_RU ko_KR nb_NO es_US da_DK el_GR \
+    tr_TR pt_PT pt_BR rm_CH sv_SE bg_BG ca_ES en_GB fi_FI hr_HR \
+    hu_HU in_ID lv_LV ro_RO sk_SK sl_SI sr_RS vi_VN tl_PH sw_TZ \
+    ms_MY af_ZA zu_ZA ug_CN en_XA ar_XB fr_CA et_EE ku_IQ
 
 # Samsung msm7x27-common overlays
 DEVICE_PACKAGE_OVERLAYS += device/samsung/msm7x27-common/overlay
