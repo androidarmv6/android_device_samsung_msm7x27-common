@@ -69,3 +69,6 @@ tts/lang_pico/it-IT_ta.bin
 
 # webaudiores (non-functional?)
 app/webaudiores.apk
+
+# ART runtime (1.2MB)
+framework/core-libart.jar
