@@ -1,11 +1,24 @@
 ## Samsung msm7x27 series recovery initialization
 
 on init
+    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
+    write /sys/class/android_usb/android0/f_rndis/manufacturer Samsung
+    write /sys/class/android_usb/android0/f_rndis/vendorID 04e8
+    write /sys/class/android_usb/android0/f_rndis/wceis 1
 
-    # adjust USB vendor/product ids for samsung devices
-    write /sys/class/android_usb/android0/functions mass_storage,adb
+on boot
+    write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
+    write /sys/class/android_usb/android0/iProduct ${ro.product.model}
+    setprop sys.usb.config mass_storage,adb
+
+on property:sys.usb.config=mass_storage,adb
+    write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 04e8
     write /sys/class/android_usb/android0/idProduct 685e
+    write /sys/class/android_usb/android0/functions ${sys.usb.config}
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state ${sys.usb.config}
 
 on fs
 
