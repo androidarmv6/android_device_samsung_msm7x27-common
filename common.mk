@@ -194,6 +194,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dexopt-data-only=1 \
     dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
 
+## Development settings
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.debuggable=1 \
+    ro.secure=0 \
+    ro.allow.mock.location=0
+
 ## Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.no_hw_vsync=0
@@ -223,8 +229,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.boot.selinux=permissive
 
 ## USB
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp,adb
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
 
 ## WiFi
 PRODUCT_PROPERTY_OVERRIDES += \
