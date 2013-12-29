@@ -1,10 +1,10 @@
 on init
-    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
     write /sys/class/android_usb/android0/f_rndis/manufacturer Samsung
     write /sys/class/android_usb/android0/f_rndis/vendorID 04e8
     write /sys/class/android_usb/android0/f_rndis/wceis 1
 
 on boot
+    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
 
@@ -86,9 +86,8 @@ on property:sys.usb.config=rndis,dm
     write /sys/class/android_usb/android0/enable 1
     setprop sys.usb.state ${sys.usb.config}
 
-# Restart adbd so it can run as root
-on property:ro.debuggable=1
-    setprop service.adb.root 1
+# Workaround 3.5 kernel bug when restarting adbd as root
+# Substitutes this patch: https://android.googlesource.com/kernel/common.git/+/6c3978c3f224e6b40ff9c981aae3c29a08e4ff4f%5E%5E!/
+on property:init.svc.adbd=restarting
     write /sys/class/android_usb/android0/enable 0
-    restart adbd
     write /sys/class/android_usb/android0/enable 1

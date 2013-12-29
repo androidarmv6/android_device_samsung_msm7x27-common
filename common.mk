@@ -181,9 +181,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dexopt-data-only=1 \
     dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
 
-## Development settings
+## Development & ADB authentication settings
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.debuggable=1 \
+    ro.adb.secure=0 \
     ro.secure=0 \
     ro.allow.mock.location=0
 
