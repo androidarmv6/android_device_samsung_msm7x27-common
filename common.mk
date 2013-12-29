@@ -194,7 +194,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 ## Development settings
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.debuggable=1 \
-    ro.secure=0 \
+    ro.adb.secure=1 \
+    ro.secure=1 \
     ro.allow.mock.location=0
 
 ## Graphics
