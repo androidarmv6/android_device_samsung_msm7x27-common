@@ -240,6 +240,30 @@ void CameraHAL_FixupParams(android::CameraParameters &camParams) {
          camParams.set(CameraParameters::KEY_VIDEO_SIZE, preferred_size);
     }
     camParams.set("orientation", "landscape");
+
+    if (camParams.get(CameraParameters::KEY_MAX_CONTRAST)) {
+        camParams.set("max-contrast",
+            camParams.get(CameraParameters::KEY_MAX_CONTRAST));
+    } else {
+        camParams.set("max-contrast",
+            -1);
+    }
+
+    if (camParams.get(CameraParameters::KEY_MAX_SATURATION)) {
+        camParams.set("max-saturation",
+            camParams.get(CameraParameters::KEY_MAX_SATURATION));
+    } else {
+        camParams.set("max-saturation",
+            -1);
+    }
+
+    if (camParams.get(CameraParameters::KEY_MAX_SHARPNESS)) {
+        camParams.set("max-sharpness",
+            camParams.get(CameraParameters::KEY_MAX_SHARPNESS));
+    } else {
+        camParams.set("max-sharpness",
+            -1);
+    }
 }
 
 int camera_set_preview_window(struct camera_device * device, struct preview_stream_ops *window) {
