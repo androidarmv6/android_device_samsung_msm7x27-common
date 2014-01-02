@@ -49,10 +49,6 @@ else
 	TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm7x27-common/include
 endif
 
-## Webkit
-ENABLE_WEBGL := true
-TARGET_WEBKIT_USE_MORE_MEMORY := true
-
 ## Fonts
 SMALLER_FONT_FOOTPRINT := true
 
