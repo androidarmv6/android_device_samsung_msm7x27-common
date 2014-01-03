@@ -193,7 +193,6 @@ BOARD_SEPOLICY_UNION += \
 ## Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=0 \
-    dalvik.vm.debug.alloc=0 \
     dalvik.vm.dexopt-data-only=1 \
     dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
 
@@ -206,7 +205,8 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 
 ## Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.sf.no_hw_vsync=0
+    debug.sf.no_hw_vsync=0 \
+    persist.sys.ui.hw=true
 
 ## Loop ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
