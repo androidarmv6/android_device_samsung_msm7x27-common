@@ -38,7 +38,6 @@ PRODUCT_PACKAGES += \
 
 ## BlueZ: configs
 PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluez.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc \
     system/bluetooth/data/audio.conf:system/etc/bluetooth/audio.conf \
     system/bluetooth/data/auto_pairing.conf:system/etc/bluetooth/auto_pairing.conf \
     system/bluetooth/data/blacklist.conf:system/etc/bluetooth/blacklist.conf \
@@ -63,12 +62,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.opp=true \
     ro.qualcomm.bluetooth.pbap=true \
     ro.qualcomm.bluetooth.sap=true
-
-else
-
-# Bluedroid: configs
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.bluedroid.rc:root/init.$(SAMSUNG_BOOTLOADER).bluetooth.rc
 
 endif
 
@@ -107,9 +100,15 @@ PRODUCT_PACKAGES += \
     brcm_patchram_plus \
     setup_fs
 
-## Vold config
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/etc/vold.fstab:system/etc/vold.fstab
+## Ramdisk
+PRODUCT_PACKAGES += \
+	fstab.$(SAMSUNG_BOOTLOADER) \
+	init.$(SAMSUNG_BOOTLOADER).rc \
+	init.$(SAMSUNG_BOOTLOADER).bluetooth.rc \
+	init.$(SAMSUNG_BOOTLOADER).parts.rc \
+	init.$(SAMSUNG_BOOTLOADER).usb.rc \
+	init.recovery.$(SAMSUNG_BOOTLOADER).rc \
+	ueventd.$(SAMSUNG_BOOTLOADER).rc
 
 ## Hardware properties
 PRODUCT_COPY_FILES += \
@@ -166,18 +165,6 @@ PRODUCT_COPY_FILES += \
 # GPS conf
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
-
-## Ramdisk
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/ramdisk/fstab.msm7x27:root/fstab.$(SAMSUNG_BOOTLOADER) \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.rc:root/init.$(SAMSUNG_BOOTLOADER).rc \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.parts.rc:root/init.$(SAMSUNG_BOOTLOADER).parts.rc \
-    device/samsung/msm7x27-common/ramdisk/init.msm7x27.usb.rc:root/init.$(SAMSUNG_BOOTLOADER).usb.rc \
-    device/samsung/msm7x27-common/ramdisk/ueventd.msm7x27.rc:root/ueventd.$(SAMSUNG_BOOTLOADER).rc
-
-# Ramdisk (recovery)
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/recovery/init.recovery.msm7x27.rc:root/init.recovery.$(SAMSUNG_BOOTLOADER).rc
 
 # SELinux
 BOARD_SEPOLICY_DIRS += device/samsung/msm7x27-common/sepolicy
