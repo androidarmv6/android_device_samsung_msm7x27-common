@@ -74,3 +74,21 @@ service map /system/bin/sdptool add --channel=16 MAS
     group bluetooth net_bt_admin net_bt_stack
     disabled
     oneshot
+
+service hciattach /system/bin/brcm_patchram_plus --enable_hci --enable_lpm --baudrate 3000000 --patchram /system/etc/firmware/BCM2049C0_003.001.031.0088.0094.hcd /dev/ttyHS0
+    class main
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service dhcpcd_bnep /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_bnep /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+

@@ -22,14 +22,6 @@ on early-init
 
 on fs
 
-    # create a symlink to the device-specific fstab
-    symlink /fstab.gt-i5500board /fstab.msm7x27
-    symlink /fstab.gt-i5510board /fstab.msm7x27
-    symlink /fstab.gt-s5570board /fstab.msm7x27
-    symlink /fstab.gt-s5660board /fstab.msm7x27
-    symlink /fstab.gt-s5670board /fstab.msm7x27
-    symlink /fstab.gt-s5830board /fstab.msm7x27
-
     mount_all /fstab.msm7x27
 
 on boot
@@ -109,17 +101,7 @@ service wpa_supplicant /system/bin/wpa_supplicant -Dnl80211,wext -iwlan0 -c/data
     disabled
     oneshot
 
-service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
 service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_bt-pan /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
@@ -141,6 +123,12 @@ service qmuxd /system/bin/qmuxd
     user radio
     group system radio inet
     disabled
+
+service memsicd /system/bin/memsicd
+    class main
+    user root
+    group root
+    oneshot
 
 service get_macaddrs /system/bin/get_macaddrs
     class main
