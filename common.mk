@@ -234,6 +234,15 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.ap.interface=athap0
 endif
 
+# zRAM
+ifneq (,$(filter galaxy5,$(CM_BUILD)))
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.zram.default=18
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.zram.default=26
+endif
+
 ### END: Common properties
 
 # Inherit qcom/msm7x27

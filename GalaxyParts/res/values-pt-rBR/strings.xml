@@ -35,7 +35,6 @@
     <string name="report_bug">Reportar bug</string>
     <string name="sd_not_mounted">Cartão SD não montado</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">Swap não pode ser usado enquanto zRam estiver habilitado</string>
     <string name="swap_en">Usar partição de swap do cartão SD como memória virtual, permitindo que mais aplicativos continuem abertos</string>
 
 </resources>

@@ -8,6 +8,10 @@ service galaxyparts /system/bin/sh /system/bin/galaxyparts
     oneshot
 
 # compcache - check dynamic lmk
+on property:ro.zram.default=*
+    setprop persist.sys.galaxyparts lowmemorykiller
+    start galaxyparts
+
 on property:persist.service.zram=*
     setprop persist.sys.galaxyparts lowmemorykiller
     start galaxyparts

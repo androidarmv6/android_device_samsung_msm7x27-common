@@ -35,7 +35,6 @@
     <string name="report_bug">รายงานข้อผิดพลาด</string>
     <string name="sd_not_mounted">ไม่พบการ์ดความจำ</string>
     <string name="swap">หน่วยความจำเสมือน</string>
-    <string name="swap_dis">Swap ไม่สามารถใช้งานได้เมื่อเปิดการทำงานของ zRam</string>
     <string name="swap_en">ใช้การ์ดสร้างหน่วยความจำเสมือนเพื่อสามารถเปิดแอพพลิเคชั่นพร้อมๆกันได้มากขึ้น</string>
 
 </resources>

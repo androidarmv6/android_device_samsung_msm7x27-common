@@ -35,7 +35,6 @@
     <string name="report_bug">反馈BUG</string>
     <string name="sd_not_mounted">内存卡未挂载</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">您正在使用zRam，要开启Swap请先关闭zRam</string>
     <string name="swap_en">使用内存卡的分区作为虚拟内存使得更多后台程序不被强制关闭</string>
 
 </resources>

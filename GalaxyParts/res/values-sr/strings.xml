@@ -35,7 +35,6 @@
     <string name="report_bug">Известити грешку</string>
     <string name="sd_not_mounted">SD картица није монтирана</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">Swap не може бити коришћен док се користи zRam</string>
     <string name="swap_en">Користи swap партицију на SD картици као виртуелну меморију. Више апликација могу остати отворене</string>
 
 </resources>

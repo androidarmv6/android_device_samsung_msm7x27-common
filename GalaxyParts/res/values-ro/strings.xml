@@ -35,7 +35,6 @@
     <string name="report_bug">Raportează bug</string>
     <string name="sd_not_mounted">Cardul nu este încărcat</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">Swap nu poate fi folosit cât timp zRam este activ</string>
     <string name="swap_en">Folosește partiția swap de pe SDCard ca memorie virtuală, permițând mai multor aplicații să rămână deschise</string>
 
 </resources>

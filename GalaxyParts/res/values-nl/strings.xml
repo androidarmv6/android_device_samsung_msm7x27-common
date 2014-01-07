@@ -35,7 +35,6 @@
     <string name="report_bug">Meld bug</string>
     <string name="sd_not_mounted">SD kaart is niet geplaatst.</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">Swap kan niet gebruikt worden als zRam ingeschakeld is.</string>
     <string name="swap_en">Gebruik SD kaart swap partitie als virtuele geheugen, zodat meer applicaties open kunnen staan.</string>
 
 </resources>
