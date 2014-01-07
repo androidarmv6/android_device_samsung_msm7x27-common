@@ -15,8 +15,6 @@ import android.os.SystemProperties;
 public class Constants {
 
 	public static final String PROP_CACHESIZE = "persist.sys.read_ahead_kb";
-	public static final String PROP_COMPCACHE = "persist.service.zram";
-	public static final String PROP_COMPCACHE_RO = "ro.zram.default";
 	public static final String PROP_FAKE_DT = "persist.sys.fakedt";
 	public static final String PROP_ATTENUATION = "persist.sys.attenuation";
 	public static final String PROP_LMK = "persist.sys.dynlmk";

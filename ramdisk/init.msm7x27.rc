@@ -22,6 +22,7 @@ on init
 on fs
 
     mount_all /fstab.msm7x27
+    swapon_all /fstab.msm7x27
 
 on boot
 
@@ -84,6 +85,9 @@ on boot
     # sd card polling
     chown system system /sys/devices/platform/msm_sdcc.1/polling
     chown system system /sys/devices/platform/msm_sdcc.2/polling
+
+    # zRAM
+    write /proc/sys/vm/page-cluster 0
 
 on post-fs-data
 

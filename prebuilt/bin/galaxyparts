@@ -136,9 +136,9 @@ echo $2 > /sys/module/lowmemorykiller/parameters/minfree
 swap() {
 checkswap
 # enable
-if [ "$isswapenabled" = "1" ] && [ "$isswapon" = "0" ] && [ "$iscompcacheon" = "0" ]; then
+if [ "$isswapenabled" = "1" ] && [ "$isswapon" = "0" ]; then
     echo "Enabling swap..."
-    swapon /dev/block/mmcblk0p3
+    swapon -p 0 /dev/block/mmcblk0p3
     lowmemorykiller
 fi
 

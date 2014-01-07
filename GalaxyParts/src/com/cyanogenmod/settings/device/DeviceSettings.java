@@ -41,7 +41,7 @@ public class DeviceSettings extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		ActionBar actionBar = getActionBar();
-		actionBar.setIcon(R.drawable.ic_launcher_settings);
+		actionBar.setIcon(R.mipmap.ic_launcher_settings);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Resources resources = getResources();
@@ -177,13 +177,8 @@ public class DeviceSettings extends PreferenceActivity {
 		swap.setTitle(getText(R.string.swap));
 		swap.setChecked(SystemProperties.get(Constants.PROP_SWAP).equals("1"));
 
-		boolean zRamOff = (SystemProperties.get(Constants.PROP_COMPCACHE).equals("")
-				|| SystemProperties.get(Constants.PROP_COMPCACHE).equals("0"))
-				&& (SystemProperties.get(Constants.PROP_COMPCACHE_RO).equals("")
-				|| SystemProperties.get(Constants.PROP_COMPCACHE_RO).equals("0"));
-
-		swap.setEnabled(zRamOff);
-		swap.setSummary(zRamOff ? getText(R.string.swap_en) : getText(R.string.swap_dis));
+		swap.setEnabled(true);
+		swap.setSummary(getText(R.string.swap_en));
 		swap.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			public boolean onPreferenceClick(Preference arg0) {

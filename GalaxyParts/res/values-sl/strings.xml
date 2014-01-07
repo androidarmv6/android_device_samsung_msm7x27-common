@@ -35,7 +35,6 @@
     <string name="report_bug">Poročaj napako</string>
     <string name="sd_not_mounted">SD kartica ni vpeta</string>
     <string name="swap">Swap</string>
-    <string name="swap_dis">Swap ne more biti uporabljen medtem, ko je z zRam v uporabi</string>
     <string name="swap_en">Uporabi SD kartico kot swap razdelek, da bi ohranili več aplikacij odprtih</string>
 
 </resources>
