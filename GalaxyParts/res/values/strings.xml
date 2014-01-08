@@ -37,6 +37,8 @@
     <string name="generating_bug_report">Generating bug report&#8230;</string>
     <string name="media_kill_process">Restarting audio subsystem&#8230;</string>
     <string name="global">Global attenuation</string>
+    <string name="highend_gfx">High-end graphics</string>
+    <string name="highend_gfx_sum">Force high-end graphics effects (requires reboot)</string>
     <string name="intrfc">Interface</string>
     <string name="lmk">Dynamic LMK</string>
     <string name="lmk_sum">Dynamically adjusts the lowmemorykiller kernel driver based on swap or zRam activity</string>
