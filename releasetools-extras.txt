@@ -32,10 +32,14 @@ lib/libOpenVG.so
 app/Exchange2.apk
 app/Email2.apk
 app/DSPManager.apk
+app/PrintSpooler.apk
 
 # Video editor (5MB)
 app/VideoEditor.apk
+lib/libvideoeditor_core.so
+lib/libvideoeditor_osal.so
 lib/libvideoeditor_jni.so
+lib/libvideoeditor_videofilters.so
 lib/libvideoeditorplayer.so
 
 # RomManager (2.5MB)
@@ -72,3 +76,29 @@ app/webaudiores.apk
 
 # ART runtime (1.2MB)
 framework/core-libart.jar
+
+# Duplicate audio files (~1MB)
+media/audio/alarms/Argon.ogg
+media/audio/alarms/Carbon.ogg
+media/audio/alarms/Cesium.ogg
+media/audio/alarms/Hassium.ogg
+media/audio/alarms/Nobelium.ogg
+media/audio/alarms/Platinum.ogg
+media/audio/alarms/Plutonium.ogg
+media/audio/notifications/F1_MissedCall.ogg
+media/audio/notifications/F1_New_MMS.ogg
+media/audio/notifications/Lalande.ogg
+media/audio/notifications/Merope.ogg
+media/audio/notifications/SpaceSeed.ogg
+media/audio/notifications/Tejat.ogg
+
+# Superflous audio files
+media/audio/alarms/Helium.ogg
+media/audio/alarms/Neon.ogg
+media/audio/ringtones/ArgoNavis.ogg
+media/audio/ringtones/Kuma.ogg
+media/audio/ringtones/Sceptrum.ogg
+
+# Recovery resources (1.3MB)
+etc/recovery-resource.dat
+bin/recovery
