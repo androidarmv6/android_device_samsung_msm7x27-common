@@ -234,6 +234,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.ap.interface=athap0
 endif
 
+# Backport of extra_free_kbytes
+# Note: KitKat's system server sets this; we just set it manually
+PRODUCT_PROPERTY_OVERRIDES += \
+    sys.sysctl.extra_free_kbytes=3072
+
 # zRAM
 ifneq (,$(filter galaxy5,$(CM_BUILD)))
 PRODUCT_PROPERTY_OVERRIDES += \
