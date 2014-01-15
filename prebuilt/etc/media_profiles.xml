@@ -22,7 +22,7 @@
                          AudioDecoderCap)>
 <!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
 <!ELEMENT EncoderProfile (Video, Audio)>
-<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
+<!ATTLIST EncoderProfile quality (480p|high|low) #REQUIRED>
 <!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
 <!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
 <!ELEMENT Video EMPTY>
@@ -83,6 +83,20 @@
     <!-- Each camcorder profile defines a set of predefined configuration parameters -->
     <CamcorderProfiles cameraId="0">
 
+        <!-- lowest supported profile in kitkat :) -->
+        <EncoderProfile quality="480p" fileFormat="mp4" duration="60">
+            <Video codec="h264"
+                   bitRate="1500000"
+                   width="640"
+                   height="480"
+                   frameRate="15" />
+
+            <Audio codec="aac"
+                   bitRate="128000"
+                   sampleRate="44100"
+                   channels="2" />
+        </EncoderProfile>
+
         <EncoderProfile quality="high" fileFormat="mp4" duration="60">
             <Video codec="h264"
                    bitRate="1500000"
@@ -111,7 +125,7 @@
         </EncoderProfile>
 
         <ImageEncoding quality="100" />
-     <ImageEncoding quality="90" />
+        <ImageEncoding quality="90" />
         <ImageEncoding quality="80" />
         <ImageDecoding memCap="20000000" />
 
@@ -141,11 +155,11 @@
         minFrameRate="1" maxFrameRate="24" />
 
     <VideoEncoderCap name="h264" enabled="true"
-	minBitRate="64000" maxBitRate="1500000"
-	minFrameWidth="176" maxFrameWidth="640"
-	minFrameHeight="144" maxFrameHeight="480"
-	minFrameRate="1" maxFrameRate="15" />
-        
+        minBitRate="64000" maxBitRate="1500000"
+        minFrameWidth="176" maxFrameWidth="640"
+        minFrameHeight="144" maxFrameHeight="480"
+        minFrameRate="1" maxFrameRate="15" />
+
     <AudioEncoderCap name="amrnb" enabled="true"
         minBitRate="5525" maxBitRate="12200"
         minSampleRate="8000" maxSampleRate="8000"
