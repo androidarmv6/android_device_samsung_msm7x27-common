@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Koptelefoon en luidspreker</string>
     <string name="attn_speaker">Luidspreker</string>
     <string name="audio_settings_cat">Geluidsinstellingen</string>
-    <string name="back_process_limit">Achtergrond processenlimiet</string>
     <string name="bug_report_dialog">Dit dumpt systeem logs naar de SD kaart, bedoeld voor bug meldingen. Dit proces vereist toestemming van Superuser en kan enige tijd duren.</string>
     <string name="bug_report_failed">Mislukt om een bug melding te genereren. Er is een fout opgetreden.</string>
     <string name="bug_report_gen">Bug melding genereren</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Bug melding aan het genereren…</string>
     <string name="global">Globale demping</string>
     <string name="intrfc">Interface</string>
-    <string name="lmk">Dynamische LMK</string>
-    <string name="lmk_sum">Dynamisch het lowmemorykiller kernel stuurprogramma aanpassen, gebasseerd op swap of zRam activiteit.</string>
     <string name="memory_man">Geheugen management</string>
     <string name="report_bug">Meld bug</string>
     <string name="sd_not_mounted">SD kaart is niet geplaatst.</string>

@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Ausinės ir garsiakalbis</string>
     <string name="attn_speaker">Garsiakalbio silpninimas</string>
     <string name="audio_settings_cat">Garso nuostatos</string>
-    <string name="back_process_limit">Fone veikiančių programų apribojimas</string>
     <string name="bug_report_dialog">Riktų pranešimams įrašo sistemos žurnalą SD kortelėn. Reikia supernaudotojo teisių ir šiek tiek laiko.</string>
     <string name="bug_report_failed">Nepavyko sukurti riktų pranešimo. Įvyko klaida</string>
     <string name="bug_report_gen">Sukurti rikto pranešimą</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Kuriamas riktų pranešimas&#8230;</string>
     <string name="global">Globalu</string>
     <string name="intrfc">Sąsaja</string>
-    <string name="lmk">Dinamiškas LMK</string>
-    <string name="lmk_sum">Dinamiškai pritaiko branduolio tvarkyklę „lowmemorykiller“ mainų skirsniui arba „zRam“ </string>
     <string name="memory_man">Atminties tvarkymas</string>
     <string name="report_bug">Pranešti apie riktą</string>
     <string name="sd_not_mounted">SD kortelė neprijungta</string>

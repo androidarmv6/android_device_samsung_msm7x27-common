@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Auricular &amp; altavoz</string>
     <string name="attn_speaker">Altavoz</string>
     <string name="audio_settings_cat">Configuración de audio</string>
-    <string name="back_process_limit">Tope de procesos de fondo</string>
     <string name="bug_report_dialog">Esto volcará logs de sistema a la tarjeta SD para informe de bugs. Este proceso requiere permisos root y puede tomar un tiempo.</string>
     <string name="bug_report_failed">El reporte de bug no se generó. Hubo un error.</string>
     <string name="bug_report_gen">Generar reporte de bug</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Generando reporte de bug&#8230;</string>
     <string name="global">Atenuación global</string>
     <string name="intrfc">Interfaz</string>
-    <string name="lmk">LMK dinámico</string>
-    <string name="lmk_sum">Ajusta dinámicamente el lowmemorykiller kernel driver basado en la actividad de swap o zRam</string>
     <string name="memory_man">Administración de memoria</string>
     <string name="report_bug">Reporte de bug</string>
     <string name="sd_not_mounted">La tarjeta SD no está montada</string>

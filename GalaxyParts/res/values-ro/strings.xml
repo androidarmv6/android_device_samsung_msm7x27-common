@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Căști &amp; Speaker</string>
     <string name="attn_speaker">Atenuare difuzor</string>
     <string name="audio_settings_cat">Setări audio</string>
-    <string name="back_process_limit">Limitare procese de fundal</string>
     <string name="bug_report_dialog">Aceasta va descărca logurile de sistem către SDCard pentru bug-reporting. Acest proces necesită permisiuni Superuser și poate dura.</string>
     <string name="bug_report_failed">Generare eșuată. A apărut o eroare.</string>
     <string name="bug_report_gen">Generează bug report</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Generare raport&#8230;</string>
     <string name="global">Global</string>
     <string name="intrfc">Interfață</string>
-    <string name="lmk">LMK Dinamic</string>
-    <string name="lmk_sum">Ajustează în mod dinamic valorile lowmemorykiller în funcție de activitatea swap sau zRam</string>
     <string name="memory_man">Managementul memoriei</string>
     <string name="report_bug">Raportează bug</string>
     <string name="sd_not_mounted">Cardul nu este încărcat</string>

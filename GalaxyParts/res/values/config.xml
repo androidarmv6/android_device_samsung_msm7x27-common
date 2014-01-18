@@ -10,16 +10,10 @@
     <!-- Enable dualtouch feature in interface -->
     <bool name="dualtouch_feature">false</bool>
 
-    <!-- Default dynamic lowmemorykiller profile (0 to disable): -->
-    <string translatable="false" name="dynlmk_default">0</string>
-
     <!-- Default extamp filter level for the following devices:
          (enable), headset, no mic headset, speaker, FM headset/speaker -->
     <string translatable="false" name="extamp_defaults">1,18,26,29,20</string>
 
     <!-- Enable extamp feature in interface -->
     <bool name="extamp_feature">true</bool>
-
-    <!-- Default process limit value (-1 for framework-managed) -->
-    <string translatable="false" name="processlimit_default">-1</string>
 </resources>

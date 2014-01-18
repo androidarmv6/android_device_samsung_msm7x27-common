@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Headset &amp; Speaker</string>
     <string name="attn_speaker">Tłumienie Speaker</string>
     <string name="audio_settings_cat">Ustawienia Audio</string>
-    <string name="back_process_limit">Limit procesów w tle</string>
     <string name="bug_report_dialog">Tworzenie logów systemowych na karcie SD, w celów sprawdzenia błędów. Wymaga uprawnień Su i może to trochę potrwać.</string>
     <string name="bug_report_failed">Nieudane generowanie raporty. Wystąpił błąd.</string>
     <string name="bug_report_gen">Generuj raport</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Generowanie raportu o błędzie&#8230;</string>
     <string name="global">Globalny</string>
     <string name="intrfc">Interfejs</string>
-    <string name="lmk">Dynamiczne LMK</string>
-    <string name="lmk_sum">Dynamiczne dostosowanie lowmemorykiller kernel urządzenia basowany na swap lub zRam .</string>
     <string name="memory_man">Zarządzanie pamięcią</string>
     <string name="report_bug">Zgłoś bug/i.</string>
     <string name="sd_not_mounted">Nie znaleziono karty pamięci!</string>
