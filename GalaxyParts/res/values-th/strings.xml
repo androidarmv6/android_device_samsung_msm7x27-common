@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">หูฟังและลำโพง</string>
     <string name="attn_speaker">ลำโพง</string>
     <string name="audio_settings_cat">ตั้งค่าเสียง</string>
-    <string name="back_process_limit">กำหนดการทำงานพื้นหลัง</string>
     <string name="bug_report_dialog">ทำการบันทึก Log ลงในการ์ดเพื่อใช้สำหรับรายงานข้อผิดพลาด ซึ่งต้องใช้สิทธิ์ Superuser และใช้เวลาในการดำเนินการ</string>
     <string name="bug_report_failed">เกิดข้อผิดพลาด การดำเนินการสร้างรายงานข้อผิดพลาดล้มเหลว</string>
     <string name="bug_report_gen">สร้างรายงานข้อผิดพลาด</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">สร้างรายงานข้อผิดพลาด</string>
     <string name="global">ลดทอนเสียงทั้งหมด</string>
     <string name="intrfc">อินเตอร์เฟซ</string>
-    <string name="lmk">LMK แบบไดนามิก</string>
-    <string name="lmk_sum">อุปกรณ์จะเปลี่ยนค่า lowmemorykiller ไปตาม swap หรือ zRam ที่เปิดใช้งาน</string>
     <string name="memory_man">การจัดการหน่วยความจำ</string>
     <string name="report_bug">รายงานข้อผิดพลาด</string>
     <string name="sd_not_mounted">ไม่พบการ์ดความจำ</string>

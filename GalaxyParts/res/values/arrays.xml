@@ -13,15 +13,6 @@
         <item>9 dB</item>
     </string-array>
 
-    <string-array name="background_limit">
-        <item>Standard limit (default)</item>
-        <item>No background processes</item>
-        <item>At most 1 process</item>
-        <item>At most 2 processes</item>
-        <item>At most 3 processes</item>
-        <item>At most 4 processes</item>
-    </string-array>
-
     <string-array name="cache_size">
         <item>128 KB (default)</item>
         <item>256 KB</item>
@@ -66,24 +57,4 @@
         <item>31</item>
     </string-array>
 
-    <string-array name="lmk_adj" translatable="false">
-        <item></item>
-        <item>0,1,2,4,9,15</item>
-        <item>0,1,2,7,14,15</item>
-        <item>0,1,2,7,14,15</item>
-    </string-array>
-
-    <string-array name="lmk_minfree" translatable="false">
-        <item></item>
-        <item>2048,3072,4096,6144,7168,8192</item>
-        <item>1536,2048,6144,8192,12288,15360</item>
-        <item>1536,2048,4096,15120,15360,23040</item>
-    </string-array>
-
-    <string-array name="lmk_presets">
-        <item>Disabled</item>
-        <item>Gingerbread</item>
-        <item>Froyo</item>
-        <item>Aggressive</item>
-    </string-array>
 </resources>

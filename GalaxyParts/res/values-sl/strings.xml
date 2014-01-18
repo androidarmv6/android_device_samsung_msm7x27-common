@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Slušalke &amp; Zvočnik</string>
     <string name="attn_speaker">Zvočnik</string>
     <string name="audio_settings_cat">Nastavitve zvoka</string>
-    <string name="back_process_limit">Omejitev procesov v ozadju</string>
     <string name="bug_report_dialog">To bo odlagališče za sistemske dnevnike na SD kartici za namene poročanja hroščev. To zahetva korenski dostop in lahko traja nekaj časa.</string>
     <string name="bug_report_failed">Ustvarjane poročanja o hroščih ni bilo uspeÅ¡no. Prišlo je do napake</string>
     <string name="bug_report_gen">Ustvari poročilo o napaki</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Ustvarjanje poročila o napakah&#8230;</string>
     <string name="global">Globalno dušenje</string>
     <string name="intrfc">Vmesnik</string>
-    <string name="lmk">Dinamični LMK</string>
-    <string name="lmk_sum">Dinamično prilagodi lowmemorykiller jedrni gonilnik na osnovi Swap ali zRam dejavnosti</string>
     <string name="memory_man">Upravljanje s pomnilnikom</string>
     <string name="report_bug">Poročaj napako</string>
     <string name="sd_not_mounted">SD kartica ni vpeta</string>

@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Cuffie &amp; speaker</string>
     <string name="attn_speaker">Speaker</string>
     <string name="audio_settings_cat">Impostazioni audio</string>
-    <string name="back_process_limit">Limite di processi in background</string>
     <string name="bug_report_dialog">Questo salverà il log di sistema nella scheda SD per permettere la segnalazione dei bug. Questo processo richiede i permessi di Superuser e può impiegare un po di tempo.</string>
     <string name="bug_report_failed">Generazione segnalazione bug Fallita. Si è verificato un errore.</string>
     <string name="bug_report_gen">Genera un bug report</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Generando segnalazione bug&#8230;</string>
     <string name="global">Attenuazione globale</string>
     <string name="intrfc">Interfaccia</string>
-    <string name="lmk">LMK dinamico</string>
-    <string name="lmk_sum">Aggiustamento dinamico del driver kernel lowmemorykiller basato su swap e zRam</string>
     <string name="memory_man">Gestione memoria</string>
     <string name="report_bug">Segnala bug</string>
     <string name="sd_not_mounted">La scheda SD non è montata</string>

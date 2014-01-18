@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Ακουστικά &amp; ηχείο</string>
     <string name="attn_speaker">Ηχείο</string>
     <string name="audio_settings_cat">Ρυθμίσεις ήχου</string>
-    <string name="back_process_limit">Όριο διαδικασιών παρασκηνίου</string>
     <string name="bug_report_dialog">Αυτό θα δημιουργήσει αρχεία καταγραφής συστήματος στην κάρτα SD για σκοπούς αναφοράς σφάλματος. Αυτή η διαδικασία απαιτεί δικαιώματα Superuser και μπορεί να πάρει κάποιο χρόνο.</string>
     <string name="bug_report_failed">Απέτυχε η δημιουργία αναφοράς σφάλματος. Παρουσιάστηκε σφάλμα</string>
     <string name="bug_report_gen">Δημιουργία αναφοράς σφάλματος</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Δημιουργία αναφοράς σφάλματος&#8230;</string>
     <string name="global">Γενική εξασθένηση</string>
     <string name="intrfc">Διασύνδεση</string>
-    <string name="lmk">Δυναμική LMK</string>
-    <string name="lmk_sum">Ρυθμίζει δυναμικά το lowmemorykiller kernel driver με βάση τη δραστηριότητά της swap ή της zRam</string>
     <string name="memory_man">Διαχείριση μνήμης</string>
     <string name="report_bug">Αναφορά σφάλματος</string>
     <string name="sd_not_mounted">Η κάρτα SD δεν είναι τοποθετημένη</string>

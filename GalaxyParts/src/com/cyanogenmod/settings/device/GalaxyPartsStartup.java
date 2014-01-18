@@ -16,21 +16,6 @@ public class GalaxyPartsStartup extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent bootintent) {
 
-		// Initialize & change process limit
-		int processLimit;
-		try {
-			processLimit = Integer.valueOf(SystemProperties.get(Constants.PROP_PROCESSLIMIT, context.getString(R.string.processlimit_default)));
-		} catch (NumberFormatException e) {
-			processLimit = -1;
-		}
-		SystemProperties.set(Constants.PROP_PROCESSLIMIT, Integer.toString(processLimit));
-
-		try {
-			ActivityManagerNative.getDefault().setProcessLimit(processLimit);
-		} catch (RemoteException e) {
-			Log.e("GalaxyParts", e.toString());
-		}
-
 		// Initialize attenuation values
 		if (context.getResources().getBoolean(R.bool.attenuation_feature)) {
 			String[] ATTENUATION_ARRAY = SystemProperties.get(Constants.PROP_ATTENUATION,
@@ -52,23 +37,6 @@ public class GalaxyPartsStartup extends BroadcastReceiver {
 				String.valueOf(EXTAMP_ARRAY[3]) + "," +
 				String.valueOf(EXTAMP_ARRAY[4]));
 		}
-
-		// Initialize Dynamic lowmemorykiller
-		int currentLMK;
-
-		try {
-			currentLMK = Integer.parseInt(SystemProperties.get(Constants.PROP_LMK, context.getString(R.string.dynlmk_default)));
-		} catch (NumberFormatException e) {
-			currentLMK = 0;
-		}
-
-		if (currentLMK != 0) {
-			SystemProperties.set(Constants.PROP_LMK_ADJ, "" + Constants
-				.getDynLMKAdj(context.getResources())[currentLMK].toString());
-			SystemProperties.set(Constants.PROP_LMK_MINFREE, "" + Constants
-				.getDynLMKMin(context.getResources())[currentLMK].toString());
-		}
-		SystemProperties.set(Constants.PROP_LMK, Integer.toString(currentLMK));
 
 		// Initialize fake dual-touch value
 		if (context.getResources().getBoolean(R.bool.dualtouch_feature)) {

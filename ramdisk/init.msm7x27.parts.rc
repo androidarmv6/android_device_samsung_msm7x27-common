@@ -7,23 +7,9 @@ service galaxyparts /system/bin/sh /system/bin/galaxyparts
     group root
     oneshot
 
-# compcache - check dynamic lmk
-on property:ro.zram.default=*
-    setprop persist.sys.galaxyparts lowmemorykiller
-    start galaxyparts
-
-on property:persist.service.zram=*
-    setprop persist.sys.galaxyparts lowmemorykiller
-    start galaxyparts
-
 # adjust dual-touch permissions
 on property:persist.sys.fakedt=*
     setprop persist.sys.galaxyparts fakedt
-    start galaxyparts
-
-# dynamic lowmemorykiller
-on property:persist.sys.dynlmk=*
-    setprop persist.sys.galaxyparts lowmemorykiller
     start galaxyparts
 
 # sd read-ahead

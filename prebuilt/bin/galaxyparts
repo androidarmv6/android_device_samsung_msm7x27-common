@@ -85,68 +85,18 @@ else
 fi
 }
 
-lowmemorykiller () {
-bootstatus=$(getprop sys.boot_completed)
-lowmemorykillerenabled=$(getprop persist.sys.dynlmk)
-if [ "$lowmemorykillerenabled" = "" ]; then
-	lowmemorykillerenabled=0
-fi
-lowmemorykilleradj=$(getprop persist.sys.dynlmk-adj)
-lowmemorykillerminfree=$(getprop persist.sys.dynlmk-minfree)
-currentlowmemorykilleradj=$(cat /sys/module/lowmemorykiller/parameters/adj)
-currentlowmemorykillerminfree=$(cat /sys/module/lowmemorykiller/parameters/minfree)
-oldlowmemorykilleradj="0,1,2,4,9,15"
-oldlowmemorykillerminfree="2048,3072,4096,6144,7168,8192"
-
-checkswap
-if [ "$lowmemorykillerenabled" != "0" ] ; then
-    echo -n "Dynamic LMK enabled "
-    if [ "$isswapon" = "1" ] || [ "$iscompcacheon" = "1" ]; then
-        echo "and swap is active. Setting dynamic LMK values."
-        updatelmk $lowmemorykilleradj $lowmemorykillerminfree
-    else
-        echo "but swap is not active. Setting default values."
-        updatelmk $oldlowmemorykilleradj $oldlowmemorykillerminfree
-    fi
-fi
-
-# If the "optimized" values are set but lowmemorykiller is disabled, change them back to default.
-if [ "$lowmemorykillerenabled" = "0" ] || [ "$lowmemorykillerenabled" = "" ]; then
-    echo -n "Dynamic LMK disabled. Current LMK values "
-    if [ "$currentlowmemorykilleradj" = "$lowmemorykilleradj" ] && [ "$currentlowmemorykillerminfree" = "$lowmemorykillerminfree" ]; then
-        echo "will be reset to default."
-        updatelmk $oldlowmemorykilleradj $oldlowmemorykillerminfree
-    else
-        echo "do not need to be changed."
-    fi
-fi
-}
-
-updatelmk() {
-currentlowmemorykilleradj=$(cat /sys/module/lowmemorykiller/parameters/adj)
-currentlowmemorykillerminfree=$(cat /sys/module/lowmemorykiller/parameters/minfree)
-echo "* Current adj    : $currentlowmemorykilleradj"
-echo "* New adj        : $1"
-echo $1 > /sys/module/lowmemorykiller/parameters/adj
-echo "* Current minfree: $currentlowmemorykillerminfree"
-echo "* New minfree    : $2"
-echo $2 > /sys/module/lowmemorykiller/parameters/minfree
-}
-
 swap() {
 checkswap
 # enable
 if [ "$isswapenabled" = "1" ] && [ "$isswapon" = "0" ]; then
     echo "Enabling swap..."
     swapon /dev/block/mmcblk0p3
-    lowmemorykiller
 fi
 
 # disable
 if [ "$isswapenabled" != "1" ] && [ "$isswapon" = "1" ]; then
     echo "Disabling swap..."
     swapoff /dev/block/mmcblk0p3
-    lowmemorykiller
 fi
 }
 
@@ -155,7 +105,6 @@ bootcheck() {
 fakedt
 swap
 readahead
-lowmemorykiller
 }
 
 # run command

@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">Fones de ouvido e alto falantes</string>
     <string name="attn_speaker">Atenuação dos alto-falantes</string>
     <string name="audio_settings_cat">Configurações do áudio</string>
-    <string name="back_process_limit">Limite do proc. 2º plano</string>
     <string name="bug_report_dialog">Isso irá despejar logs do sistema para o cartão SD de modo a reportar bug. Esse processo requer permissão de Superuser, podendo levar algum tempo</string>
     <string name="bug_report_failed">Falha na geração do relatório de bug. Ocorreu um erro.</string>
     <string name="bug_report_gen">Gerar relatório de bug</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">Gerar relatório de bug&#8230;</string>
     <string name="global">Atenuação global</string>
     <string name="intrfc">Interface</string>
-    <string name="lmk">LMK dinâmico</string>
-    <string name="lmk_sum">Ajusta dinamicamente o driver de núcleo lowmemorykiller baseado em atividade swap ou zRam</string>
     <string name="memory_man">Gestão de memória</string>
     <string name="report_bug">Reportar bug</string>
     <string name="sd_not_mounted">Cartão SD não montado</string>

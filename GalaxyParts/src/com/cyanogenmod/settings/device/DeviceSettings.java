@@ -115,47 +115,6 @@ public class DeviceSettings extends PreferenceActivity {
 		memory.setTitle(getText(R.string.memory_man));
 		preferenceScreen.addPreference(memory);
 
-		// Background process limit
-		Preference bgProcessLimit = new Preference(this);
-		bgProcessLimit.setTitle(getText(R.string.back_process_limit));
-		int currentBgProcLimit;
-
-		try {
-			currentBgProcLimit = ActivityManagerNative.getDefault().getProcessLimit() + 1;
-		} catch (RemoteException e) {
-			currentBgProcLimit = 0;
-		}
-
-		bgProcessLimit.setSummary(Constants.getProcessLimit(resources)[currentBgProcLimit]);
-		bgProcessLimit.setEnabled(true);
-		bgProcessLimit.setOnPreferenceClickListener(new BackProcessLimit(this, resources));
-		memory.addPreference(bgProcessLimit);
-
-		// Dynamic Lowmemorykiller
-		Preference dynLMK = new Preference(this);
-		dynLMK.setTitle(getText(R.string.lmk));
-		int currentLMK;
-
-		try {
-			currentLMK = Integer.parseInt(SystemProperties.get(Constants.PROP_LMK, this.getString(R.string.dynlmk_default)));
-		} catch (NumberFormatException e) {
-			currentLMK = 0;
-		}
-
-		if (currentLMK == 0) {
-			dynLMK.setSummary(getText(R.string.current_setting) + ": "
-				+ Constants.getDynLMK(resources)[currentLMK]);
-		} else {
-			dynLMK.setSummary(getText(R.string.current_setting) + ": "
-				+ Constants.getDynLMK(resources)[currentLMK]
-				+ "\nAdj: " + SystemProperties.get(Constants.PROP_LMK_ADJ)
-				+ "\nMin: " + SystemProperties.get(Constants.PROP_LMK_MINFREE));
-		}
-
-		dynLMK.setEnabled(true);
-		dynLMK.setOnPreferenceClickListener(new DynLMK(this, resources));
-		memory.addPreference(dynLMK);
-
 		// SD cache size
 		Preference cacheSize = new Preference(this);
 		cacheSize.setTitle(getText(R.string.cache_size));

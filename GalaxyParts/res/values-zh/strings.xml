@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">耳机 &amp; 扬声器</string>
     <string name="attn_speaker">扬声器衰减</string>
     <string name="audio_settings_cat">音频设置</string>
-    <string name="back_process_limit">后台进程限制</string>
     <string name="bug_report_dialog">将系统日志发送到SD卡中需要Root权限和一些时间</string>
     <string name="bug_report_failed">生成错误报告失败</string>
     <string name="bug_report_gen">发送错误报告</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">生成错误报告&#8230;</string>
     <string name="global">全局衰减</string>
     <string name="intrfc">界面</string>
-    <string name="lmk">动态LMK</string>
-    <string name="lmk_sum">根据swap或zRam的活动对LMK进行动态调整</string>
     <string name="memory_man">内存管理</string>
     <string name="report_bug">反馈BUG</string>
     <string name="sd_not_mounted">内存卡未挂载</string>

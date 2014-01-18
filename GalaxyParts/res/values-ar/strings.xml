@@ -8,7 +8,6 @@
     <string name="attn_headset_speaker">السماعة &amp; مكبر الصوت</string>
     <string name="attn_speaker">مكبر الصوت</string>
     <string name="audio_settings_cat">إعدادات الصوت</string>
-    <string name="back_process_limit">اقصى عدد لالبرامج الخلفية</string>
     <string name="bug_report_dialog">وهذا سيضع سجلات النظام إلى بطاقة SD لأغراض التقارير الشوائب. هذه العملية تتطلب أذونات المستخدم الخارق (root)، وربما يستغرق بعض الوقت.</string>
     <string name="bug_report_failed">فشل لتوليد التقرير - حدث خطأ</string>
     <string name="bug_report_gen">توليد تقرير الشوائب</string>
@@ -29,8 +28,6 @@
     <string name="generating_bug_report">توليد تقرير الشوائب</string>
     <string name="global">تخفيف - الرئيسي</string>
     <string name="intrfc">واجهة</string>
-    <string name="lmk">الحيوي LMK</string>
-    <string name="lmk_sum">ضبط برنامج تشغيل حيوي يعتمد على نواة lowmemorykiller المبادلة أو نشاط zRam</string>
     <string name="memory_man">ضبط الذاكرة</string>
     <string name="report_bug">إرسال تقرير الشوائب</string>
     <string name="sd_not_mounted"> SD بطاقة ليس محملة</string>
