@@ -52,13 +52,6 @@ on boot
     # bluetooth (common)
     setprop ro.bt.bdaddr_path "/data/.nvmac_bt.info"
 
-    # sensors
-    mkdir /data/misc/sensors 0777 system misc
-    chown system radio /sys/devices/virtual/accelerometer/accelerometer/calibrate
-    chmod 0660 /data/misc/sensors/ecs_nvm
-    chmod 0660 /data/misc/sensors/accel_offset
-    chmod 0664 /sys/devices/virtual/accelerometer/accelerometer/calibrate
-
     # accelerometer sensors
     chown system system /sys/class/input/input3/enable
     chown system system /sys/class/input/input3/poll_delay
@@ -67,10 +60,6 @@ on boot
     chown system radio /sys/devices/virtual/touch/firmware/firmware
     chmod 0664 /sys/devices/virtual/touch/firmware/firmware
     chown system radio /sys/devices/virtual/touch/firmware/firmware_ret
-
-    # qmuxd socket
-    mkdir /data/radio 0770 radio radio
-    chown radio radio 0770 /data/radio
 
     # lights / BLN
     chown system system /sys/class/misc/backlightnotification/enabled
@@ -90,6 +79,17 @@ on boot
     write /proc/sys/vm/page-cluster 0
 
 on post-fs-data
+
+    # qmuxd socket
+    mkdir /data/radio 0770 radio radio
+    chown radio radio 0770 /data/radio
+
+    # sensors
+    mkdir /data/misc/sensors 0777 system misc
+    chown system radio /sys/devices/virtual/accelerometer/accelerometer/calibrate
+    chmod 0660 /data/misc/sensors/ecs_nvm
+    chmod 0660 /data/misc/sensors/accel_offset
+    chmod 0664 /sys/devices/virtual/accelerometer/accelerometer/calibrate
 
     # wireless
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -140,6 +140,12 @@ service memsicd /system/bin/memsicd
     class main
     user root
     group root
+    oneshot
+
+service g5sensord /system/bin/g5sensord
+    class main
+    user system
+    group misc
     oneshot
 
 service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
