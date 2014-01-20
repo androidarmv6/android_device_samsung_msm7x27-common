@@ -24,14 +24,9 @@ LOCAL_MODULE_PATH	:= $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/$(LOCAL_SRC_FILES)
-	@echo "Adjust init service for $(SAMSUNG_BOOTLOADER): $< -> $@"
+	@echo "Adjust init rc script for $(SAMSUNG_BOOTLOADER): $< -> $@"
 	@mkdir -p $(dir $@)
-ifneq (,$(filter galaxy5,$(CM_BUILD)))
-	$(hide) sed -e 's/fstab.msm7x27/fstab.$(SAMSUNG_BOOTLOADER)/g' \
-	-e 's/memsicd/g5sensord/g' $< >$@
-else
 	$(hide) sed -e 's/fstab.msm7x27/fstab.$(SAMSUNG_BOOTLOADER)/g' $< >$@
-endif
 
 #######################################
 # init.gt-xxxxx.bluetooth.rc
