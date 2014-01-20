@@ -106,7 +106,7 @@ ifeq ($(BOARD_WLAN_DEVICE),ath6kl_compat)
 	WIFI_DRIVER_MODULE_AP_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=1 recovery_enable=1 samsung_firmware=0"
 
 	# Station/client mode
-	WIFI_DRIVER_MODULE_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=1 recovery_enable=1 samsung_firmware=1"
+	WIFI_DRIVER_MODULE_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=0 recovery_enable=1 samsung_firmware=1"
 	WIFI_DRIVER_MODULE_NAME := ath6kl
 	WIFI_DRIVER_MODULE_PATH := /system/lib/modules/ath6kl.ko
 
