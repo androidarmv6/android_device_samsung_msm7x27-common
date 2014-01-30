@@ -131,6 +131,26 @@ public class DeviceSettings extends PreferenceActivity {
 		cacheSize.setOnPreferenceClickListener(new CacheSize(this, resources));
 		memory.addPreference(cacheSize);
 
+		// Swap Priority
+		final CheckBoxPreference swapPri = new CheckBoxPreference(this);
+		swapPri.setTitle(getText(R.string.swap_pri));
+		swapPri.setChecked(SystemProperties.get(Constants.PROP_SWAP_PRI).equals("2")); // zRAM is 1; override it
+
+		//swapPri.setEnabled(swap.isChecked()); // after swap
+		swapPri.setSummary(getText(R.string.swap_pri_en));
+		swapPri.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			public boolean onPreferenceClick(Preference arg0) {
+				if (swapPri.isChecked()) {
+					SystemProperties.set(Constants.PROP_SWAP_PRI, "2"); // zRAM is 1; override it
+				} else {
+					SystemProperties.set(Constants.PROP_SWAP_PRI, "0");
+				}
+				return false;
+			}
+		});
+		//memory.addPreference(swapPri); // after swap
+
 		// Swap
 		final CheckBoxPreference swap = new CheckBoxPreference(this);
 		swap.setTitle(getText(R.string.swap));
@@ -143,13 +163,17 @@ public class DeviceSettings extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference arg0) {
 				if (swap.isChecked()) {
 					SystemProperties.set(Constants.PROP_SWAP, "1");
+					swapPri.setEnabled(true); // update in real-time
 				} else {
 					SystemProperties.set(Constants.PROP_SWAP, "0");
+					swapPri.setEnabled(false); // update in real-time
 				}
 				return false;
 			}
 		});
 		memory.addPreference(swap);
+		swapPri.setEnabled(swap.isChecked()); // set after we've determined swap status
+		memory.addPreference(swapPri); // add after we've determined swap status
 
 		PreferenceCategory screenCat = new PreferenceCategory(this);
 		screenCat.setTitle(getText(R.string.intrfc));

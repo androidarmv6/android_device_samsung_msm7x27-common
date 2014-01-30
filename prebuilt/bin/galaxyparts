@@ -19,6 +19,11 @@ isswapenabled=$(getprop persist.sys.swap)
 ramzswapstatus=$(cat /proc/swaps | grep ramz)
 zramstatus=$(cat /proc/swaps | grep zram)
 swapstatus=$(cat /proc/swaps | grep mmcblk)
+swappriority=$(getprop persist.sys.swap_pri)
+swappriority_now=$(echo $swapstatus | awk '{ print $5; }')
+if [ "$swappriority" = "" ]; then
+    swappriority="0"
+fi
 
 if [ "$ramzswapstatus" != "" ] || [ "$zramstatus" != "" ]; then
     iscompcacheon=1
@@ -90,13 +95,20 @@ checkswap
 # enable
 if [ "$isswapenabled" = "1" ] && [ "$isswapon" = "0" ]; then
     echo "Enabling swap..."
-    swapon -p 0 /dev/block/mmcblk0p3
+    swapon -p $swappriority /dev/block/mmcblk0p3
 fi
 
 # disable
 if [ "$isswapenabled" != "1" ] && [ "$isswapon" = "1" ]; then
     echo "Disabling swap..."
     swapoff /dev/block/mmcblk0p3
+fi
+
+# adjust priority (if needed)
+if [ "$isswapon" = "1" ] && [ "$swappriority" != "$swappriority_now" ]; then
+    echo "Re-initializing swap with new priority..."
+    swapoff /dev/block/mmcblk0p3
+    swapon -p $swappriority /dev/block/mmcblk0p3
 fi
 }
 
