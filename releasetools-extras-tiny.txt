@@ -48,7 +48,10 @@ app/RomManager.apk
 # CM Wallpapers (7MB)
 app/CMWallpapers.apk
 
-# Live Wallpapers
+# Live Wallpapers (3MB)
+etc/permissions/android.software.live_wallpaper.xml
+app/LiveWallpapers.apk
+app/LiveWallpapersPicker.apk
 app/Galaxy4.apk
 app/HoloSpiralWallpaper.apk
 app/MagicSmokeWallpapers.apk
