@@ -198,4 +198,9 @@ TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
 ## OTA script extras file (build/tools/releasetools)
-TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
+ifneq (,$(filter galaxy5,$(CM_BUILD)))
+	# We can't fit live wallpapers & other features on the /system partition
+	TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras-tiny.txt
+else
+	TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
+endif
