@@ -71,7 +71,7 @@ fi
 readahead() {
 bootstatus=$(getprop sys.boot_completed)
 sdreadahead=$(getprop persist.sys.read_ahead_kb)
-speeds=(128 256 512 1024 2048 4096)
+speeds=(128 256 512 1024 2048 3072 4096)
 newspeed=${speeds[$sdreadahead]}
 
 # If Android is not fully booted, don't set the default
