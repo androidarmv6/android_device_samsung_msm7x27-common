@@ -179,26 +179,6 @@ public class DeviceSettings extends PreferenceActivity {
 		screenCat.setTitle(getText(R.string.intrfc));
 		preferenceScreen.addPreference(screenCat);
 
-		// Highend Graphics
-		final CheckBoxPreference highEndGfx = new CheckBoxPreference(this);
-		highEndGfx.setTitle(getText(R.string.highend_gfx));
-		highEndGfx.setSummary(getText(R.string.highend_gfx_sum));
-		highEndGfx.setChecked(SystemProperties.get(Constants.PROP_HIGHEND_GFX).equals("1"));
-		highEndGfx.setEnabled(true);
-		highEndGfx.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			public boolean onPreferenceClick(Preference arg0) {
-				if (highEndGfx.isChecked()) {
-					SystemProperties.set(Constants.PROP_HIGHEND_GFX, "1");
-				} else {
-					SystemProperties.set(Constants.PROP_HIGHEND_GFX, "0");
-				}
-				return false;
-			}
-		});
-		screenCat.addPreference(highEndGfx);
-
-
 		// Fake dual-touch
 		if (getResources().getBoolean(R.bool.dualtouch_feature)) {
 			final CheckBoxPreference dualTouch = new CheckBoxPreference(this);

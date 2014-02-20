@@ -36,8 +36,6 @@
     <string name="generating_bug_report">Generating bug report&#8230;</string>
     <string name="media_kill_process">Restarting audio subsystem&#8230;</string>
     <string name="global">Global attenuation</string>
-    <string name="highend_gfx">High-end graphics</string>
-    <string name="highend_gfx_sum">Force high-end graphics effects without the need to disable KitKat\'s low_ram optimizations (requires reboot)</string>
     <string name="intrfc">Interface</string>
     <string name="memory_man">Memory management</string>
     <string name="report_bug">Report bug</string>

@@ -21,7 +21,6 @@ public class Constants {
 	public static final String PROP_EXTAMP = "persist.sys.extamp";
 	public static final String PROP_SWAP = "persist.sys.swap";
 	public static final String PROP_SWAP_PRI = "persist.sys.swap_pri";
-	public static final String PROP_HIGHEND_GFX = "persist.sys.force_highendgfx";
 
 	public static CharSequence[] getAttn(Resources resources) {
 		CharSequence[] attn = resources.getStringArray(R.array.attenuation);
