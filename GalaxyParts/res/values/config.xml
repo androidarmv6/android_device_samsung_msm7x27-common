@@ -12,7 +12,7 @@
 
     <!-- Default extamp filter level for the following devices:
          (enable), headset, no mic headset, speaker, FM headset/speaker -->
-    <string translatable="false" name="extamp_defaults">1,18,26,29,20</string>
+    <string translatable="false" name="extamp_defaults">0,18,26,29,20</string>
 
     <!-- Enable extamp feature in interface -->
     <bool name="extamp_feature">true</bool>
