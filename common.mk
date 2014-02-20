@@ -255,3 +255,6 @@ PRODUCT_LOCALES := en_US en_IN fr_FR it_IT es_ES et_EE de_DE nl_NL cs_CZ \
 
 # Samsung msm7x27-common overlays
 DEVICE_PACKAGE_OVERLAYS += device/samsung/msm7x27-common/overlay
+
+# Half-res bootanimation
+TARGET_BOOTANIMATION_HALF_RES := true
