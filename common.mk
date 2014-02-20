@@ -190,8 +190,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 
 ## Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.sf.no_hw_vsync=0 \
-    persist.sys.force_highendgfx=1
+    debug.sf.no_hw_vsync=0
 
 ## Loop ringtone
 PRODUCT_PROPERTY_OVERRIDES += \
