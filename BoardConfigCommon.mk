@@ -198,7 +198,7 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/msm7x27-common/recovery
 TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
-TARGET_RECOVERY_SWIPE := true
+BOARD_RECOVERY_SWIPE := true
 
 ## Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
