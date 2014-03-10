@@ -18,11 +18,22 @@ lib/hw/gps.goldfish.so
 lib/hw/lights.goldfish.so
 lib/hw/sensors.goldfish.so
 
+# Unused libraries
+lib/hw/audio_policy.default.so
+lib/hw/audio.primary.default.so
+lib/hw/gralloc.default.so
+lib/hw/power.default.so
+
 # Junk (build artifacts)
 extras/ext4_utils/make_ext4fs_main.o
 extras/ext4_utils/make_ext4fs_main.P
 lib/crtbegin_so.o
 lib/crtend_so.o
+
+# Kernel modules
+lib/modules/librasdioif.ko
+lib/modules/oprofile.ko
+lib/modules/scsi_wait_scan.ko
 
 # Adreno libraries (unused)
 lib/libC2D2.so
@@ -30,9 +41,15 @@ lib/libOpenVG.so
 
 # Extra apps
 app/Exchange2.apk
+app/Email.apk
 app/Email2.apk
 app/DSPManager.apk
 app/PrintSpooler.apk
+
+# OpenWnn (6.4MB)
+app/OpenWnn.apk
+lib/libWnnEngDic.so
+lib/libWnnJpnDic.so
 
 # Video editor (5MB)
 app/VideoEditor.apk
