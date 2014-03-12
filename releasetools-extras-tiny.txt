@@ -45,6 +45,7 @@ app/Email.apk
 app/Email2.apk
 app/DSPManager.apk
 app/PrintSpooler.apk
+app/WhisperPush.apk
 
 # OpenWnn (6.4MB)
 app/OpenWnn.apk
@@ -113,9 +114,17 @@ media/audio/notifications/Tejat.ogg
 media/audio/alarms/Helium.ogg
 media/audio/alarms/Neon.ogg
 media/audio/ringtones/ArgoNavis.ogg
+media/audio/ringtones/CrazyDream.ogg
+media/audio/ringtones/DreamTheme.ogg
 media/audio/ringtones/Kuma.ogg
+media/audio/ringtones/Rasalas.ogg
 media/audio/ringtones/Sceptrum.ogg
+media/audio/ringtones/UrsaMinor.ogg
 
 # Recovery resources (1.3MB)
 etc/recovery-resource.dat
 bin/recovery
+
+# ntfs-3g (430KB)
+bin/ntfs-3g
+bin/ntfsfix
