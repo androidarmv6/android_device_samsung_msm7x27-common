@@ -31,7 +31,5 @@
     <string name="memory_man">Atminties tvarkymas</string>
     <string name="report_bug">Pranešti apie riktą</string>
     <string name="sd_not_mounted">SD kortelė neprijungta</string>
-    <string name="swap">Mainų skirsnis (SWAP)</string>
-    <string name="swap_en">Naudokite SD kortelės SWAP skirsnį kaip virtualią atmintį, taip leidžiant vykdyti daugiau programų vienu metu</string>
 
 </resources>

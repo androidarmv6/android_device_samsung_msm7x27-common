@@ -31,7 +31,5 @@
     <string name="memory_man">Gestione memoria</string>
     <string name="report_bug">Segnala bug</string>
     <string name="sd_not_mounted">La scheda SD non è montata</string>
-    <string name="swap">Swap</string>
-    <string name="swap_en">Usa la partizione swap della scheda SD come memoria virtuale, permettendo a più applicazioni di rimanere aperte</string>
 
 </resources>

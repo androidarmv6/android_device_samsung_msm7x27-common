@@ -31,7 +31,5 @@
     <string name="memory_man">Διαχείριση μνήμης</string>
     <string name="report_bug">Αναφορά σφάλματος</string>
     <string name="sd_not_mounted">Η κάρτα SD δεν είναι τοποθετημένη</string>
-    <string name="swap">Swap</string>
-    <string name="swap_en">Χρήση της κάρτας SD swap partition ως εικονική μνήμη, επιτρέποντας σε περισσότερες εφαρμογές να παραμείνουν ανοιχτές</string>
 
 </resources>

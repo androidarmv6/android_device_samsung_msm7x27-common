@@ -31,7 +31,5 @@
     <string name="memory_man">ضبط الذاكرة</string>
     <string name="report_bug">إرسال تقرير الشوائب</string>
     <string name="sd_not_mounted"> SD بطاقة ليس محملة</string>
-    <string name="swap">الذاكرة مبادلة (swap)</string>
-    <string name="swap_en">استخدام قسم الذاكرة مبادلة في بطاقة الذاكرة الظاهرية، مما يسمح للمزيد من التطبيقات على ان تبقى مفتوحة</string>
 
 </resources>

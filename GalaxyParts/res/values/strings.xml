@@ -40,8 +40,5 @@
     <string name="memory_man">Memory management</string>
     <string name="report_bug">Report bug</string>
     <string name="sd_not_mounted">SD card is not mounted</string>
-    <string name="swap">SD swap</string>
-    <string name="swap_en">Use SD card swap partition as virtual memory, allowing more applications to remain open</string>
-    <string name="swap_pri">High priority SD swap</string>
-    <string name="swap_pri_en">SD card swap will be preferred over internal zRAM swap</string>
+
 </resources>
