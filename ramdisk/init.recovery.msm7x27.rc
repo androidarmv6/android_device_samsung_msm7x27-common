@@ -6,6 +6,15 @@ on init
     write /sys/class/android_usb/android0/f_rndis/vendorID 04e8
     write /sys/class/android_usb/android0/f_rndis/wceis 1
 
+    # fsr drivers
+    insmod /lib/modules/fsr.ko
+    insmod /lib/modules/fsr_stl.ko
+    insmod /lib/modules/sec_param.ko
+
+    # rfs drivers (optional)
+    insmod /lib/modules/rfs_glue.ko
+    insmod /lib/modules/rfs_fat.ko
+
 on boot
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
@@ -30,12 +39,3 @@ on fs
     write /sys/devices/virtual/block/stl12/queue/rotational 0
     write /sys/devices/virtual/block/stl13/queue/rotational 0
     write /sys/devices/virtual/block/stl14/queue/rotational 0
-
-    # fsr drivers
-    insmod /lib/modules/fsr.ko
-    insmod /lib/modules/fsr_stl.ko
-    insmod /lib/modules/sec_param.ko
-
-    # rfs drivers (optional)
-    insmod /lib/modules/rfs_glue.ko
-    insmod /lib/modules/rfs_fat.ko
