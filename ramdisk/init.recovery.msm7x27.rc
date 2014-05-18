@@ -22,6 +22,15 @@ on property:sys.usb.config=mass_storage,adb
 
 on fs
 
+    # fsr driver is too dumb to set rotational flag correctly
+    write /sys/devices/virtual/block/bml7/queue/rotational 0
+    write /sys/devices/virtual/block/bml8/queue/rotational 0
+    write /sys/devices/virtual/block/bml9/queue/rotational 0
+    write /sys/devices/virtual/block/bml10/queue/rotational 0
+    write /sys/devices/virtual/block/stl12/queue/rotational 0
+    write /sys/devices/virtual/block/stl13/queue/rotational 0
+    write /sys/devices/virtual/block/stl14/queue/rotational 0
+
     # fsr drivers
     insmod /lib/modules/fsr.ko
     insmod /lib/modules/fsr_stl.ko

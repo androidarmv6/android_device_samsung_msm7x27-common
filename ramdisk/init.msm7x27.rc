@@ -21,6 +21,15 @@ on init
 
 on fs
 
+    # fsr driver is too dumb to set rotational flag correctly
+    write /sys/devices/virtual/block/bml7/queue/rotational 0
+    write /sys/devices/virtual/block/bml8/queue/rotational 0
+    write /sys/devices/virtual/block/bml9/queue/rotational 0
+    write /sys/devices/virtual/block/bml10/queue/rotational 0
+    write /sys/devices/virtual/block/stl12/queue/rotational 0
+    write /sys/devices/virtual/block/stl13/queue/rotational 0
+    write /sys/devices/virtual/block/stl14/queue/rotational 0
+
     mount_all /fstab.msm7x27
     swapon_all /fstab.msm7x27
 
