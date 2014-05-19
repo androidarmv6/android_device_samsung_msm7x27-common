@@ -205,6 +205,7 @@ $(call inherit-product, device/qcom/msm7x27/msm7x27.mk)
 # Install/Uninstall google apps
 $(call inherit-product, vendor/google/gapps_armv6_tiny.mk)
 
+$(call inherit-product, frameworks/native/build/phone-hdpi-dalvik-heap.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Common assets
