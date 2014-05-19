@@ -134,8 +134,7 @@ BOARD_SEPOLICY_UNION += \
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=0 \
     dalvik.vm.debug.alloc=0 \
-    dalvik.vm.dexopt-data-only=1 \
-    dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
+    dalvik.vm.dexopt-data-only=1
 
 ## Development & ADB authentication settings
 ADDITIONAL_DEFAULT_PROPERTIES += \
