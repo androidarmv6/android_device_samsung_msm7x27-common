@@ -160,6 +160,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.call_ring.delay=3000 \
     ro.telephony.call_ring.multiple=false
 
+## Memory
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.purgeable_assets=1
+
 ## Other
 PRODUCT_PROPERTY_OVERRIDES += \
     DEVICE_PROVISIONED=1 \
