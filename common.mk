@@ -145,6 +145,14 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.allow.mock.location=0
 
 ## Graphics
+ifneq (,$(filter cooper gio,$(CM_BUILD)))
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=160
+else
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=120
+endif
+
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.no_hw_vsync=0
 
