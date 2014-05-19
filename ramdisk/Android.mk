@@ -43,11 +43,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE		:= init.$(SAMSUNG_BOOTLOADER).bluetooth.rc
 LOCAL_MODULE_TAGS	:= optional
 LOCAL_MODULE_CLASS	:= ETC
-ifeq ($(BOARD_HAVE_BLUETOOTH_BLUEZ),true)
-	LOCAL_SRC_FILES		:= init.msm7x27.bluez.rc
-else
-	LOCAL_SRC_FILES		:= init.msm7x27.bluedroid.rc
-endif
+LOCAL_SRC_FILES		:= init.msm7x27.bluedroid.rc
 LOCAL_MODULE_PATH	:= $(TARGET_ROOT_OUT)
 
 include $(BUILD_PREBUILT)

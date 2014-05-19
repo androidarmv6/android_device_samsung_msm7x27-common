@@ -16,54 +16,10 @@
 ## Example: -GT-I5500 becomes gt-i5500board, -GT-S5830 becomes gt-s5830board, and so on.
 SAMSUNG_BOOTLOADER := $(shell echo $(PRODUCT_VERSION_DEVICE_SPECIFIC)board | tr '[A-Z]' '[a-z]' | cut -c 2-)
 
-## BlueZ support
-## Note: needs to be defined here in order to satisfy inheritance issues.
-## If disabled, Bluedroid will be used.
-#BOARD_HAVE_BLUETOOTH_BLUEZ := true
-
 ## Audio
 PRODUCT_PACKAGES += \
     audio_policy.msm7x27 \
     audio.primary.msm7x27
-
-ifdef BOARD_HAVE_BLUETOOTH_BLUEZ
-## BlueZ: binaries
-PRODUCT_PACKAGES += \
-    bluetoothd \
-    brcm_patchram_plus \
-    libbluetoothd \
-    hcitool \
-    hciconfig \
-    hciattach
-
-## BlueZ: configs
-PRODUCT_COPY_FILES += \
-    system/bluetooth/data/audio.conf:system/etc/bluetooth/audio.conf \
-    system/bluetooth/data/auto_pairing.conf:system/etc/bluetooth/auto_pairing.conf \
-    system/bluetooth/data/blacklist.conf:system/etc/bluetooth/blacklist.conf \
-    system/bluetooth/data/input.conf:system/etc/bluetooth/input.conf \
-    system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf \
-    system/bluetooth/data/network.conf:system/etc/bluetooth/network.conf
-#    system/bluetooth/data/stack.conf:system/etc/bluetooth/stack.conf
-
-## BlueZ: javax.btobex is required by Bluetooth_msm
-PRODUCT_PACKAGES += \
-    javax.btobex
-
-## BlueZ: properties
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.qc.bluetooth.stack=bluez \
-    ro.qualcomm.bluetooth.dun=true \
-    ro.qualcomm.bluetooth.ftp=true \
-    ro.qualcomm.bluetooth.hfp=true \
-    ro.qualcomm.bluetooth.hsp=true \
-    ro.qualcomm.bluetooth.map=true \
-    ro.qualcomm.bluetooth.nap=true \
-    ro.qualcomm.bluetooth.opp=true \
-    ro.qualcomm.bluetooth.pbap=true \
-    ro.qualcomm.bluetooth.sap=true
-
-endif
 
 ### FM Radio
 #PRODUCT_PACKAGES += \

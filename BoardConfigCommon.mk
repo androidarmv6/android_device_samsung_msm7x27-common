@@ -21,14 +21,8 @@
 include device/qcom/msm7x27/BoardConfigCommon.mk
 
 ## Bluetooth
-## Note: BOARD_HAVE_BLUETOOTH_BLUEZ is defined in
-## device/samsung/msm7x27-common/common.mk due to inheritance issues.
-ifndef BOARD_HAVE_BLUETOOTH_BLUEZ
-	BOARD_HAVE_BLUETOOTH := true
-	BOARD_BLUEDROID_VENDOR_CONF := device/samsung/msm7x27-common/bluetooth/vnd_samsung.txt
-else
-	BOARD_HAVE_SAMSUNG_BLUETOOTH := true
-endif
+BOARD_HAVE_BLUETOOTH := true
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/msm7x27-common/bluetooth/vnd_samsung.txt
 BOARD_HAVE_BLUETOOTH_BCM := true
 
 ## Kernel
