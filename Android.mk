@@ -13,6 +13,7 @@
 # limitations under the License.
 
 ifeq ($(PRODUCT_MANUFACTURER),Samsung)
-
+ifeq ($(TARGET_BOARD_PLATFORM),msm7x27)
 include $(all-subdir-makefiles)
+endif
 endif
