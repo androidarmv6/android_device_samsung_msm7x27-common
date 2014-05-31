@@ -85,6 +85,7 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm7x27
 #BOARD_FM_DEVICE := bcm2049
 
 ## Wi-Fi
+BOARD_WLAN_DEVICE := ath6kl_compat
 BOARD_WLAN_NO_FWRELOAD := true
 COMMON_GLOBAL_CFLAGS += -DWIFI_AP_HAS_OWN_DRIVER
 WIFI_AP_FIRMWARE_LOADER := ""
@@ -92,24 +93,23 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_HAVE_SAMSUNG_WIFI := true
 WIFI_DRIVER_LOADER_DELAY := 1000000
 
-ifeq ($(BOARD_WLAN_DEVICE),ath6kl_compat)
-	# ATH6KL uses NL80211 driver
-	BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-	BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_ath6kl_compat
+# ATH6KL uses NL80211 driver
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_ath6kl_compat
 
-	# ATH6KL uses hostapd built from source
-	BOARD_HOSTAPD_DRIVER := NL80211
-	BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_ath6kl_compat
+# ATH6KL uses hostapd built from source
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_ath6kl_compat
 
-	# AP mode
-	WIFI_DRIVER_MODULE_AP_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=1 recovery_enable=1 samsung_firmware=0"
+# AP mode
+WIFI_DRIVER_MODULE_AP_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=1 recovery_enable=1 samsung_firmware=0"
 
-	# Station/client mode
-	WIFI_DRIVER_MODULE_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=0 recovery_enable=1 samsung_firmware=0"
-	WIFI_DRIVER_MODULE_NAME := ath6kl
-	WIFI_DRIVER_MODULE_PATH := /system/lib/modules/ath6kl.ko
+# Station/client mode
+WIFI_DRIVER_MODULE_ARG := "suspend_mode=3 wow_mode=2 ath6kl_p2p=0 recovery_enable=1 samsung_firmware=0"
+WIFI_DRIVER_MODULE_NAME := ath6kl
+WIFI_DRIVER_MODULE_PATH := /system/lib/modules/ath6kl.ko
 
-	# Build the ath6kl-compat modules
+# Build the ath6kl-compat modules
 KERNEL_EXTERNAL_MODULES:
 	# wipe & prepare ath6kl-compat working directory
 	rm -rf $(OUT)/ath6kl-compat
@@ -122,20 +122,6 @@ KERNEL_EXTERNAL_MODULES:
 	$(TARGET_OBJCOPY) --strip-unneeded $(OUT)/ath6kl-compat/drivers/net/wireless/ath/ath6kl/ath6kl.ko $(KERNEL_MODULES_OUT)/ath6kl.ko
 	$(TARGET_OBJCOPY) --strip-unneeded $(OUT)/ath6kl-compat/net/wireless/cfg80211.ko $(KERNEL_MODULES_OUT)/cfg80211.ko
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
-else
-	# AR6000 SDK 3.x uses WEXT driver
-	BOARD_WLAN_DEVICE := ath6kl
-	BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-	BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
-
-	# AP mode
-	WIFI_DRIVER_MODULE_AP_ARG := "ifname=athap0 fwmode=2"
-
-	# Station/client mode
-	WIFI_DRIVER_MODULE_ARG := "ifname=wlan0 fwmode=1"
-	WIFI_DRIVER_MODULE_PATH := /system/wifi/ar6000.ko
-	WIFI_DRIVER_MODULE_NAME := ar6000
-endif
 
 ## Wi-Fi Hotspot
 BOARD_HAVE_LEGACY_HOSTAPD := true
