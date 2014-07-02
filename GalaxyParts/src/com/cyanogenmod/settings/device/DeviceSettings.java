@@ -41,7 +41,7 @@ public class DeviceSettings extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 
 		ActionBar actionBar = getActionBar();
-		actionBar.setIcon(R.mipmap.ic_launcher_settings);
+		actionBar.setIcon(R.mipmap.sym_def_app_icon);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		Resources resources = getResources();

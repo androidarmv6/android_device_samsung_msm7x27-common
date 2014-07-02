@@ -6,12 +6,12 @@
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="16" />
 
-    <application android:icon="@mipmap/ic_launcher_settings" android:label="@string/app_name" >
-        <activity android:name=".DeviceSettings" android:label="@string/device_settings" android:icon="@mipmap/ic_launcher_settings">
+    <application android:icon="@mipmap/sym_def_app_icon" android:label="@string/app_name" >
+        <activity android:name=".DeviceSettings" android:label="@string/device_settings" android:icon="@mipmap/sym_def_app_icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.cyanogenmod.action.LAUNCH_DEVICE_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".AttenuationActivity" android:label="@string/attenuation" />
