@@ -27,6 +27,11 @@ on property:persist.sys.swap_pri=*
     setprop persist.sys.galaxyparts swap
     start galaxyparts
 
+# disable zram
+on property:persist.sys.disable_zram=*
+    setprop persist.sys.galaxyparts disablezram
+    start galaxyparts
+
 # ensure that customization are enabled upon boot
 on property:sys.boot_completed=1
     setprop persist.sys.galaxyparts bootcheck
