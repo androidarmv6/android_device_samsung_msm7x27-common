@@ -175,7 +175,12 @@ BOARD_BML_BOOT := "/dev/block/bml8"
 BOARD_BML_RECOVERY := "/dev/block/bml9"
 BOARD_RECOVERY_HANDLES_MOUNT := true
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/msm7x27-common/recovery/recovery_keys.c
-TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/recovery/recovery.fstab
+# Swap /system and /data in order to gain more space for ROM installation
+ifeq ($(BOARD_SWAP_SYSTEMDATA),true)
+	TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27_swapped
+else
+	TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27
+endif
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
 BOARD_RECOVERY_SWIPE := true
@@ -195,3 +200,6 @@ endif
 
 ## TEMPORARY HACK: skip building external/chromium_org/
 PRODUCT_PREBUILT_WEBVIEWCHROMIUM := yes
+
+## zRAM size
+BOARD_ZRAM_SIZE := 50331648

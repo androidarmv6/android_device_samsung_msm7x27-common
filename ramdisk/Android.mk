@@ -7,17 +7,18 @@ include $(CLEAR_VARS)
 LOCAL_MODULE		:= fstab.$(SAMSUNG_BOOTLOADER)
 LOCAL_MODULE_TAGS	:= optional
 LOCAL_MODULE_CLASS	:= ETC
-LOCAL_SRC_FILES		:= fstab.msm7x27
+ifeq ($(BOARD_SWAP_SYSTEMDATA),true)
+	LOCAL_SRC_FILES		:= fstab.msm7x27_swapped
+else
+	LOCAL_SRC_FILES		:= fstab.msm7x27
+endif
 LOCAL_MODULE_PATH	:= $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
-# Reduce zRAM size from 48MB -> 32MB for galaxy5
-ifneq (,$(filter galaxy5,$(CM_BUILD)))
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/$(LOCAL_SRC_FILES)
-	@echo "Adjust zRAM size for fstab.$(SAMSUNG_BOOTLOADER): $< -> $@"
+	@echo "Adjusting mmc & zram configuration for fstab.$(SAMSUNG_BOOTLOADER): $< -> $@"
 	@mkdir -p $(dir $@)
-	$(hide) sed -e 's/50331648/33554432/g' $< >$@
-endif
+	$(hide) sed -e s#'/dev/block/mmcblk0\t\t\t'#'/devices/platform/msm_sdcc.1/mmc_host/mmc0'#g -e 's/50331648/$(BOARD_ZRAM_SIZE)/g' $< >$@
 
 #######################################
 # init.gt-xxxxx.rc
