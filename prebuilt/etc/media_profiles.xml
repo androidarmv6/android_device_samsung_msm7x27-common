@@ -22,7 +22,7 @@
                          AudioDecoderCap)>
 <!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
 <!ELEMENT EncoderProfile (Video, Audio)>
-<!ATTLIST EncoderProfile quality (480p|high|low) #REQUIRED>
+<!ATTLIST EncoderProfile quality (high|low) #REQUIRED>
 <!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
 <!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
 <!ELEMENT Video EMPTY>
@@ -84,7 +84,7 @@
     <CamcorderProfiles cameraId="0">
 
         <!-- lowest supported profile in kitkat :) -->
-        <EncoderProfile quality="480p" fileFormat="mp4" duration="60">
+        <EncoderProfile quality="qvga" fileFormat="mp4" duration="60">
             <Video codec="h264"
                    bitRate="1500000"
                    width="320"
