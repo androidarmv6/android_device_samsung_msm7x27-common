@@ -24,14 +24,9 @@ LOCAL_C_INCLUDES	+= $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 ifeq ($(TARGET_PREBUILT_LIBCAMERA), true)
-$(shell mkdir -p $(TARGET_OUT_INTERMEDIATES)/SHARED_LIBRARIES/libcamera_intermediates)
-$(shell touch $(TARGET_OUT_INTERMEDIATES)/SHARED_LIBRARIES/libcamera_intermediates/export_includes)
 DLOPEN_LIBCAMERA := 1
-#LOCAL_SRC_FILES  := QcomCamera.cpp
-#LOCAL_SHARED_LIBRARIES += libcamera
-LOCAL_SRC_FILES  := cameraHAL.cpp
-LOCAL_SHARED_LIBRARIES += libhardware
-LOCAL_LDFLAGS          += -Lvendor/samsung/msm7x27-common/proprietary/lib -lcamera
+LOCAL_SRC_FILES  := QcomCamera.cpp
+LOCAL_CFLAGS     += -DPREBUILT_LIBCAMERA
 else
 DLOPEN_LIBCAMERA := 0
 LOCAL_SRC_FILES  := QualcommCameraHardware.cpp QcomCamera.cpp

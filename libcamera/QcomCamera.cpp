@@ -36,7 +36,6 @@
 #include "CameraHardwareInterface.h"
 /* include QCamera Hardware Interface Header*/
 #include "QcomCamera.h"
-//#include "QualcommCameraHardware.h"
 
 extern "C" {
 #include <sys/time.h>
@@ -60,6 +59,7 @@ extern "C" {
 android::sp<android::CameraHardwareInterface> (*LINK_openCameraHardware)(int id);
 int (*LINK_getNumberofCameras)(void);
 void (*LINK_getCameraInfo)(int cameraId, struct camera_info *info);
+void *libcameraHandle;
 #else
 using android::HAL_getCameraInfo;
 using android::HAL_getNumberOfCameras;
@@ -354,7 +354,7 @@ void internal_fixup_settings(CameraParameters &settings)
    const char *preview_sizes =
       "1280x720,800x480,768x432,720x480,640x480,576x432,480x320,384x288,352x288,320x240,240x160,176x144";
    const char *video_sizes =
-      "1280x720,800x480,768x432,720x480,640x480,576x432,480x320,384x288,352x288,320x240,240x160,176x144";
+      "640x480,576x432,480x320,384x288,352x288,320x240,240x160,176x144";
 #if (SENSOR_SIZE > 3)
    const char *preferred_size       = "640x480";
 #elif (SENSOR_SIZE > 2)
@@ -363,7 +363,7 @@ void internal_fixup_settings(CameraParameters &settings)
    const char *preferred_size       = "320x240";
 #endif
    const char *preview_frame_rates  = "25,24,15";
-   const char *preferred_frame_rate = "15";
+   const char *preferred_frame_rate = "25";
    const char *frame_rate_range     = "(10,25)";
    const char *preferred_horizontal_viewing_angle = "51.2";
    const char *preferred_vertical_viewing_angle = "39.4";
@@ -375,22 +375,26 @@ void internal_fixup_settings(CameraParameters &settings)
       settings.set(CameraParameters::KEY_SUPPORTED_PREVIEW_SIZES,
                    preview_sizes);
    }
-#if 0
    if (!settings.get(CameraParameters::KEY_SUPPORTED_VIDEO_SIZES)) {
       settings.set(CameraParameters::KEY_SUPPORTED_VIDEO_SIZES,
                    video_sizes);
    }
-#endif
    if (!settings.get(CameraParameters::KEY_VIDEO_SIZE)) {
       settings.set(CameraParameters::KEY_VIDEO_SIZE, preferred_size);
    }
 
-   if (!settings.get(CameraParameters::KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO)) {
+#ifndef PREBUILT_LIBCAMERA
+   if (!settings.get(CameraParameters::KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO))
+#endif
+   {
       settings.set(CameraParameters::KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO,
                    preferred_size);
    }
 
-   if (!settings.get(CameraParameters::KEY_SUPPORTED_PREVIEW_FRAME_RATES)) {
+#ifndef PREBUILT_LIBCAMERA
+   if (!settings.get(CameraParameters::KEY_SUPPORTED_PREVIEW_FRAME_RATES))
+#endif
+   {
       settings.set(CameraParameters::KEY_SUPPORTED_PREVIEW_FRAME_RATES,
                    preview_frame_rates);
    }
@@ -505,8 +509,10 @@ extern "C" int get_number_of_cameras(void)
 
    ALOGV("get_number_of_cameras:");
 #if DLOPEN_LIBCAMERA
-   void *libcameraHandle = ::dlopen("libcamera.so", RTLD_NOW);
-   ALOGD("HAL_get_number_of_cameras: loading libcamera at %p", libcameraHandle);
+   if (!libcameraHandle) {
+       libcameraHandle = ::dlopen("libcamera.so", RTLD_LAZY);
+   }
+
    if (!libcameraHandle) {
        ALOGE("FATAL ERROR: could not dlopen libcamera.so: %s", dlerror());
    } else {
@@ -516,7 +522,6 @@ extern "C" int get_number_of_cameras(void)
          numCameras = LINK_getNumberofCameras();
          ALOGD("HAL_get_number_of_cameras: numCameras:%d", numCameras);
       }
-      dlclose(libcameraHandle);
    }
 #else
    numCameras = HAL_getNumberOfCameras();
@@ -529,8 +534,10 @@ extern "C" int get_camera_info(int camera_id, struct camera_info *info)
 #if DLOPEN_LIBCAMERA
    bool dynamic = false;
    ALOGV("get_camera_info:");
-   void *libcameraHandle = ::dlopen("libcamera.so", RTLD_NOW);
-   ALOGD("HAL_get_camera_info: loading libcamera at %p", libcameraHandle);
+   if (!libcameraHandle) {
+       libcameraHandle = ::dlopen("libcamera.so", RTLD_LAZY);
+   }
+
    if (!libcameraHandle) {
        ALOGE("FATAL ERROR: could not dlopen libcamera.so: %s", dlerror());
        return EINVAL;
@@ -541,7 +548,6 @@ extern "C" int get_camera_info(int camera_id, struct camera_info *info)
          LINK_getCameraInfo(camera_id, info);
          dynamic = true;
       }
-      dlclose(libcameraHandle);
    }
    if (!dynamic) {
       info->facing      = CAMERA_FACING_BACK;
@@ -576,11 +582,20 @@ extern "C" int camera_device_open(const hw_module_t* module, const char* id,
     if(module && id && hw_device) {
         int cameraId = atoi(id);
         signal(SIGFPE,(*sighandle)); //@nAa: Bad boy doing hacks
-#if LIBCAMERA_DLOPEN
-        void * libcameraHandle = ::dlopen("libcamera.so", RTLD_NOW);
+#if DLOPEN_LIBCAMERA
+        if (!libcameraHandle) {
+            libcameraHandle = ::dlopen("libcamera.so", RTLD_LAZY);
+        }
 
         if (libcameraHandle) {
             ALOGD("%s: loaded libcamera at %p", __FUNCTION__, libcameraHandle);
+
+            if (::dlsym(libcameraHandle, "HAL_getNumberOfCameras") != NULL) {
+                *(void**)&LINK_getNumberofCameras =
+                    ::dlsym(libcameraHandle, "HAL_getNumberOfCameras");
+                 LINK_getNumberofCameras();
+                 ALOGD("HACK: call HAL_getNumberOfCamera");
+            }
 
             if (::dlsym(libcameraHandle, "openCameraHardware") != NULL) {
                 *(void**)&LINK_openCameraHardware =
@@ -596,7 +611,6 @@ extern "C" int camera_device_open(const hw_module_t* module, const char* id,
 
             qCamera = LINK_openCameraHardware(cameraId);
 
-            ::dlclose(libcameraHandle);
 
             device = (camera_device *)malloc(sizeof (struct camera_device));
 
@@ -644,6 +658,15 @@ extern "C" int close_camera_device(hw_device_t* hw_dev)
         free(device);
         rc = 0;
     }
+
+
+#if DLOPEN_LIBCAMERA
+    if (libcameraHandle) {
+        ::dlclose(libcameraHandle);
+        libcameraHandle = NULL;
+    }
+#endif
+
     ALOGD("%s:--",__FUNCTION__);
     return rc;
 }
