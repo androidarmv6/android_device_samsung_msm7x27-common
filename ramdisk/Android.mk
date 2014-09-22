@@ -1,5 +1,31 @@
 LOCAL_PATH:= $(call my-dir)
 
+ifeq ($(BOARD_SWAP_SYSTEMDATA),true)
+	BOARD_STL_DATA   := "/dev/block/stl12"
+	BOARD_STL_SYSTEM := "/dev/block/stl13"
+else
+	BOARD_STL_DATA   := "/dev/block/stl13"
+	BOARD_STL_SYSTEM := "/dev/block/stl12"
+endif
+
+ifeq ($(RECOVERY_VARIANT),twrp)
+#######################################
+# twrp.fstab
+
+include $(CLEAR_VARS)
+LOCAL_MODULE		:= twrp.fstab
+LOCAL_MODULE_TAGS	:= optional
+LOCAL_MODULE_CLASS	:= ETC
+LOCAL_SRC_FILES		:= twrp.fstab
+LOCAL_MODULE_PATH	:= $(TARGET_RECOVERY_ROOT_OUT)/etc
+include $(BUILD_PREBUILT)
+
+$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/$(LOCAL_SRC_FILES)
+	@echo "Adjusting partiton configuration for twrp.fstab: $< -> $@"
+	@mkdir -p $(dir $@)
+	$(hide) sed -e s#'BOARD_BML_BOOT'#$(BOARD_BML_BOOT)#g -e s#'BOARD_BML_RECOVERY'#$(BOARD_BML_RECOVERY)#g -e s#'BOARD_STL_DATA'#$(BOARD_STL_DATA)#g -e s#'BOARD_STL_SYSTEM'#$(BOARD_STL_SYSTEM)#g $< >$@
+endif
+
 #######################################
 # fstab.gt-xxxxx
 

@@ -1,0 +1,7 @@
+/boot       bml     BOARD_BML_BOOT
+/recovery   bml     BOARD_BML_RECOVERY
+/cache      ext4    /dev/block/stl14
+/data       ext4    BOARD_STL_DATA
+/system     ext4    BOARD_STL_SYSTEM
+/sdcard     vfat    /dev/block/mmcblk0p1  /dev/block/mmcblk0 	flags=display="Micro SDcard";storage;wipeingui;removable
+/sd-ext     ext4    /dev/block/mmcblk0p2  			flags=wipeingui;removable
