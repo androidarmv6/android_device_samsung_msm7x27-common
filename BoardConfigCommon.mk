@@ -189,7 +189,8 @@ ifeq ($(RECOVERY_VARIANT),twrp)
 	TW_HAS_DOWNLOAD_MODE := true
 	TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 	TW_NO_REBOOT_BOOTLOADER := true
-	TW_CUSTOM_THEME := device/samsung/msm7x27-common/recovery/twrp/$(DEVICE_RESOLUTION)/res
+	TW_CUSTOM_CPU_TEMP_PATH := /sys/class/power_supply/battery/batt_temp
+	RECOVERY_GRAPHICS_USE_LINELENGTH := true
 endif
 
 ## Bootanimation
