@@ -12,6 +12,9 @@
    "repository": "android_hardware_broadcom_fmradio",
    "target_path": "hardware/broadcom/fmradio"
  }, {
+   "repository": "android_kernel_samsung_msm",
+   "target_path": "kernel/samsung/msm"
+ }, {
    "repository": "android_kernel_samsung_msm7x27",
    "target_path": "kernel/samsung/msm7x27"
  }, {
