@@ -87,6 +87,10 @@ else
 LOCAL_CFLAGS	+= -DSENSOR_SIZE=2
 endif
 
+ifeq ($(BUILD_WITH_30X_KERNEL),true)
+LOCAL_CFLAGS	+= -DCONFIG_MSM_CAMERA_LEGACY=y
+endif
+
 LOCAL_C_INCLUDES       += hardware/qcom/$(DISPLAY)/libgralloc
 
 LOCAL_MODULE_TAGS      := optional
