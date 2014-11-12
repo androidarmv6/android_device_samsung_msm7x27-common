@@ -94,13 +94,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml
 
 ## Media Profiles
-ifneq (,$(filter beni,$(CM_BUILD)))
-PRODUCT_COPY_FILES += \
-    device/samsung/msm7x27-common/prebuilt/etc/media_profiles_5mp.xml:system/etc/media_profiles.xml
-else
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml
-endif
 
 ## Keymap
 PRODUCT_COPY_FILES += \
