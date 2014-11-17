@@ -590,13 +590,6 @@ extern "C" int camera_device_open(const hw_module_t* module, const char* id,
         if (libcameraHandle) {
             ALOGD("%s: loaded libcamera at %p", __FUNCTION__, libcameraHandle);
 
-            if (::dlsym(libcameraHandle, "HAL_getNumberOfCameras") != NULL) {
-                *(void**)&LINK_getNumberofCameras =
-                    ::dlsym(libcameraHandle, "HAL_getNumberOfCameras");
-                 LINK_getNumberofCameras();
-                 ALOGD("HACK: call HAL_getNumberOfCamera");
-            }
-
             if (::dlsym(libcameraHandle, "openCameraHardware") != NULL) {
                 *(void**)&LINK_openCameraHardware =
                     ::dlsym(libcameraHandle, "openCameraHardware");
@@ -659,8 +652,7 @@ extern "C" int close_camera_device(hw_device_t* hw_dev)
         rc = 0;
     }
 
-
-#if DLOPEN_LIBCAMERA
+#if DLOPEN_LIBCAMERA && 0
     if (libcameraHandle) {
         ::dlclose(libcameraHandle);
         libcameraHandle = NULL;
