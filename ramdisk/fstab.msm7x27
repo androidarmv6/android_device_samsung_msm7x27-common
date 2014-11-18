@@ -4,7 +4,7 @@
 # http://source.android.com/devices/tech/storage/index.html
 #
 #<src>						<mnt_point>		<type>	<mnt_flags and options>	<fs_mgr_flags>
-/dev/block/stl12				/system			ext4	ro			check,wait
+/dev/block/stl12				/system			ext4	ro			wait
 /dev/block/stl13				/data			ext4	nosuid,nodev		check,wait
 /dev/block/stl14				/cache			ext4	nosuid,nodev		check,wait
 /dev/block/mmcblk0				auto			auto	defaults		voldmanaged=sdcard0:auto,noemulatedsd
