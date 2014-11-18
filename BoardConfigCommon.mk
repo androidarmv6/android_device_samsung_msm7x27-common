@@ -75,6 +75,9 @@ BOARD_USES_QCOM_LIBRPC := true
 ## Override healthd HAL
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm7x27
 
+## Power
+TARGET_POWERHAL_VARIANT := cm
+
 ## FM
 #BOARD_HAVE_QCOM_FM := true
 #BOARD_HAVE_FM_RADIO := true
