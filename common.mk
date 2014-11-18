@@ -16,6 +16,9 @@
 ## Example: -GT-I5500 becomes gt-i5500board, -GT-S5830 becomes gt-s5830board, and so on.
 SAMSUNG_BOOTLOADER := $(shell echo $(PRODUCT_VERSION_DEVICE_SPECIFIC)board | tr '[A-Z]' '[a-z]' | cut -c 2-)
 
+## Build the 3.0.x Kernel
+BUILD_WITH_30X_KERNEL ?= true
+
 ## Audio
 PRODUCT_PACKAGES += \
     audio_policy.msm7x27 \

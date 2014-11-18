@@ -28,7 +28,7 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 ## Kernel
 BOARD_KERNEL_BASE := 0x13600000
 BOARD_KERNEL_PAGESIZE := 4096
-ifdef BUILD_WITH_30X_KERNEL
+ifeq ($(BUILD_WITH_30X_KERNEL),true)
 	TARGET_KERNEL_SOURCE := kernel/samsung/msm
 else
 	TARGET_KERNEL_SOURCE := kernel/samsung/msm7x27
@@ -37,7 +37,7 @@ TARGET_PROVIDES_INIT_TARGET_RC := true
 
 ## Platform
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
-ifdef BUILD_WITH_30X_KERNEL
+ifeq ($(BUILD_WITH_30X_KERNEL),true)
 	TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm7x27-common/include-30x
 else
 	TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm7x27-common/include
@@ -158,7 +158,7 @@ TARGET_NO_INITLOGO := true
 BOARD_CPU_COLOR_CONVERT := true
 
 ## SELINUX policy version override
-ifndef BUILD_WITH_30X_KERNEL
+ifneq ($(BUILD_WITH_30X_KERNEL),true)
 	POLICYVERS := 24
 endif
 
