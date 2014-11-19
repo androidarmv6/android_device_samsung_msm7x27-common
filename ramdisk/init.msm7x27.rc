@@ -42,17 +42,6 @@ on boot
     # systrace
     mount debugfs /sys/kernel/debug /sys/kernel/debug
 
-    # cpufreq configurations
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold 95
-    write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/down_differential 3
-    write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate 50000
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-    chown system system /sys/devices/system/cpu/cpufreq/ondemand/boostpulse
-    chmod 0666 /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-    chmod 0666 /sys/devices/system/cpu/cpufreq/ondemand/boostpulse
-
     # bluetooth (common)
     setprop ro.bt.bdaddr_path "/data/.nvmac_bt.info"
 
