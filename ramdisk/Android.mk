@@ -44,7 +44,7 @@ include $(BUILD_PREBUILT)
 $(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/$(LOCAL_SRC_FILES)
 	@echo "Adjusting mmc & zram configuration for fstab.$(SAMSUNG_BOOTLOADER): $< -> $@"
 	@mkdir -p $(dir $@)
-	$(hide) sed -e s#'/dev/block/mmcblk0\t\t\t'#'/devices/platform/msm_sdcc.1/mmc_host/mmc0'#g -e 's/50331648/$(BOARD_ZRAM_SIZE)/g' $< >$@
+	$(hide) sed -e s#'/dev/block/mmcblk0\t\t\t'#'/devices/platform/msm_sdcc.1/mmc_host/mmc0*'#g -e 's/50331648/$(BOARD_ZRAM_SIZE)/g' $< >$@
 
 #######################################
 # init.gt-xxxxx.rc

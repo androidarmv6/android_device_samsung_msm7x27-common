@@ -56,7 +56,7 @@ BOARD_CAMERA_NO_UNWANTED_MSG := true
 BOARD_USE_NASTY_PTHREAD_CREATE_HACK := true
 BOARD_USES_QCOM_LEGACY_CAM_PARAMS := true
 COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_LEGACY
-COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+TARGET_RELEASE_CPPFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 ## Qualcomm, display
 COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
@@ -115,8 +115,8 @@ KERNEL_EXTERNAL_MODULES:
 	rm -rf $(OUT)/ath6kl-compat
 	cp -a hardware/atheros/ath6kl-compat $(OUT)/
 	# run build
-	$(MAKE) -C $(OUT)/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE) defconfig-ath6kl
-	$(MAKE) -C $(OUT)/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(TARGET_ARCH) $(ARM_CROSS_COMPILE)
+	$(MAKE) -C $(OUT)/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) defconfig-ath6kl
+	$(MAKE) -C $(OUT)/ath6kl-compat KERNEL_DIR=$(KERNEL_OUT) KLIB=$(KERNEL_OUT) KLIB_BUILD=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE)
 	# copy & strip modules (to economize space)
 	$(TARGET_OBJCOPY) --strip-unneeded $(OUT)/ath6kl-compat/compat/compat.ko $(KERNEL_MODULES_OUT)/compat.ko
 	$(TARGET_OBJCOPY) --strip-unneeded $(OUT)/ath6kl-compat/drivers/net/wireless/ath/ath6kl/ath6kl.ko $(KERNEL_MODULES_OUT)/ath6kl.ko
@@ -163,18 +163,25 @@ ifndef BUILD_WITH_30X_KERNEL
 endif
 
 ## Recovery
-BOARD_HAS_DOWNLOAD_MODE := true
+#BOARD_HAS_DOWNLOAD_MODE := true
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 230686720
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 190054400
+
+# Minimal partitions:
+# 1. sdcard - any size (mmcblkp1) - vfat
+# 2. system - 700MB (mmcblkp2) - ext4
+# 3. data - 600MB (mmbblkp3) - ext4
+# note: there is no sd-ext
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 734003200
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 629145600
+
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_KERNEL_CMDLINE :=
 BOARD_BML_BOOT := "/dev/block/bml8"
 BOARD_BML_RECOVERY := "/dev/block/bml9"
-BOARD_RECOVERY_HANDLES_MOUNT := true
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/msm7x27-common/recovery/recovery_keys.c
+#BOARD_RECOVERY_HANDLES_MOUNT := true
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/msm7x27-common/recovery/default_device.cpp
 # Swap /system and /data in order to gain more space for ROM installation
 ifeq ($(BOARD_SWAP_SYSTEMDATA),true)
 	TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27_swapped
@@ -182,7 +189,7 @@ else
 	TARGET_RECOVERY_FSTAB := device/samsung/msm7x27-common/ramdisk/fstab.msm7x27
 endif
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
+#TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
 BOARD_RECOVERY_SWIPE := true
 TARGET_NO_SEPARATE_RECOVERY := true
 
@@ -194,22 +201,24 @@ ifeq ($(RECOVERY_VARIANT),twrp)
 	TW_NO_REBOOT_BOOTLOADER := true
 	TW_CUSTOM_CPU_TEMP_PATH := /sys/class/power_supply/battery/batt_temp
 	RECOVERY_GRAPHICS_USE_LINELENGTH := true
+	TARGET_RECOVERY_DEVICE_MODULES := twrp.fstab
 endif
 
 ## Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
-## OTA script extras file (build/tools/releasetools)
-ifneq (,$(filter galaxy5,$(CM_BUILD)))
-	# We can't fit live wallpapers & other features on the /system partition
-	TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras-tiny.txt
-else
-	TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
-endif
+TARGET_OTA_EXTRAS_FILE := device/samsung/msm7x27-common/releasetools-extras.txt
 
 ## TEMPORARY HACK: skip building external/chromium_org/
 PRODUCT_PREBUILT_WEBVIEWCHROMIUM := yes
 
 ## zRAM size
 BOARD_ZRAM_SIZE := 50331648
+
+## Bionic
+BOARD_USES_LEGACY_MMAP := true
+
+## ART
+WITH_DEXPREOPT := true
+ART_FORCE_NO_ASHMEM := true

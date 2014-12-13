@@ -52,7 +52,7 @@
     <string name="config_datause_iface" translatable="false">pdp0</string>
 
     <!-- Boolean to enable stk functionality on Samsung phones -->
-    <bool name="config_samsung_stk">true</bool>
+<!--    <bool name="config_samsung_stk">true</bool> -->
 
     <!-- Hardware 'face' keys present on the device, stored as a bit field.
          This integer should equal the sum of the corresponding value for each

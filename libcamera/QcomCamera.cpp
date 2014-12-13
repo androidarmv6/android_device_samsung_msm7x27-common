@@ -336,7 +336,7 @@ camera_memory_t * internal_generate_client_data(const sp<IMemory> &dataPtr,
    camera_memory_t *clientData = NULL;
    sp<IMemoryHeap> mHeap = dataPtr->getMemory(&offset, &size);
 
-   ALOGV("%s: offset:%#x size:%#x base:%p", __FUNCTION__
+   ALOGV("%s: offset:%#x size:%#x base:%p", __FUNCTION__,
         (unsigned)offset, size, mHeap != NULL ? mHeap->base() : 0);
 
    clientData = reqClientMemory(-1, size, 1, user);
@@ -419,29 +419,6 @@ void internal_fixup_settings(CameraParameters &settings)
                    preferred_vertical_viewing_angle);
    }
 
-   if (settings.get(android::CameraParameters::KEY_MAX_CONTRAST)) {
-      settings.set("max-contrast",
-                  settings.get(android::CameraParameters::KEY_MAX_CONTRAST));
-   } else {
-      settings.set("max-contrast",
-                  -1);
-   }
-
-   if (settings.get(android::CameraParameters::KEY_MAX_SATURATION)) {
-      settings.set("max-saturation",
-                  settings.get(android::CameraParameters::KEY_MAX_SATURATION));
-   } else {
-      settings.set("max-saturation",
-                  -1);
-   }
-
-   if (settings.get(android::CameraParameters::KEY_MAX_SHARPNESS)) {
-      settings.set("max-sharpness",
-                  settings.get(android::CameraParameters::KEY_MAX_SHARPNESS));
-   } else {
-      settings.set("max-sharpness",
-                  -1);
-   }
 }
 
 static void camera_release_memory(struct camera_memory *mem) { }

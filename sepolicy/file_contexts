@@ -1,37 +1,56 @@
 #############################
-# SD-EXT Data files
+# SD-EXT files
 #
 /sd-ext(/.*)?		u:object_r:system_data_file:s0
+/sd-ext/.layout_version		u:object_r:install_data_file:s0
 /sd-ext/backup(/.*)?		u:object_r:backup_data_file:s0
 /sd-ext/secure/backup(/.*)?	u:object_r:backup_data_file:s0
 /sd-ext/security(/.*)?	u:object_r:security_file:s0
+/sd-ext/system/ndebugsocket	u:object_r:system_ndebug_socket:s0
 /sd-ext/drm(/.*)?		u:object_r:drm_data_file:s0
 /sd-ext/gps(/.*)?		u:object_r:gps_data_file:s0
+/sd-ext/resource-cache(/.*)? u:object_r:resourcecache_data_file:s0
 /sd-ext/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
+/sd-ext/dalvik-cache/profiles(/.*)? u:object_r:dalvikcache_profiles_data_file:s0
 /sd-ext/anr(/.*)?		u:object_r:anr_data_file:s0
-/sd-ext/app(/.*)?		u:object_r:apk_data_file:s0
-/sd-ext/app/vmdl.*\.tmp	u:object_r:apk_tmp_file:s0
-/sd-ext/app-private(/.*)?		u:object_r:apk_private_data_file:s0
-/sd-ext/app-private/vmdl.*\.tmp	u:object_r:apk_private_tmp_file:s0
+/sd-ext/app(/.*)?                       u:object_r:apk_data_file:s0
+/sd-ext/app/vmdl.*\.tmp(/.*)?           u:object_r:apk_tmp_file:s0
+/sd-ext/app-private(/.*)?               u:object_r:apk_private_data_file:s0
+/sd-ext/app-private/vmdl.*\.tmp(/.*)?   u:object_r:apk_private_tmp_file:s0
 /sd-ext/tombstones(/.*)?	u:object_r:tombstone_data_file:s0
 /sd-ext/local/tmp(/.*)?	u:object_r:shell_data_file:s0
-/sd-ext/local/tmp/selinux(/.*)?   u:object_r:tombstone_data_file:s0
+/sd-ext/media(/.*)?	u:object_r:media_rw_data_file:s0
+/sd-ext/mediadrm(/.*)?	u:object_r:media_data_file:s0
+/sd-ext/property(/.*)?	u:object_r:property_data_file:s0
+
 # SD-EXT Misc data
-/sd-ext/misc/bluetoothd(/.*)?	u:object_r:bluetoothd_data_file:s0
-/sd-ext/misc/bluetooth(/.*)?	u:object_r:bluetooth_data_file:s0
-/sd-ext/misc/bluedroid(/.*)?	u:object_r:bluetooth_data_file:s0
-/sd-ext/misc/keystore(/.*)?	u:object_r:keystore_data_file:s0
-/sd-ext/misc/vpn(/.*)?		u:object_r:vpn_data_file:s0
-/sd-ext/misc/systemkeys(/.*)?	u:object_r:systemkeys_data_file:s0
-/sd-ext/misc/wifi(/.*)?		u:object_r:wifi_data_file:s0
-/sd-ext/misc/camera(/.*)?	u:object_r:camera_calibration_file:s0
+/sd-ext/misc/adb(/.*)?            u:object_r:adb_keys_file:s0
+/sd-ext/misc/audio(/.*)?          u:object_r:audio_data_file:s0
+/sd-ext/misc/bluetooth(/.*)?      u:object_r:bluetooth_data_file:s0
+/sd-ext/misc/bluedroid(/.*)?      u:object_r:bluetooth_data_file:s0
+/sd-ext/misc/bluedroid/\.a2dp_ctrl u:object_r:bluetooth_socket:s0
+/sd-ext/misc/bluedroid/\.a2dp_data u:object_r:bluetooth_socket:s0
+/sd-ext/misc/camera(/.*)?         u:object_r:camera_data_file:s0
 /sd-ext/misc/dhcp(/.*)?           u:object_r:dhcp_data_file:s0
-# SD-EXT App sandboxes
-/sd-ext/data/.*		u:object_r:app_data_file:s0
-# SD-EXT Wallpaper file.
-/sd-ext/data/com.android.settings/files/wallpaper	u:object_r:wallpaper_file:s0
+/sd-ext/misc/keychain(/.*)?       u:object_r:keychain_data_file:s0
+/sd-ext/misc/keystore(/.*)?       u:object_r:keystore_data_file:s0
+/sd-ext/misc/media(/.*)?          u:object_r:media_data_file:s0
+/sd-ext/misc/net(/.*)?            u:object_r:net_data_file:s0
+/sd-ext/misc/shared_relro(/.*)?   u:object_r:shared_relro_file:s0
+/sd-ext/misc/sms(/.*)?            u:object_r:radio_data_file:s0
+/sd-ext/misc/systemkeys(/.*)?     u:object_r:systemkeys_data_file:s0
+/sd-ext/misc/user(/.*)?           u:object_r:misc_user_data_file:s0
+/sd-ext/misc/vpn(/.*)?            u:object_r:vpn_data_file:s0
+/sd-ext/misc/wifi(/.*)?           u:object_r:wifi_data_file:s0
+/sd-ext/misc/wifi/sockets(/.*)?   u:object_r:wpa_socket:s0
+/sd-ext/misc/wifi/sockets/wpa_ctrl.*   u:object_r:system_wpa_socket:s0
+/sd-ext/misc/wifi/hostapd(/.*)?   u:object_r:wpa_socket:s0
+/sd-ext/misc/zoneinfo(/.*)?       u:object_r:zoneinfo_data_file:s0
+
 # SD-EXT Wallpaper file for other users
 /sd-ext/system/users/[0-9]+/wallpaper		u:object_r:wallpaper_file:s0
-# SD-EXT Downloaded files
-/sd-ext/data/com.android.providers.downloads/cache u:object_r:download_file:s0
+#############################
 
+#############################
+# SD-EXT asec containers
+/sd-ext/app-asec(/.*)?        u:object_r:asec_image_file:s0

@@ -1,5 +1,5 @@
 /boot       bml     BOARD_BML_BOOT
-/recovery   bml     BOARD_BML_RECOVERY
+/recovery   bml     BOARD_BML_RECOVERY				flags=flashimg=0
 /cache      ext4    /dev/block/stl14
 /data       ext4    BOARD_STL_DATA
 /system     ext4    BOARD_STL_SYSTEM

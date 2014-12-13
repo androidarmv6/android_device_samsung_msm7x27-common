@@ -491,7 +491,8 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
                                    audio_devices_t devices,
                                    audio_output_flags_t flags,
                                    struct audio_config *config,
-                                   struct audio_stream_out **stream_out)
+                                   struct audio_stream_out **stream_out,
+                                   const char *address)
 {
     struct qcom_audio_device *qadev = to_ladev(dev);
     status_t status;
@@ -505,7 +506,7 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
     devices = convert_audio_device(devices, HAL_API_REV_2_0, HAL_API_REV_1_0);
     status = static_cast<audio_output_flags_t> (flags);
 
-    out->qcom_out = qadev->hwif->openOutputStream(devices, (int *) &config->format,
+    out->qcom_out = qadev->hwif->openOutputStreamWithFlags(devices, flags, (int *) &config->format,
                                                     &config->channel_mask,
                                                     &config->sample_rate,
                                                     &status);
@@ -556,7 +557,10 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
                                   audio_io_handle_t handle,
                                   audio_devices_t devices,
                                   struct audio_config *config,
-                                  struct audio_stream_in **stream_in)
+                                  struct audio_stream_in **stream_in,
+                                  audio_input_flags_t flags,
+                                  const char *address,
+                                  audio_source_t source)
 {
     struct qcom_audio_device *qadev = to_ladev(dev);
     status_t status;

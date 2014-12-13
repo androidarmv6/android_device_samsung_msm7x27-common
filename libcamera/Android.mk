@@ -12,7 +12,8 @@ LOCAL_SHARED_LIBRARIES := libutils libui libcamera_client liblog libcutils
 
 LOCAL_C_INCLUDES       := frameworks/base/services \
                           frameworks/av/include \
-                          hardware/libhardware/include
+                          hardware/libhardware/include \
+                          system/media/camera/include
 
 LOCAL_C_INCLUDES	+= \
     $(TARGET_OUT_HEADERS)/mm-camera \
@@ -49,11 +50,7 @@ ifeq ($(DLOPEN_LIBCAMERA),1)
 LOCAL_SHARED_LIBRARIES	+= libdl
 endif
 
-ifneq ($(TARGET_QCOM_DISPLAY_VARIANT),)
-DISPLAY	:= display-$(TARGET_QCOM_DISPLAY_VARIANT)
-else
-DISPLAY	:= display
-endif
+DISPLAY	:= display-caf/msm7x27
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 LOCAL_CFLAGS	+= -DQCOM_HARDWARE
@@ -89,7 +86,7 @@ endif
 LOCAL_C_INCLUDES       += hardware/qcom/$(DISPLAY)/libgralloc
 
 LOCAL_MODULE_TAGS      := optional
-LOCAL_MODULE_PATH      := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_MODULE           := camera.$(TARGET_BOARD_PLATFORM)
 
 include $(BUILD_SHARED_LIBRARY)

@@ -282,6 +282,17 @@ AudioStreamOut* AudioHardware::openOutputStream(
     return mOutput;
 }
 
+// default implementation calls its "without flags" counterpart
+AudioStreamOut* AudioHardware::openOutputStreamWithFlags(uint32_t devices,
+                                                                  audio_output_flags_t flags,
+                                                                  int *format,
+                                                                  uint32_t *channels,
+                                                                  uint32_t *sampleRate,
+                                                                  status_t *status)
+{
+    return openOutputStream(devices, format, channels, sampleRate, status);
+}
+
 void AudioHardware::closeOutputStream(AudioStreamOut* out) {
     Mutex::Autolock lock(mLock);
     if (mOutput == 0 || mOutput != out) {
