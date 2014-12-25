@@ -1,0 +1,2 @@
+type galaxyparts, domain;
+type galaxyparts_exec, exec_type, file_type;

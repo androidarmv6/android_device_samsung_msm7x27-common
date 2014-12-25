@@ -162,6 +162,15 @@ ifndef BUILD_WITH_30X_KERNEL
 	POLICYVERS := 24
 endif
 
+## SELinux
+include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_DIRS += device/samsung/msm7x27-common/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    galaxyparts.te \
+    get_macaddrs.te \
+    sdcardd.te
+
 ## Recovery
 #BOARD_HAS_DOWNLOAD_MODE := true
 TARGET_USERIMAGES_USE_EXT4 := true

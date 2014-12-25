@@ -1,0 +1,3 @@
+# This allow bootanim to "unprotect loadable segments"
+# in order to properly load adreno libs.
+allow bootanim self:process execmem;

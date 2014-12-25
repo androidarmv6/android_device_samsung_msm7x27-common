@@ -53,4 +53,34 @@
 
 #############################
 # SD-EXT asec containers
-/sd-ext/app-asec(/.*)?        u:object_r:asec_image_file:s0
+/sd-ext/app-asec(/.*)?		u:object_r:asec_image_file:s0
+
+# Graphics
+/dev/genlock			u:object_r:gpu_device:s0
+
+# Flex Sector Remapper (STL/BML)
+/dev/block/bml[0-9]*		u:object_r:mtd_device:s0
+/dev/block/stl[0-9]*		u:object_r:mtd_device:s0
+
+# PMEM
+/dev/pmem			u:object_r:ion_device:s0
+
+# Radio devices (rild)
+/dev/dpram.*			u:object_r:radio_device:s0
+/dev/qmi[0-2]			u:object_r:radio_device:s0
+
+# Other devices
+/dev/rfkill			u:object_r:rfkill_device:s0
+
+# For sdcard daemon in recovery
+/sbin/sdcard			u:object_r:sdcardd_exec:s0
+
+# Camera
+/dev/msm_camera.*		u:object_r:camera_device:s0
+/dev/pmem_adsp			u:object_r:camera_device:s0
+
+# System binaries
+/system/bin/g5sensord		u:object_r:sensors_exec:s0
+/system/bin/get_macaddrs	u:object_r:get_macaddrs_exec:s0
+/system/bin/galaxyparts	u:object_r:galaxyparts_exec:s0
+/system/bin/memsicd		u:object_r:sensors_exec:s0

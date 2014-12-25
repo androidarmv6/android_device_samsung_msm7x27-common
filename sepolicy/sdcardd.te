@@ -1,0 +1,1 @@
+recovery_only(`allow sdcardd rootfs:file entrypoint;')

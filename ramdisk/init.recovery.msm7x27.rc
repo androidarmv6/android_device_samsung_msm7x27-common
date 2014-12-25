@@ -53,5 +53,6 @@ on fs
     write /sys/devices/virtual/block/stl14/queue/rotational 0
 
 service fuse_sdcard0 /sbin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    seclabel u:r:sdcardd:s0
     class late_start
     disabled

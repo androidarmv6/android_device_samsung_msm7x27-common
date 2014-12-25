@@ -1,0 +1,7 @@
+type get_macaddrs, domain;
+type get_macaddrs_exec, exec_type, file_type;
+
+# Started by init
+init_daemon_domain(get_macaddrs)
+
+allow get_macaddrs system_file:file execute_no_trans;

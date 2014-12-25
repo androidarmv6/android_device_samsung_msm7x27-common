@@ -118,12 +118,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/samsung/msm7x27-common/prebuilt/etc/gps.conf:system/etc/gps.conf
 
-# SELinux
-BOARD_SEPOLICY_DIRS += device/samsung/msm7x27-common/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    file_contexts
-
 ### BEGIN: Common properties
 
 ## Dalvik
@@ -182,10 +176,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     rild.libpath=/system/lib/libsec-ril.so \
     ro.telephony.default_network=0 \
     ro.telephony.ril_class=SamsungMSMRIL
-
-## SELinux - we're not ready for enforcing mode yet
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=permissive
 
 ## USB
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \

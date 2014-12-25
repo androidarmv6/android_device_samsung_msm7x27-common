@@ -1,0 +1,2 @@
+# Vold can also run as minivold in the rootfs
+recovery_only(`allow vold rootfs:dir remove_name;')
