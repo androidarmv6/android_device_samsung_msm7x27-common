@@ -194,6 +194,9 @@ ifeq ($(RECOVERY_VARIANT),twrp)
 	TW_NO_REBOOT_BOOTLOADER := true
 	TW_CUSTOM_CPU_TEMP_PATH := /sys/class/power_supply/battery/batt_temp
 	RECOVERY_GRAPHICS_USE_LINELENGTH := true
+	ifeq ($(TARGET_BUILD_VARIANT), eng)
+		MINIGZIP := $(shell which lzma)
+	endif
 endif
 
 ## Bootanimation
