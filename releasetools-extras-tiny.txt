@@ -46,6 +46,7 @@ app/Email2.apk
 app/DSPManager.apk
 app/PrintSpooler.apk
 app/WhisperPush.apk
+priv-app/CMUpdater.apk
 
 # OpenWnn (6.4MB)
 app/OpenWnn.apk
